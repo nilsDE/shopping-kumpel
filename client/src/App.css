@@ -1,22 +1,80 @@
+/* GENERAL */
+
+*, ::after, ::before {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color: #FCF6F5FF;
+  --main-color-dark: #00203FFF;
+  --secondary-color: #ADEFD1FF;
+}
+
 .App {
   text-align: center;
+  white-space: normal;
 }
 
-.App-logo {
-  height: 40vmin;
+.main-content {
+  padding-top: 5rem;
+  background-color: var(--main-color);
+  height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Sidebar */
+.bg-dark {
+  background-color: var(--main-color-dark) !important;
 }
 
-.App-link {
-  color: #09d3ac;
+.sidebar-title, .sidebar-link {
+  padding: .125rem;
+  color: var(--secondary-color);
+}
+
+.sidebar-title:hover, .sidebar-link:hover {
+  text-decoration: none;
+  color: var(--secondary-color);
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  letter-spacing: .1rem;
+}
+
+.sidebar-link {
+  font-size: 1rem;
+  margin-left: 1rem;
+  letter-spacing: .05rem;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+
+/* Shopping List */
+
+.shopping-list {
+  margin: 0 3rem;
+}
+
+.form-control {
+  border: 0;
+  border-radius: 0;
+  color: black;
+  border-bottom: 1px solid var(--main-color-dark);
+  background-color: var(--main-color);
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: var(--main-color);
+  border-color: var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.form-control::placeholder {
+  color: rgba(0, 0, 0, .4);
 }
