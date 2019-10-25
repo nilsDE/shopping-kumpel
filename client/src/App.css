@@ -56,7 +56,11 @@
 /* Shopping List */
 
 .shopping-list {
-  margin: 0 3rem;
+  margin: 0 auto;
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  max-width: 500px;
 }
 
 .form-control {
@@ -65,6 +69,7 @@
   color: black;
   border-bottom: 1px solid var(--main-color-dark);
   background-color: var(--main-color);
+  margin-bottom: 2rem;
 }
 
 .form-control:focus {
@@ -77,4 +82,40 @@
 
 .form-control::placeholder {
   color: rgba(0, 0, 0, .4);
+}
+
+.shopping-item-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 .5rem;
+}
+
+.shopping-item-container:hover {
+  background-color: var(--main-color);
+}
+
+.shopping-item {
+  cursor: pointer;
+}
+
+.item-completed {
+  text-decoration: line-through;
+  font-style: italic;
+  color: grey;
+}
+
+.delete-btn {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-color: var(--main-color-dark);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  
 }

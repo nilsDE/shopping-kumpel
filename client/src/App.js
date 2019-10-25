@@ -9,7 +9,6 @@ function App() {
     <div className="App">
       <NavBar />
       <div className="main-content">
-        <p>This App is called Shopping Kumpel!</p>
         <ShoppingList />
       </div>
     </div>
