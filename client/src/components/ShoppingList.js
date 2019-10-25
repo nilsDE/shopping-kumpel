@@ -27,13 +27,14 @@ export default class ShoppingList extends Component {
           </Form.Control>
         </Form>
 
-      {this.state.items.map((item, id) =>
+      {this.state.items.length > 0 ?
+        this.state.items.map((item, id) =>
         <Item 
           key={id} 
           item={item} 
           getAllItems={() => this.getAllItems()}
           deleteItem={item => this.deleteItem(item)} />
-      )}
+      ) : null}
       </div>
     )
   }
