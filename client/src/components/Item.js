@@ -24,10 +24,10 @@ export default class Item extends Component {
         {!this.state.editable ?
           <Fragment>  
             <p onClick={() => this.toggleCompleted()} className={`shopping-item ${completed ? 'item-completed' : ''}`}>{this.props.item.description}</p>
-            <button className="delete-btn" onClick={() => this.editItem()}>
+            <button className="general-btn edit-btn" onClick={() => this.editItem()}>
               <FontAwesomeIcon icon={faPen} />
             </button>
-            <button onClick={() => this.props.deleteItem(this.props.item)} className="delete-btn"><span>&times;</span></button>
+            <button onClick={() => this.props.deleteItem(this.props.item)} className="general-btn delete-btn"><span>&times;</span></button>
           </Fragment>
         :
           <Fragment>
