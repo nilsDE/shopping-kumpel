@@ -23,7 +23,7 @@ export default class ShoppingList extends Component {
       <div className="shopping-list">
         <p>Your Shopping List</p>
         <Form onSubmit={e => this.handleSubmit(e)}>
-          <Form.Control name="newTodo" type="text" value={this.state.newTodo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
+          <Form.Control className="mb-4" name="newTodo" type="text" value={this.state.newTodo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
           </Form.Control>
         </Form>
 

@@ -69,7 +69,6 @@
   color: black;
   border-bottom: 1px solid var(--main-color-dark);
   background-color: var(--main-color);
-  margin-bottom: 2rem;
 }
 
 .form-control:focus {
@@ -89,7 +88,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0 .5rem;
+  padding: .175rem .5rem;
 }
 
 .shopping-item-container:hover {

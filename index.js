@@ -17,6 +17,7 @@ app.listen(PORT, () => {
 app.post("/create", itemController.create);
 app.post("/complete", itemController.update);
 app.post("/delete", itemController.delete);
+app.post("/update", itemController.update);
 app.get("/items", itemController.index);
 
 app.use(express.static(path.join(__dirname, 'client/build')))
