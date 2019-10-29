@@ -20,6 +20,7 @@ export default class ShoppingList extends Component {
 
   render() {
     return (
+      this.props.isLoggedIn ?
       <div className="shopping-list">
         <p>Your Shopping List</p>
         <Form onSubmit={e => this.handleSubmit(e)}>
@@ -36,6 +37,8 @@ export default class ShoppingList extends Component {
           deleteItem={item => this.deleteItem(item)} />
       ) : null}
       </div>
+      :
+      <h2 className="mt-5">You are logged out</h2>
     )
   }
 
