@@ -17,7 +17,7 @@
 }
 
 .main-content {
-  padding-top: 5rem;
+  padding-top: 1rem;
   background-color: var(--main-color);
   height: 100vh;
 }
@@ -156,6 +156,7 @@ form {
   margin: 0 auto;
   background-color: var(--secondary-color);
   padding: 1rem;
+  margin-top: 5rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, .2);
   max-width: 500px;
 }
@@ -184,7 +185,19 @@ form {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  padding: .175rem .5rem;
+  padding: .5rem .5rem;
+  position: relative;
+}
+
+.shopping-item-container::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--main-color-dark);
+  opacity: .4;
 }
 
 .shopping-item-container:hover {
@@ -216,6 +229,7 @@ form {
   flex-direction: column;
   justify-content: center;
   text-align: center;  
+  align-items: center;
 }
 
 .edit-btn {
