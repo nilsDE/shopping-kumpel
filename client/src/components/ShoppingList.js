@@ -13,14 +13,13 @@ export default class ShoppingList extends Component {
     super(props);
     this.state = {
       newTodo: '',
-      items: [],
-      endpoint: 'localhost:5000'
+      items: []
     }
   }
 
   componentDidMount() {
     this.getAllItems();
-    socket = io(this.state.endpoint);
+    socket = io();
     console.log(socket);
     socket.on('change', () => {
       this.getAllItems();
