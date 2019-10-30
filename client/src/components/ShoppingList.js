@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import Item from './Item';
 import axios from 'axios';
+import io from 'socket.io-client';
+import SocketContext from './socket-context';
 import './../App.css';
 
+let socket;
 export default class ShoppingList extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       newTodo: '',
-      items: []
+      items: [],
+      endpoint: 'localhost:5000'
     }
   }
 
   componentDidMount() {
     this.getAllItems();
+    socket = io(this.state.endpoint);
+    console.log(socket);
+    socket.on('change', () => {
+      this.getAllItems();
+    })
   }
 
   render() {
@@ -32,11 +41,14 @@ export default class ShoppingList extends Component {
 
       {this.state.items.length > 0 ?
         this.state.items.sort((a, b) => (a.id > b.id) ? 1 : -1).map((item, id) =>
-        <Item 
-          key={id} 
-          item={item} 
-          getAllItems={() => this.getAllItems()}
-          deleteItem={item => this.deleteItem(item)} />
+        <SocketContext.Provider key={id} value={socket}>
+          <Item 
+            key={id} 
+            item={item} 
+            getAllItems={() => this.getAllItems()}
+            deleteItem={item => this.deleteItem(item)}
+            socket={socket} />
+          </SocketContext.Provider>
       ) : null}
       </div>
     )
@@ -53,6 +65,7 @@ export default class ShoppingList extends Component {
       completed: false
     }).then(res => {
       if (res.data === 'created') {
+        socket.emit('sendItem');
         this.setState({ newTodo: '' });
         this.getAllItems();
       }
@@ -69,6 +82,7 @@ export default class ShoppingList extends Component {
     })
     .then(res => {
       if (res.data === 'deleted') {
+        socket.emit('sendItem');
         this.getAllItems();
       }
     })

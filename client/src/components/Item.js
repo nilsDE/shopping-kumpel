@@ -49,6 +49,7 @@ export default class Item extends Component {
     })
     .then(res => {
       if (res.data === 'changed') {
+        this.props.socket.emit('sendItem');
         this.props.getAllItems();
       } 
     })
@@ -74,6 +75,7 @@ export default class Item extends Component {
       id: this.props.item.id
     }).then(res => {
       if (res.data === 'changed') {
+        this.props.socket.emit('sendItem');
         this.props.getAllItems();
       }
     })

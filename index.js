@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passportConfig = require("./config/passport-config");
 const session = require("express-session");
+const socketio = require('socket.io');
 
 // General setup
 const app = express();
@@ -28,8 +29,26 @@ app.use((req,res,next) => {
 
 // Server
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Mixing it up on port ${PORT}`)
+})
+
+// socket.io
+const io = socketio(server);
+
+io.on('connection', socket => {
+  socket.on('item', (item, callback) => {
+    io.emit('item', { text: item })
+    callback();
+  });
+
+  socket.on('sendItem', () => {
+    socket.broadcast.emit('change');
+  })
+
+  socket.on('disconnect', () => {
+    console.log('User has left!');
+  })
 })
 
 // Routes
