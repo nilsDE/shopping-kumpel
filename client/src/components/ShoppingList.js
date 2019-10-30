@@ -20,7 +20,9 @@ export default class ShoppingList extends Component {
 
   render() {
     return (
-      this.props.isLoggedIn ?
+      !this.props.isLoggedIn ?
+        <h2 className="mt-5">You are logged out</h2>
+      :
       <div className="shopping-list">
         <p>Your Shopping List</p>
         <Form onSubmit={e => this.handleSubmit(e)}>
@@ -29,7 +31,7 @@ export default class ShoppingList extends Component {
         </Form>
 
       {this.state.items.length > 0 ?
-        this.state.items.map((item, id) =>
+        this.state.items.sort((a, b) => (a.id > b.id) ? 1 : -1).map((item, id) =>
         <Item 
           key={id} 
           item={item} 
@@ -37,8 +39,6 @@ export default class ShoppingList extends Component {
           deleteItem={item => this.deleteItem(item)} />
       ) : null}
       </div>
-      :
-      <h2 className="mt-5">You are logged out</h2>
     )
   }
 

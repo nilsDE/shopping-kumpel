@@ -1,7 +1,6 @@
 const express = require('express');
 require('dotenv').config();
 const path = require('path');
-const flash = require("express-flash");
 const itemController = require('./controllers/itemController');
 const userController = require('./controllers/userController');
 const bodyParser = require('body-parser');
@@ -9,11 +8,10 @@ const morgan = require('morgan');
 const passportConfig = require("./config/passport-config");
 const session = require("express-session");
 
-
+// General setup
 const app = express();
 
 app.use(morgan('dev'));
-app.use(flash());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
@@ -28,12 +26,13 @@ app.use((req,res,next) => {
   next();
 })
 
+// Server
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`Mixing it up on port ${PORT}`)
 })
 
-// routes
+// Routes
 app.post("/users", userController.create);
 app.post("/users/signin", userController.signIn);
 app.post("/users/signout", userController.signOut);
@@ -49,8 +48,3 @@ app.get("/users/verify", (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'client/build')))
-// Anything that doesn't match the above, send back index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'))
-})
-

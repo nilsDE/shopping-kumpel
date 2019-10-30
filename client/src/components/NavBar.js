@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
-
+import axios from 'axios';
 
 export class SiteNavbar extends Component {
   render() {
@@ -29,7 +28,7 @@ export class SiteNavbar extends Component {
   }
 
   logOut() {
-    Axios.post("/users/signout")
+    axios.post("/users/signout")
     .then(res => {
       if (res.data === 'ok') {
         this.props.checkLoggedIn();

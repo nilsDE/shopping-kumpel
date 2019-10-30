@@ -2,7 +2,7 @@ const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 
 module.exports = {
-  create(req, res, next) {
+  create(req, res) {
     console.log('in create')
     let newUser = {
       name: req.body.name,
@@ -11,7 +11,7 @@ module.exports = {
     };
     userQueries.createUser(newUser, (err, user) => {
       if (err) {
-        req.flash("error", err);
+        req.send(err);
         res.redirect("/users/signup");
       } else {
         passport.authenticate("local")(req, res, () => {
@@ -20,7 +20,7 @@ module.exports = {
       }
     });
   },
-  signIn(req, res, next){
+  signIn(req, res){
     passport.authenticate("local")(req, res, function () {
       if(!req.user){
         res.redirect("/users/login");
@@ -29,7 +29,7 @@ module.exports = {
       }
     })
   },
-  signOut(req, res, next) {
+  signOut(req, res) {
     req.logout();
     res.send('ok')
   },
