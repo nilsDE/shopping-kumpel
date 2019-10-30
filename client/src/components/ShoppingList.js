@@ -46,7 +46,7 @@ export default class ShoppingList extends Component {
             item={item} 
             getAllItems={() => this.getAllItems()}
             deleteItem={item => this.deleteItem(item)}
-            socket={socket} />
+          />
           </SocketContext.Provider>
       ) : null}
       </div>

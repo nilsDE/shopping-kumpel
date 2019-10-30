@@ -22,7 +22,9 @@
   height: 100vh;
 }
 
+
 /* Sidebar */
+
 .bg-dark {
   background-color: var(--main-color-dark) !important;
 }
@@ -38,7 +40,7 @@
 }
 
 .sidebar-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   letter-spacing: .1rem;
 }
 
@@ -57,14 +59,21 @@
   border-color: transparent;
 }
 
-
+@media screen and (max-width: 650px) {
+  .sidebar-title, .sidebar-link {
+    font-size: .85rem;
+  }
+}
 
 
 /* Login and Signin Form */
+
 .signup-login-form {
   max-width: 400px;
   margin: auto;
+  padding: 0 .75rem;
 }
+
 
 /* Landing Page */
 
@@ -127,8 +136,18 @@
   }
 }
 
+@media screen and (max-width: 470px) {
+  .bg-headline-1 {
+    font-size: 1rem;
+  }
+
+  .bg-headline-2 {
+    font-size: 1.25rem;
+  }
+}
 
 /* Shopping List */
+
 form {
   width: 100%;
 }

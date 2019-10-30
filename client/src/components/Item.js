@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import SocketContext from './socket-context';
 import axios from 'axios';
 
 import './../App.css';
 
-export default class Item extends Component {
+class Item extends Component {
 
   constructor(props) {
     super(props);
@@ -15,6 +16,7 @@ export default class Item extends Component {
       todo: this.props.item.description
     }
   }
+
   render() {
 
     const completed = this.props.item.completed;
@@ -60,7 +62,7 @@ export default class Item extends Component {
 
   editItem() {
     let changedState = !this.state.editable;
-    this.setState({ editable: changedState })
+    this.setState({ editable: changedState, todo: this.props.item.description })
   }
 
   handleChange(e) {
@@ -83,3 +85,11 @@ export default class Item extends Component {
     this.setState({ editable: changedState })
   }
 }
+
+const ItemWithSocket = props => (
+  <SocketContext.Consumer>
+  {socket => <Item {...props} socket={socket} />}
+  </SocketContext.Consumer>
+)
+  
+export default ItemWithSocket;
