@@ -33,6 +33,12 @@ const server = app.listen(PORT, () => {
   console.log(`Mixing it up on port ${PORT}`)
 })
 
+// Mock Auth
+if(process.env.NODE_ENV === "test") {
+  const mockAuth = require("../../spec/support/mock-auth.js");
+  mockAuth.fakeIt(app);
+}
+
 // socket.io
 const io = socketio(server);
 
