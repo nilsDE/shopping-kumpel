@@ -20,7 +20,6 @@ export default class ShoppingList extends Component {
   componentDidMount() {
     this.getAllItems();
     socket = io();
-    console.log(socket);
     socket.on('change', () => {
       this.getAllItems();
     })

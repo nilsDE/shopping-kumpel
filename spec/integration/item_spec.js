@@ -67,7 +67,7 @@ describe('Item', () => {
       })
     })
     describe('create item', () => {
-      it('should create a new item', done => {
+      it('should not create a new item', done => {
         axios.post(`${base}/create`, {
           description: 'Cake',
           completed: false
@@ -79,7 +79,7 @@ describe('Item', () => {
       })
     })
     describe('update item', () => {
-      it('should update the item', done => {
+      it('should not update the item', done => {
         axios.post(`${base}/update`, {
           description: 'Ham',
           completed: false,
@@ -92,7 +92,7 @@ describe('Item', () => {
       })
     })
     describe('delete item', () => {
-      it('should delete the item', done => {
+      it('should not delete the item', done => {
         axios.post(`${base}/delete`,{
           id: 1
         })
