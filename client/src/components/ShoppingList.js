@@ -31,7 +31,7 @@ export default class ShoppingList extends Component {
         <h2 className="mt-5">You are logged out</h2>
       :
       <div className="shopping-list">
-        <p>Your Shopping List</p>
+        <p className="shopping-list-title">Your Shopping List</p>
         <Form onSubmit={e => this.handleSubmit(e)}>
           <Form.Control className="mb-4" name="newTodo" type="text" value={this.state.newTodo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
           </Form.Control>

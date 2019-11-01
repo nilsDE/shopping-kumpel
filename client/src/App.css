@@ -152,6 +152,11 @@ form {
   width: 100%;
 }
 
+.shopping-list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
 .shopping-list {
   margin: 0 auto;
   background-color: var(--secondary-color);
@@ -197,7 +202,7 @@ form {
   bottom: 0;
   height: 1px;
   background: var(--main-color-dark);
-  opacity: .4;
+  opacity: .125;
 }
 
 .shopping-item-container:hover {
