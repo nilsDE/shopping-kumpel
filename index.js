@@ -35,7 +35,7 @@ const server = app.listen(PORT, () => {
 
 // Mock Auth
 if(process.env.NODE_ENV === "test") {
-  const mockAuth = require("../../spec/support/mock-auth.js");
+  const mockAuth = require("./spec/support/mock-auth.js");
   mockAuth.fakeIt(app);
 }
 

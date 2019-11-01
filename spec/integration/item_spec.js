@@ -30,9 +30,10 @@ function authorizeUser(done) {
 describe('Item', () => {
   beforeEach(done => {
     this.item;
-    sequelize.sync({ force: true }).then(() => {
+    sequelize.sync({ force: true })
+    .then(() => {
       Item.create({
-        description: 'Sugar',
+        description: 'Bread',
         completed: false
       }).then(res => {
         this.item = res;
@@ -44,14 +45,110 @@ describe('Item', () => {
     });
   });
 
+  describe("not logged in user performing CRUD actions for Item", () => {
+    beforeEach((done) => {
+      request.get({
+          url: "http://localhost:5000/auth/fake",
+          form: {
+            userId: 0
+          }
+        },
+        (err, res, body) => {
+          done();
+        }
+      );
+    });
+    describe('get all items', () => {
+      it('should not return all items from the DB', done => {
+        axios.get(`${base}/items`).then(res => {
+          expect(res.data).toBe('not authorized');
+          done();
+        })
+      })
+    })
+    describe('create item', () => {
+      it('should create a new item', done => {
+        axios.post(`${base}/create`, {
+          description: 'Cake',
+          completed: false
+        })
+        .then(res => {
+          expect(res.data).toBe('not authorized');
+          done();
+        })
+      })
+    })
+    describe('update item', () => {
+      it('should update the item', done => {
+        axios.post(`${base}/update`, {
+          description: 'Ham',
+          completed: false,
+          id: 1
+        })
+        .then(res => {
+          expect(res.data).toBe('not authorized');
+          done();
+        })
+      })
+    })
+    describe('delete item', () => {
+      it('should delete the item', done => {
+        axios.post(`${base}/delete`,{
+          id: 1
+        })
+        .then(res => {
+          expect(res.data).toBe('not authorized');
+          done();
+        })
+      })
+    })
+  })
+
   describe("logged in user performing CRUD actions for Item", () => {
-    // beforeEach(done => {
-    //   authorizeUser(done);
-    // });
+    beforeEach(done => {
+      authorizeUser(done);
+    });
     describe('get all items', () => {
       it('should return all items from the DB', done => {
         axios.get(`${base}/items`).then(res => {
-          console.log(res.data);
+          expect(res.data[0].description).toBe('Bread');
+          expect(res.data[0].completed).toBe(false);
+          done();
+        })
+      })
+    })
+    describe('create item', () => {
+      it('should create a new item', done => {
+        axios.post(`${base}/create`, {
+          description: 'Salami',
+          completed: false
+        })
+        .then(res => {
+          expect(res.data).toContain('created');
+          done();
+        })
+      })
+    })
+    describe('update item', () => {
+      it('should update the item', done => {
+        axios.post(`${base}/update`, {
+          description: 'Ham',
+          completed: false,
+          id: 1
+        })
+        .then(res => {
+          expect(res.data).toContain('changed');
+          done();
+        })
+      })
+    })
+    describe('delete item', () => {
+      it('should delete the item', done => {
+        axios.post(`${base}/delete`,{
+          id: 1
+        })
+        .then(res => {
+          expect(res.data).toContain('deleted');
           done();
         })
       })

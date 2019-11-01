@@ -6,7 +6,7 @@ module.exports = {
       description: req.body.description,
       completed: req.body.completed
     };
-    itemQueries.createItem(newItem, (err, item) => {
+    itemQueries.createItem(newItem, req, (err, item) => {
       if (err) {
         res.send(err);
       } else {
@@ -15,7 +15,7 @@ module.exports = {
     })
   },
   index(req, res) {
-    itemQueries.getAllItems((err, items) => {
+    itemQueries.getAllItems(req, (err, items) => {
       if (err) {
         res.send(err);
       } else {
@@ -24,7 +24,7 @@ module.exports = {
     })
   },
   update(req, res) {
-    itemQueries.update(req.body, (err, item) => {
+    itemQueries.update(req.body, req, (err, item) => {
       if (err || item === null) {
         res.send(err)
       } else {
@@ -33,7 +33,7 @@ module.exports = {
     })
   },
   delete(req, res) {
-    itemQueries.delete(req.body, (err, item) => {
+    itemQueries.delete(req.body, req, (err, item) => {
       if (err) {
         res.send(err);
       } else {
