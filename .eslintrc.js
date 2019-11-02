@@ -24,6 +24,6 @@ module.exports = {
   ],
   rules: {
     'linebreak-style': ['error', 'windows'],
-    'no-console': 0 
+    'no-console': 0,
   },
 };
