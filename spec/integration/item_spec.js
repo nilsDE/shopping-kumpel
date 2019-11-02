@@ -1,25 +1,26 @@
 const request = require('request');
-const base = "http://localhost:5000";
-const User = require('../../db/models').User;
-const sequelize = require('../../db/models/index').sequelize;
-const Item = require('../../db/models').Item;
+
+const base = 'http://localhost:5000';
 const axios = require('axios');
+const { User } = require('../../db/models');
+const { sequelize } = require('../../db/models/index');
+const { Item } = require('../../db/models');
 
 function authorizeUser(done) {
   User.create({
     email: 'test@aol.com',
-    password: "123456",
+    password: '123456',
     name: 'Dr Test'
-  })
-  .then(user => {
-    request.get({
-      url: "http://localhost:5000/auth/fake",
-      form: {
-        name: user.name,
-        userId: user.id,
-        email: user.email
-      }
-    },
+  }).then(user => {
+    request.get(
+      {
+        url: 'http://localhost:5000/auth/fake',
+        form: {
+          name: user.name,
+          userId: user.id,
+          email: user.email
+        }
+      },
       (err, res, body) => {
         done();
       }
@@ -30,25 +31,27 @@ function authorizeUser(done) {
 describe('Item', () => {
   beforeEach(done => {
     this.item;
-    sequelize.sync({ force: true })
-    .then(() => {
+    sequelize.sync({ force: true }).then(() => {
       Item.create({
         description: 'Bread',
         completed: false
-      }).then(res => {
-        this.item = res;
-        done();
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
+      })
+        .then(res => {
+          this.item = res;
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
     });
   });
 
-  describe("not logged in user performing CRUD actions for Item", () => {
-    beforeEach((done) => {
-      request.get({
-          url: "http://localhost:5000/auth/fake",
+  describe('not logged in user performing CRUD actions for Item', () => {
+    beforeEach(done => {
+      request.get(
+        {
+          url: 'http://localhost:5000/auth/fake',
           form: {
             userId: 0
           }
@@ -63,48 +66,51 @@ describe('Item', () => {
         axios.get(`${base}/items`).then(res => {
           expect(res.data).toBe('not authorized');
           done();
-        })
-      })
-    })
+        });
+      });
+    });
     describe('create item', () => {
       it('should not create a new item', done => {
-        axios.post(`${base}/create`, {
-          description: 'Cake',
-          completed: false
-        })
-        .then(res => {
-          expect(res.data).toBe('not authorized');
-          done();
-        })
-      })
-    })
+        axios
+          .post(`${base}/create`, {
+            description: 'Cake',
+            completed: false
+          })
+          .then(res => {
+            expect(res.data).toBe('not authorized');
+            done();
+          });
+      });
+    });
     describe('update item', () => {
       it('should not update the item', done => {
-        axios.post(`${base}/update`, {
-          description: 'Ham',
-          completed: false,
-          id: 1
-        })
-        .then(res => {
-          expect(res.data).toBe('not authorized');
-          done();
-        })
-      })
-    })
+        axios
+          .post(`${base}/update`, {
+            description: 'Ham',
+            completed: false,
+            id: 1
+          })
+          .then(res => {
+            expect(res.data).toBe('not authorized');
+            done();
+          });
+      });
+    });
     describe('delete item', () => {
       it('should not delete the item', done => {
-        axios.post(`${base}/delete`,{
-          id: 1
-        })
-        .then(res => {
-          expect(res.data).toBe('not authorized');
-          done();
-        })
-      })
-    })
-  })
+        axios
+          .post(`${base}/delete`, {
+            id: 1
+          })
+          .then(res => {
+            expect(res.data).toBe('not authorized');
+            done();
+          });
+      });
+    });
+  });
 
-  describe("logged in user performing CRUD actions for Item", () => {
+  describe('logged in user performing CRUD actions for Item', () => {
     beforeEach(done => {
       authorizeUser(done);
     });
@@ -114,44 +120,47 @@ describe('Item', () => {
           expect(res.data[0].description).toBe('Bread');
           expect(res.data[0].completed).toBe(false);
           done();
-        })
-      })
-    })
+        });
+      });
+    });
     describe('create item', () => {
       it('should create a new item', done => {
-        axios.post(`${base}/create`, {
-          description: 'Salami',
-          completed: false
-        })
-        .then(res => {
-          expect(res.data).toContain('created');
-          done();
-        })
-      })
-    })
+        axios
+          .post(`${base}/create`, {
+            description: 'Salami',
+            completed: false
+          })
+          .then(res => {
+            expect(res.data).toContain('created');
+            done();
+          });
+      });
+    });
     describe('update item', () => {
       it('should update the item', done => {
-        axios.post(`${base}/update`, {
-          description: 'Ham',
-          completed: false,
-          id: 1
-        })
-        .then(res => {
-          expect(res.data).toContain('changed');
-          done();
-        })
-      })
-    })
+        axios
+          .post(`${base}/update`, {
+            description: 'Ham',
+            completed: false,
+            id: 1
+          })
+          .then(res => {
+            expect(res.data).toContain('changed');
+            done();
+          });
+      });
+    });
     describe('delete item', () => {
       it('should delete the item', done => {
-        axios.post(`${base}/delete`,{
-          id: 1
-        })
-        .then(res => {
-          expect(res.data).toContain('deleted');
-          done();
-        })
-      })
-    })
-  })
-})
+        axios
+          .post(`${base}/delete`, {
+            id: 1
+          })
+          .then(res => {
+            expect(res.data).toContain('deleted');
+            done();
+          });
+      });
+    });
+  });
+});

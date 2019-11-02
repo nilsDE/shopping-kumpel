@@ -12,7 +12,7 @@ module.exports = {
       } else {
         res.send('created');
       }
-    })
+    });
   },
   index(req, res) {
     itemQueries.getAllItems(req, (err, items) => {
@@ -21,16 +21,16 @@ module.exports = {
       } else {
         res.send(items);
       }
-    })
+    });
   },
   update(req, res) {
     itemQueries.update(req.body, req, (err, item) => {
       if (err || item === null) {
-        res.send(err)
+        res.send(err);
       } else {
-        res.send('changed')
+        res.send('changed');
       }
-    })
+    });
   },
   delete(req, res) {
     itemQueries.delete(req.body, req, (err, item) => {
@@ -39,6 +39,6 @@ module.exports = {
       } else {
         res.send('deleted');
       }
-    })
+    });
   }
-}
+};
