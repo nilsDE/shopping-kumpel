@@ -19,22 +19,23 @@ class Item extends Component {
 
   render() {
 
-    const completed = this.props.item.completed;
+    const { item } = this.props;
+    const { editable, todo } = this.state;
 
     return (
       <div className="shopping-item-container">
-        {!this.state.editable ?
+        {!editable ?
           <Fragment>  
-            <p onClick={() => this.toggleCompleted()} className={`shopping-item ${completed ? 'item-completed' : ''}`}>{this.props.item.description}</p>
+            <p onClick={() => this.toggleCompleted()} className={`shopping-item ${item.completed ? 'item-completed' : ''}`}>{item.description}</p>
             <button className="general-btn edit-btn" onClick={() => this.editItem()}>
               <FontAwesomeIcon icon={faPen} />
             </button>
-            <button onClick={() => this.props.deleteItem(this.props.item)} className="general-btn delete-btn"><span>&times;</span></button>
+            <button onClick={() => this.props.deleteItem(item)} className="general-btn delete-btn"><span>&times;</span></button>
           </Fragment>
         :
           <Fragment>
             <Form onSubmit={e => this.handleSubmit(e)}>
-              <Form.Control name="todo" type="text" value={this.state.todo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
+              <Form.Control name="todo" type="text" value={todo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
               </Form.Control>
             </Form>
           </Fragment>
@@ -88,7 +89,7 @@ class Item extends Component {
 
 const ItemWithSocket = props => (
   <SocketContext.Consumer>
-  {socket => <Item {...props} socket={socket} />}
+    {socket => <Item {...props} socket={socket} />}
   </SocketContext.Consumer>
 )
   

@@ -33,14 +33,17 @@ class App extends Component {
   }
 
   render() {
+
+    const { isLoggedIn } = this.state;
+
     return (
       <div className="App">
-        <NavBar isLoggedIn={this.state.isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} />
+        <NavBar isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} />
         <div className="main-content">
-          <Route exact path="/" render={ () => <LandingPage isLoggedIn={this.state.isLoggedIn} /> } />
-          <Route path="/signup" render={ () => <SignUpForm isLoggedIn={this.state.isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
-          <Route path="/login" render={ () => <LoginForm isLoggedIn={this.state.isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
-          <Route path="/list" render={ () => <ShoppingList isLoggedIn={this.state.isLoggedIn} /> } />
+          <Route exact path="/" render={ () => <LandingPage isLoggedIn={isLoggedIn} /> } />
+          <Route path="/signup" render={ () => <SignUpForm isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
+          <Route path="/login" render={ () => <LoginForm isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
+          <Route path="/list" render={ () => <ShoppingList isLoggedIn={isLoggedIn} /> } />
         </div>
       </div>
     );
