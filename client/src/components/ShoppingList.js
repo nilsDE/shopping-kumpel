@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import Item from './Item';
 import axios from 'axios';
@@ -7,85 +7,84 @@ import SocketContext from './socket-context';
 import './../App.css';
 
 let socket;
-export default class ShoppingList extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      newTodo: '',
-      items: []
-    }
-  }
+const ShoppingList = ({ isLoggedIn }) => {
 
-  componentDidMount() {
-    this.getAllItems();
+  useEffect(() => {
+    getAllItems();
     socket = io();
     socket.on('change', () => {
-      this.getAllItems();
+      getAllItems();
     })
-  }
+    // eslint-disable-next-line
+  }, []);
 
-  render() {
-    return (
-      !this.props.isLoggedIn ?
-        <h2 className="mt-5">You are logged out</h2>
-      :
-      <div className="shopping-list">
-        <p className="shopping-list-title">Your Shopping List</p>
-        <Form onSubmit={e => this.handleSubmit(e)}>
-          <Form.Control className="mb-4" name="newTodo" type="text" value={this.state.newTodo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
-          </Form.Control>
-        </Form>
+  const [newTodo, setNewTodo] = useState('');
+  const [items, setItems] = useState([]);
 
-      {this.state.items.length > 0 ?
-        this.state.items.sort((a, b) => (a.id > b.id) ? 1 : -1).map((item, id) =>
-        <SocketContext.Provider key={id} value={socket}>
-          <Item 
-            key={id} 
-            item={item} 
-            getAllItems={() => this.getAllItems()}
-            deleteItem={item => this.deleteItem(item)}
-          />
-          </SocketContext.Provider>
-      ) : null}
-      </div>
-    )
-  }
-
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = e => {
     e.preventDefault();
     axios.post('/create', {
-      description: this.state.newTodo,
+      description: newTodo,
       completed: false
     }).then(res => {
       if (res.data === 'created') {
         socket.emit('sendItem');
-        this.setState({ newTodo: '' });
-        this.getAllItems();
+        setNewTodo('');
+        getAllItems();
       }
     })
+  };
+
+  const getAllItems = () => {
+    axios.get('/items').then(res => setItems(res.data));
   }
 
-  getAllItems() {
-    axios.get('/items').then(res => this.setState({ items: res.data }));
-  }
-
-  deleteItem(item) {
+  const deleteItem = item => {
     axios.post('/delete', {
       id: item.id
     })
     .then(res => {
       if (res.data === 'deleted') {
         socket.emit('sendItem');
-        this.getAllItems();
+        getAllItems();
       }
     })
     .catch(err => {
       console.log(err);
     })
-  }
+  };
+
+  return (
+    !isLoggedIn ?
+      <h2 className="mt-5">You are logged out</h2>
+    :
+    <div className="shopping-list">
+      <p className="shopping-list-title">Your Shopping List</p>
+      <Form onSubmit={e => handleSubmit(e)}>
+        <Form.Control 
+          className="mb-4" 
+          name="newTodo" 
+          type="text" 
+          value={newTodo} 
+          placeholder="Enter new item..." 
+          onChange={e => setNewTodo(e.target.value)}>
+        </Form.Control>
+      </Form>
+
+    {items.length > 0 ?
+      items.sort((a, b) => (a.id > b.id) ? 1 : -1).map((item, id) =>
+      <SocketContext.Provider key={id} value={socket}>
+        <Item 
+          key={id} 
+          item={item} 
+          getAllItems={() => getAllItems()}
+          deleteItem={item => deleteItem(item)}
+        />
+        </SocketContext.Provider>
+    ) : null}
+    </div>
+  )
 }
+
+export default ShoppingList;
