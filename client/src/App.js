@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import ShoppingList from './components/ShoppingList';
@@ -9,45 +9,35 @@ import axios from 'axios';
 
 import './App.css';
 
-class App extends Component {
+const App = () => {
+  useEffect(() => {
+    isLoggedIn();
+    //eslint-disable-next-line
+  }, []);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false
-    }
-  }
-
-  componentDidMount() {
-    this.isLoggedIn();
-  }
-
-  isLoggedIn() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  
+  const isLoggedIn = () => {
     axios.get('/users/verify')
     .then(res => {
-      this.setState({ isLoggedIn: res.data.msg });
+      setLoggedIn(res.data.msg);
     })
     .catch(err => {
       console.log(err);
     })
   }
 
-  render() {
-
-    const { isLoggedIn } = this.state;
-
-    return (
-      <div className="App">
-        <NavBar isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} />
-        <div className="main-content">
-          <Route exact path="/" render={ () => <LandingPage isLoggedIn={isLoggedIn} /> } />
-          <Route path="/signup" render={ () => <SignUpForm isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
-          <Route path="/login" render={ () => <LoginForm isLoggedIn={isLoggedIn} checkLoggedIn={() => this.isLoggedIn()} /> } />
-          <Route path="/list" render={ () => <ShoppingList isLoggedIn={isLoggedIn} /> } />
-        </div>
+  return (
+    <div className="App">
+      <NavBar isLoggedIn={loggedIn} checkLoggedIn={() => isLoggedIn()} />
+      <div className="main-content">
+        <Route exact path="/" render={ () => <LandingPage isLoggedIn={loggedIn} /> } />
+        <Route path="/signup" render={ () => <SignUpForm isLoggedIn={loggedIn} checkLoggedIn={() => isLoggedIn()} /> } />
+        <Route path="/login" render={ () => <LoginForm isLoggedIn={loggedIn} checkLoggedIn={() => isLoggedIn()} /> } />
+        <Route path="/list" render={ () => <ShoppingList isLoggedIn={loggedIn} /> } />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
