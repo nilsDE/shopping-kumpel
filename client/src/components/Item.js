@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -7,53 +7,21 @@ import axios from 'axios';
 
 import './../App.css';
 
-class Item extends Component {
+const Item = ({ item, deleteItem, socket, getAllItems }) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      editable: false,
-      todo: this.props.item.description
-    }
-  }
+  const [editable, setEditable] = useState(false);
+  const [todo, setTodo] = useState(item.description);
 
-  render() {
-
-    const { item } = this.props;
-    const { editable, todo } = this.state;
-
-    return (
-      <div className="shopping-item-container">
-        {!editable ?
-          <Fragment>  
-            <p onClick={() => this.toggleCompleted()} className={`shopping-item ${item.completed ? 'item-completed' : ''}`}>{item.description}</p>
-            <button className="general-btn edit-btn" onClick={() => this.editItem()}>
-              <FontAwesomeIcon icon={faPen} />
-            </button>
-            <button onClick={() => this.props.deleteItem(item)} className="general-btn delete-btn"><span>&times;</span></button>
-          </Fragment>
-        :
-          <Fragment>
-            <Form onSubmit={e => this.handleSubmit(e)}>
-              <Form.Control name="todo" type="text" value={todo} placeholder="Enter new item..." onChange={e => this.handleChange(e)}>
-              </Form.Control>
-            </Form>
-          </Fragment>
-        }
-      </div>
-    )
-  }
-
-  toggleCompleted() {
+  const toggleCompleted = () => {
     axios.post('/complete', {
-      id: this.props.item.id,
-      completed: !this.props.item.completed,
-      description: this.props.item.description
+      id: item.id,
+      completed: !item.completed,
+      description: item.description
     })
     .then(res => {
       if (res.data === 'changed') {
-        this.props.socket.emit('sendItem');
-        this.props.getAllItems();
+        socket.emit('sendItem');
+        getAllItems();
       } 
     })
     .catch(err => {
@@ -61,30 +29,52 @@ class Item extends Component {
     })
   }
 
-  editItem() {
-    let changedState = !this.state.editable;
-    this.setState({ editable: changedState, todo: this.props.item.description })
+  const editItem = () => {
+    let changedState = !editable;
+    setEditable(changedState);
+    setTodo(item.description);
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = e => {
+    setTodo(e.target.value);
   }
 
-  handleSubmit(e) {
+  const handleSubmit = e => {
     e.preventDefault();
     axios.post('/update', {
-      description: this.state.todo,
-      completed: this.props.item.completed,
-      id: this.props.item.id
+      description: todo,
+      completed: item.completed,
+      id: item.id
     }).then(res => {
       if (res.data === 'changed') {
-        this.props.socket.emit('sendItem');
-        this.props.getAllItems();
+        socket.emit('sendItem');
+        getAllItems();
       }
     })
-    let changedState = !this.state.editable;
-    this.setState({ editable: changedState })
+    let changedState = !editable;
+    setEditable(changedState);
   }
+
+  return (
+    <div className="shopping-item-container">
+      {!editable ?
+        <Fragment>  
+          <p onClick={() => toggleCompleted()} className={`shopping-item ${item.completed ? 'item-completed' : ''}`}>{item.description}</p>
+          <button className="general-btn edit-btn" onClick={() => editItem()}>
+            <FontAwesomeIcon icon={faPen} />
+          </button>
+          <button onClick={() => deleteItem(item)} className="general-btn delete-btn"><span>&times;</span></button>
+        </Fragment>
+      :
+        <Fragment>
+          <Form onSubmit={e => handleSubmit(e)}>
+            <Form.Control name="todo" type="text" value={todo} placeholder="Enter new item..." onChange={e => handleChange(e)}>
+            </Form.Control>
+          </Form>
+        </Fragment>
+      }
+    </div>
+  )
 }
 
 const ItemWithSocket = props => (
