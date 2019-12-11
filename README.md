@@ -3,9 +3,9 @@
 ### How to use this Application
 
 The deployed application can be found here: `https://shopping-kumpel.herokuapp.com/`
-You can also clone the repo to run the app locally. Please install all the dependencies and use the following to run the application: 
-`npm run dev` to run the application
-`npm run test-server` to run the tester server and then `npm test` to run all test suites. 
+You can also clone the repo to run the app locally. Please install all the dependencies and use the following to run the application:  
+`npm run dev`  
+To run the tests, use `npm run test-server` to run the tester server and then `npm test` to run all test suites. 
 
 ### The initial problem that the app solves
 
