@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
+import PropTypes from 'prop-types';
 import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
@@ -58,17 +59,17 @@ const ShoppingList = ({ isLoggedIn }) => {
     };
 
     return !isLoggedIn ? (
-        <h2 className='mt-5'>You are logged out</h2>
+        <h2 className="mt-5">You are logged out</h2>
     ) : (
-        <div className='shopping-list'>
-            <p className='shopping-list-title'>Your Shopping List</p>
+        <div className="shopping-list">
+            <p className="shopping-list-title">Your Shopping List</p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
-                    className='mb-4'
-                    name='newTodo'
-                    type='text'
+                    className="mb-4"
+                    name="newTodo"
+                    type="text"
                     value={newTodo}
-                    placeholder='Enter new item...'
+                    placeholder="Enter new item..."
                     onChange={e => setNewTodo(e.target.value)}
                 ></Form.Control>
             </Form>
@@ -76,10 +77,10 @@ const ShoppingList = ({ isLoggedIn }) => {
             {items.length > 0
                 ? items
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
-                      .map((item, id) => (
-                          <SocketContext.Provider key={id} value={socket}>
+                      .map(item => (
+                          <SocketContext.Provider key={item.id} value={socket}>
                               <Item
-                                  key={id}
+                                  key={item.id}
                                   item={item}
                                   getAllItems={() => getAllItems()}
                                   deleteItem={item => deleteItem(item)}
@@ -89,6 +90,10 @@ const ShoppingList = ({ isLoggedIn }) => {
                 : null}
         </div>
     );
+};
+
+ShoppingList.propTypes = {
+    isLoggedIn: PropTypes.func.isRequired
 };
 
 export default ShoppingList;

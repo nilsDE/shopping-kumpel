@@ -18,28 +18,28 @@ const SiteNavbar = ({ isLoggedIn, checkLoggedIn }) => {
 
     return (
         <>
-            <Navbar fixed='top' bg='dark' variant='dark' expand='lg'>
-                <Link to='/' className='sidebar-title'>
+            <Navbar fixed="top" bg="dark" variant="dark" expand="lg">
+                <Link to="/" className="sidebar-title">
                     Shopping Kumpel
                 </Link>
-                <Nav className='ml-auto'>
+                <Nav className="ml-auto">
                     {!isLoggedIn ? (
                         <>
-                            <Link to='/login' className='sidebar-link'>
+                            <Link to="/login" className="sidebar-link">
                                 LogIn
                             </Link>
-                            <Link to='/signup' className='sidebar-link'>
+                            <Link to="/signup" className="sidebar-link">
                                 SignUp
                             </Link>
                         </>
                     ) : (
                         <>
-                            <Link to='/list' className='sidebar-link'>
+                            <Link to="/list" className="sidebar-link">
                                 My List
                             </Link>
                             <Button
                                 onClick={() => logOut()}
-                                className='sidebar-link'
+                                className="sidebar-link"
                             >
                                 SignOut
                             </Button>

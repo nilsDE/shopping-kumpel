@@ -29,16 +29,16 @@ const App = () => {
     }, []);
 
     return (
-        <div className='App'>
+        <div className="App">
             <NavBar isLoggedIn={loggedIn} checkLoggedIn={() => isLoggedIn()} />
-            <div className='main-content'>
+            <div className="main-content">
                 <Route
                     exact
-                    path='/'
+                    path="/"
                     render={() => <LandingPage isLoggedIn={loggedIn} />}
                 />
                 <Route
-                    path='/signup'
+                    path="/signup"
                     render={() => (
                         <SignUpForm
                             isLoggedIn={loggedIn}
@@ -47,7 +47,7 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path='/login'
+                    path="/login"
                     render={() => (
                         <LoginForm
                             isLoggedIn={loggedIn}
@@ -56,7 +56,7 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path='/list'
+                    path="/list"
                     render={() => <ShoppingList isLoggedIn={loggedIn} />}
                 />
             </div>

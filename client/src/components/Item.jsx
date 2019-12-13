@@ -60,7 +60,7 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
     };
 
     return (
-        <div className='shopping-item-container'>
+        <div className="shopping-item-container">
             {!editable ? (
                 <>
                     <p
@@ -72,14 +72,16 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
                         {item.description}
                     </p>
                     <button
-                        className='general-btn edit-btn'
+                        className="general-btn edit-btn"
                         onClick={() => editItem()}
+                        type="button"
                     >
                         <FontAwesomeIcon icon={faPen} />
                     </button>
                     <button
                         onClick={() => deleteItem(item)}
-                        className='general-btn delete-btn'
+                        className="general-btn delete-btn"
+                        type="button"
                     >
                         <span>&times;</span>
                     </button>
@@ -88,10 +90,10 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
                 <>
                     <Form onSubmit={e => handleSubmit(e)}>
                         <Form.Control
-                            name='todo'
-                            type='text'
+                            name="todo"
+                            type="text"
                             value={todo}
-                            placeholder='Enter new item...'
+                            placeholder="Enter new item..."
                             onChange={e => handleChange(e)}
                         ></Form.Control>
                     </Form>

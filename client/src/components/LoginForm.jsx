@@ -35,33 +35,33 @@ const LoginForm = ({ checkLoggedIn }) => {
         });
 
     if (redirect) {
-        return <Redirect to='/list' />;
+        return <Redirect to="/list" />;
     }
 
     return (
         <>
             <Form
-                className='mt-5 signup-login-form'
+                className="mt-5 signup-login-form"
                 onSubmit={e => handleSubmit(e)}
             >
                 <h2>Login</h2>
-                <Form.Group controlId='formBasicEmail'>
+                <Form.Group controlId="formBasicEmail">
                     <Form.Control
-                        name='email'
-                        type='email'
-                        placeholder='Enter email'
+                        name="email"
+                        type="email"
+                        placeholder="Enter email"
                         onChange={e => handleChange(e)}
                     />
                 </Form.Group>
-                <Form.Group controlId='formBasicPassword'>
+                <Form.Group controlId="formBasicPassword">
                     <Form.Control
-                        name='password'
-                        type='password'
-                        placeholder='Password'
+                        name="password"
+                        type="password"
+                        placeholder="Password"
                         onChange={e => handleChange(e)}
                     />
                 </Form.Group>
-                <Button variant='outline-dark' type='submit'>
+                <Button variant="outline-dark" type="submit">
                     Submit
                 </Button>
             </Form>
