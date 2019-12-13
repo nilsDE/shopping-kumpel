@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
@@ -5,8 +6,8 @@ import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import SocketContext from './socket-context';
-
 import '../App.css';
 
 const Item = ({ item, deleteItem, socket, getAllItems }) => {
@@ -108,5 +109,12 @@ const ItemWithSocket = props => (
         {socket => <Item {...props} socket={socket} />}
     </SocketContext.Consumer>
 );
+
+Item.propTypes = {
+    deleteItem: PropTypes.func.isRequired,
+    getAllItems: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+    socket: PropTypes.any.isRequired
+};
 
 export default ItemWithSocket;
