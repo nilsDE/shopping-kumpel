@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import bg from '../assets/unsplash1.jpg';
+import UserContext from '../context/user/userContext';
 import '../App.css';
 
-const LandingPage = ({ isLoggedIn }) => {
+const LandingPage = () => {
+    const userContext = useContext(UserContext);
+    const { loggedIn } = userContext;
     return (
         <>
             <div className="bg-container">
@@ -14,7 +16,7 @@ const LandingPage = ({ isLoggedIn }) => {
                 <img src={bg} className="bg-pic" alt="" />
             </div>
             <div className="btn-container">
-                {!isLoggedIn ? (
+                {!loggedIn ? (
                     <Link to="/signup">
                         <Button
                             variant="outline-dark"
@@ -30,14 +32,6 @@ const LandingPage = ({ isLoggedIn }) => {
             </div>
         </>
     );
-};
-
-LandingPage.propTypes = {
-    isLoggedIn: PropTypes.bool
-};
-
-LandingPage.defaultProps = {
-    isLoggedIn: false
 };
 
 export default LandingPage;

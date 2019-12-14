@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
-import PropTypes from 'prop-types';
 import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
+import UserContext from '../context/user/userContext';
+import Spinner from './Spinner';
 
 let socket;
 
-const ShoppingList = ({ isLoggedIn }) => {
+const ShoppingList = () => {
+    const userContext = useContext(UserContext);
+    const { loggedIn, loading } = userContext;
+
     const [newTodo, setNewTodo] = useState('');
     const [items, setItems] = useState([]);
 
@@ -58,7 +62,11 @@ const ShoppingList = ({ isLoggedIn }) => {
             });
     };
 
-    return !isLoggedIn ? (
+    if (loading) {
+        return <Spinner />;
+    }
+
+    return !loggedIn ? (
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
@@ -90,10 +98,6 @@ const ShoppingList = ({ isLoggedIn }) => {
                 : null}
         </div>
     );
-};
-
-ShoppingList.propTypes = {
-    isLoggedIn: PropTypes.func.isRequired
 };
 
 export default ShoppingList;

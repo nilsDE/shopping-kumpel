@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { Redirect } from 'react-router';
-import PropTypes from 'prop-types';
+import UserContext from '../context/user/userContext';
 
-const SignUpForm = ({ checkLoggedIn }) => {
+const SignUpForm = () => {
+    const userContext = useContext(UserContext);
+    const { checkLoggedIn } = userContext;
+
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -78,10 +81,6 @@ const SignUpForm = ({ checkLoggedIn }) => {
             </Form>
         </>
     );
-};
-
-SignUpForm.propTypes = {
-    checkLoggedIn: PropTypes.func.isRequired
 };
 
 export default SignUpForm;

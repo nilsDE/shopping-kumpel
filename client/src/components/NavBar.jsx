@@ -1,20 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import PropTypes from 'prop-types';
+import UserContext from '../context/user/userContext';
 
-const SiteNavbar = ({ isLoggedIn, checkLoggedIn }) => {
-    const logOut = () => {
-        axios
-            .post('/users/signout')
-            .then(res => {
-                if (res.data === 'ok') {
-                    checkLoggedIn();
-                }
-            })
-            .catch(res => console.log(res));
-    };
+const SiteNavbar = () => {
+    const userContext = useContext(UserContext);
+    const { loggedIn, logOut } = userContext;
 
     return (
         <>
@@ -23,7 +14,7 @@ const SiteNavbar = ({ isLoggedIn, checkLoggedIn }) => {
                     Shopping Kumpel
                 </Link>
                 <Nav className="ml-auto">
-                    {!isLoggedIn ? (
+                    {!loggedIn ? (
                         <>
                             <Link to="/login" className="sidebar-link">
                                 LogIn
@@ -49,11 +40,6 @@ const SiteNavbar = ({ isLoggedIn, checkLoggedIn }) => {
             </Navbar>
         </>
     );
-};
-
-SiteNavbar.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-    checkLoggedIn: PropTypes.func.isRequired
 };
 
 export default SiteNavbar;
