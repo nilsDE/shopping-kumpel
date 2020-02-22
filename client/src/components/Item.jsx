@@ -90,9 +90,12 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
                         </span>
                     </p>
                     <button
-                        className="general-btn edit-btn"
+                        className={`general-btn edit-btn ${
+                            item.completed ? 'btn-disabled' : ''
+                        }`}
                         onClick={() => editItem()}
                         type="button"
+                        disabled={item.completed}
                     >
                         <FontAwesomeIcon icon={faPen} />
                     </button>
