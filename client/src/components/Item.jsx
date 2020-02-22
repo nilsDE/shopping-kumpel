@@ -23,7 +23,8 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
             .post('/complete', {
                 id: item.id,
                 completed: !item.completed,
-                description: item.description
+                description: item.description,
+                lastModified: user.name
             })
             .then(res => {
                 if (res.data === 'changed') {
@@ -52,7 +53,8 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
             .post('/update', {
                 description: todo,
                 completed: item.completed,
-                id: item.id
+                id: item.id,
+                lastModified: user.name
             })
             .then(res => {
                 if (res.data === 'changed') {

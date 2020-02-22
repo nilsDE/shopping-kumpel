@@ -15,7 +15,8 @@ module.exports = {
                 res.redirect('/users/signup');
             } else {
                 passport.authenticate('local')(req, res, () => {
-                    res.send('ok');
+                    delete user.dataValues.password;
+                    res.send(user.dataValues);
                 });
             }
         });

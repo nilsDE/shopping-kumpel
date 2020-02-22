@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
 import { Redirect } from 'react-router';
 import UserContext from '../context/user/userContext';
 
 const SignUpForm = () => {
     const userContext = useContext(UserContext);
-    const { checkLoggedIn } = userContext;
+    const { signUp, redirect } = userContext;
 
     const [form, setForm] = useState({
         email: '',
@@ -15,23 +14,9 @@ const SignUpForm = () => {
         redirect: false
     });
 
-    const [redirect, setRedirect] = useState(false);
-
     const handleSubmit = e => {
         e.preventDefault();
-        axios
-            .post('/users', {
-                name: form.name,
-                email: form.email,
-                password: form.password
-            })
-            .then(res => {
-                if (res.data === 'ok') {
-                    checkLoggedIn();
-                    setRedirect(true);
-                }
-            })
-            .catch(res => console.log(res));
+        signUp(form.name, form.email, form.password);
     };
 
     const handleChange = e =>

@@ -3,7 +3,13 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import userContext from './userContext';
 import userReducer from './userReducer';
-import { CHECK_LOGGED_IN, SET_LOADING, LOG_OUT, LOG_IN } from '../types';
+import {
+    CHECK_LOGGED_IN,
+    SET_LOADING,
+    LOG_OUT,
+    LOG_IN,
+    SIGN_UP
+} from '../types';
 
 const UserState = props => {
     const initialState = {
@@ -37,6 +43,21 @@ const UserState = props => {
         }
     };
 
+    const signUp = async (name, email, password) => {
+        setLoading();
+        const res = await axios.post('/users', {
+            name,
+            email,
+            password
+        });
+        if (res.data !== null) {
+            dispatch({
+                type: SIGN_UP,
+                payload: res.data
+            });
+        }
+    };
+
     const logIn = async (email, password) => {
         setLoading();
         const res = await axios.post('/users/signin', {
@@ -64,6 +85,7 @@ const UserState = props => {
                 checkLoggedIn,
                 logOut,
                 logIn,
+                signUp,
                 redirect: state.redirect
             }}
         >

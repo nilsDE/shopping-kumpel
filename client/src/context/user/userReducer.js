@@ -1,4 +1,10 @@
-import { CHECK_LOGGED_IN, SET_LOADING, LOG_OUT, LOG_IN } from '../types';
+import {
+    CHECK_LOGGED_IN,
+    SET_LOADING,
+    LOG_OUT,
+    LOG_IN,
+    SIGN_UP
+} from '../types';
 
 export default (state, action) => {
     switch (action.type) {
@@ -9,6 +15,14 @@ export default (state, action) => {
                 loading: false
             };
         case LOG_IN:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload,
+                loggedIn: true,
+                redirect: true
+            };
+        case SIGN_UP:
             return {
                 ...state,
                 loading: false,
