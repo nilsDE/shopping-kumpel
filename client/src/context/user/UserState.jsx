@@ -3,12 +3,14 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import userContext from './userContext';
 import userReducer from './userReducer';
-import { CHECK_LOGGED_IN, SET_LOADING, LOG_OUT } from '../types';
+import { CHECK_LOGGED_IN, SET_LOADING, LOG_OUT, LOG_IN } from '../types';
 
 const UserState = props => {
     const initialState = {
         loggedIn: false,
-        loading: false
+        loading: false,
+        user: {},
+        redirect: false
     };
     const [state, dispatch] = useReducer(userReducer, initialState);
 
@@ -35,6 +37,20 @@ const UserState = props => {
         }
     };
 
+    const logIn = async (email, password) => {
+        setLoading();
+        const res = await axios.post('/users/signin', {
+            email,
+            password
+        });
+        if (res.data !== null) {
+            dispatch({
+                type: LOG_IN,
+                payload: res.data
+            });
+        }
+    };
+
     // End actions
 
     const { children } = props;
@@ -44,8 +60,11 @@ const UserState = props => {
             value={{
                 loggedIn: state.loggedIn,
                 loading: state.loading,
+                user: state.user,
                 checkLoggedIn,
-                logOut
+                logOut,
+                logIn,
+                redirect: state.redirect
             }}
         >
             {children}

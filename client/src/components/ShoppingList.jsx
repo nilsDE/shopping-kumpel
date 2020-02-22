@@ -12,7 +12,7 @@ let socket;
 
 const ShoppingList = () => {
     const userContext = useContext(UserContext);
-    const { loggedIn, loading } = userContext;
+    const { loggedIn, loading, user } = userContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [items, setItems] = useState([]);
@@ -35,7 +35,8 @@ const ShoppingList = () => {
         axios
             .post('/create', {
                 description: newTodo,
-                completed: false
+                completed: false,
+                lastModified: user.name
             })
             .then(res => {
                 if (res.data === 'created') {
@@ -91,7 +92,9 @@ const ShoppingList = () => {
                                   key={item.id}
                                   item={item}
                                   getAllItems={() => getAllItems()}
-                                  deleteItem={item => deleteItem(item)}
+                                  deleteItem={itemToDelete =>
+                                      deleteItem(itemToDelete)
+                                  }
                               />
                           </SocketContext.Provider>
                       ))

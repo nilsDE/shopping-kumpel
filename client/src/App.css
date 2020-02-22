@@ -213,16 +213,26 @@ form {
 
 .shopping-item {
     cursor: pointer;
-}
-
-.shopping-item {
     margin-bottom: 0;
 }
 
 .item-completed {
     text-decoration: line-through;
     font-style: italic;
-    color: grey;
+    color: grey !important;
+}
+
+.modified-other {
+    font-size: 0.6rem;
+    color: tomato;
+    position: absolute;
+    margin-left: 0.2rem;
+}
+.modified-self {
+    font-size: 0.6rem;
+    color: black;
+    position: absolute;
+    margin-left: 0.2rem;
 }
 
 .general-btn {

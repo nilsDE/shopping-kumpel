@@ -1,6 +1,4 @@
 {
-    "eslint.workingDirectories": [
-        "client"
-    ],
+    "eslint.workingDirectories": ["client"],
     "prettier.tabWidth": 4
 }
