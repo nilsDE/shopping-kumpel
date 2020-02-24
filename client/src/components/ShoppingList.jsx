@@ -6,12 +6,16 @@ import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
 import UserContext from '../context/user/userContext';
+import ListContext from '../context/list/listContext';
 import Spinner from './Spinner';
 
 let socket;
 
 const ShoppingList = () => {
+    const listContext = useContext(ListContext);
+    console.log(listContext);
     const userContext = useContext(UserContext);
+    // const { getLists } = listContext;
     const { loggedIn, loading, user } = userContext;
 
     const [newTodo, setNewTodo] = useState('');
@@ -30,17 +34,9 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, []);
 
-    const createList = e => {
+    const getAllLists = e => {
         e.preventDefault();
-        axios
-            .get('/list/index', {
-                params: { userId: user.id }
-            })
-            .then(res => {
-                if (res.data) {
-                    console.log(res.data);
-                }
-            });
+        // getLists(user.id);
     };
     // const createList = e => {
     //     e.preventDefault();
@@ -98,7 +94,7 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
-            <button onClick={e => createList(e)}>Make a list</button>
+            <button onClick={e => getAllLists(e)}>Make a list</button>
             <p className="shopping-list-title">Your Shopping List</p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
