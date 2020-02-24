@@ -5,7 +5,8 @@ module.exports = {
         let newItem = {
             description: req.body.description,
             completed: req.body.completed,
-            lastModified: req.body.lastModified
+            lastModified: req.body.lastModified,
+            listId: req.body.listId
         };
         itemQueries.createItem(newItem, req, (err, item) => {
             if (err) {

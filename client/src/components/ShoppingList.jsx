@@ -30,13 +30,40 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, []);
 
+    const createList = e => {
+        e.preventDefault();
+        axios
+            .get('/list/index', {
+                params: { userId: user.id }
+            })
+            .then(res => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            });
+    };
+    // const createList = e => {
+    //     e.preventDefault();
+    //     axios
+    //         .post('/list/create', {
+    //             description: 'My new list',
+    //             userId: 1
+    //         })
+    //         .then(res => {
+    //             if (res.data) {
+    //                 console.log(res.data);
+    //             }
+    //         });
+    // };
+
     const handleSubmit = e => {
         e.preventDefault();
         axios
             .post('/create', {
                 description: newTodo,
                 completed: false,
-                lastModified: user.name
+                lastModified: user.name,
+                listId: 1
             })
             .then(res => {
                 if (res.data === 'created') {
@@ -71,6 +98,7 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
+            <button onClick={e => createList(e)}>Make a list</button>
             <p className="shopping-list-title">Your Shopping List</p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
