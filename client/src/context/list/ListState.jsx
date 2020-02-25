@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useReducer } from 'react';
 import axios from 'axios';
 import listContext from './listContext';

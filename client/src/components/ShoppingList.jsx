@@ -13,44 +13,23 @@ let socket;
 
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
-    console.log(listContext);
     const userContext = useContext(UserContext);
-    // const { getLists } = listContext;
+    const { getLists, lists } = listContext;
     const { loggedIn, loading, user } = userContext;
 
     const [newTodo, setNewTodo] = useState('');
-    const [items, setItems] = useState([]);
-
-    const getAllItems = () => {
-        axios.get('/items').then(res => setItems(res.data));
-    };
+    const [list, setList] = useState();
 
     useEffect(() => {
-        getAllItems();
+        getLists(user.id);
         socket = io();
         socket.on('change', () => {
-            getAllItems();
+            getLists(user.id);
         });
         // eslint-disable-next-line
     }, []);
 
-    const getAllLists = e => {
-        e.preventDefault();
-        // getLists(user.id);
-    };
-    // const createList = e => {
-    //     e.preventDefault();
-    //     axios
-    //         .post('/list/create', {
-    //             description: 'My new list',
-    //             userId: 1
-    //         })
-    //         .then(res => {
-    //             if (res.data) {
-    //                 console.log(res.data);
-    //             }
-    //         });
-    // };
+    useEffect(() => setList(lists[0]), [lists]);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -65,7 +44,7 @@ const ShoppingList = () => {
                 if (res.data === 'created') {
                     socket.emit('sendItem');
                     setNewTodo('');
-                    getAllItems();
+                    getLists(user.id);
                 }
             });
     };
@@ -78,7 +57,7 @@ const ShoppingList = () => {
             .then(res => {
                 if (res.data === 'deleted') {
                     socket.emit('sendItem');
-                    getAllItems();
+                    getLists(user.id);
                 }
             })
             .catch(err => {
@@ -94,7 +73,15 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
-            <button onClick={e => getAllLists(e)}>Make a list</button>
+            <button
+                type="button"
+                onClick={e => {
+                    e.preventDefault();
+                    getLists(user.id);
+                }}
+            >
+                Make a list
+            </button>
             <p className="shopping-list-title">Your Shopping List</p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
@@ -107,15 +94,15 @@ const ShoppingList = () => {
                 ></Form.Control>
             </Form>
 
-            {items.length > 0
-                ? items
+            {list && list.items && list.items.length > 0
+                ? list.items
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
                       .map(item => (
                           <SocketContext.Provider key={item.id} value={socket}>
                               <Item
                                   key={item.id}
                                   item={item}
-                                  getAllItems={() => getAllItems()}
+                                  getAllItems={() => getLists(user.id)}
                                   deleteItem={itemToDelete =>
                                       deleteItem(itemToDelete)
                                   }
