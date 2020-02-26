@@ -3,18 +3,32 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import listContext from './listContext';
 import listReducer from './listReducer';
-import { GET_LISTS, SET_LOADING } from '../types';
+import { GET_LISTS, SET_LOADING, CREATE_LIST } from '../types';
 
 const ListState = props => {
     const initialState = {
-        loading: false,
-        lists: {}
+        loadingList: false,
+        lists: []
     };
     const [state, dispatch] = useReducer(listReducer, initialState);
 
     // Actions
 
     const setLoading = () => dispatch({ type: SET_LOADING });
+
+    const createList = async (description, userId) => {
+        setLoading();
+        const res = await axios.post('/list/create', {
+            description,
+            userId
+        });
+        if (res.data !== null) {
+            dispatch({
+                type: CREATE_LIST,
+                payload: res.data
+            });
+        }
+    };
 
     const getLists = async userId => {
         setLoading();
@@ -36,9 +50,10 @@ const ListState = props => {
     return (
         <listContext.Provider
             value={{
-                loading: state.loading,
+                loadingList: state.loadingList,
                 lists: state.lists,
-                getLists
+                getLists,
+                createList
             }}
         >
             {children}

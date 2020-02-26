@@ -1,17 +1,23 @@
-import { GET_LISTS, SET_LOADING } from '../types';
+import { GET_LISTS, SET_LOADING, CREATE_LIST } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
+        case CREATE_LIST:
+            return {
+                ...state,
+                loadingList: false,
+                lists: action.payload
+            };
         case GET_LISTS:
             return {
                 ...state,
-                loading: false,
+                loadingList: false,
                 lists: action.payload
             };
         case SET_LOADING:
             return {
                 ...state,
-                loading: true
+                loadingList: true
             };
         default:
             return state;

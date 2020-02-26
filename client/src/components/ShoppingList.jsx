@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
+import withReactContent from 'sweetalert2-react-content';
 import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
@@ -10,15 +12,20 @@ import ListContext from '../context/list/listContext';
 import Spinner from './Spinner';
 
 let socket;
+const MySwal = withReactContent(Swal);
+
+// TODO: create initial list if no list available
+// TODO: setList when page has loaded
 
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
     const userContext = useContext(UserContext);
-    const { getLists, lists } = listContext;
+    const { getLists, lists, createList, loadingList } = listContext;
     const { loggedIn, loading, user } = userContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [list, setList] = useState();
+    const [selectedList, setSelectedList] = useState();
 
     useEffect(() => {
         getLists(user.id);
@@ -29,7 +36,28 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, []);
 
-    useEffect(() => setList(lists[0]), [lists]);
+    useEffect(() => {
+        const currentList = lists.find(l => l.id === +selectedList);
+        setList(currentList);
+    }, [lists, selectedList]);
+
+    const changeList = id => {
+        const myList = lists.find(l => l.id === +id);
+        setList(myList);
+        setSelectedList(id);
+    };
+
+    const showModal = id => {
+        MySwal.fire({
+            title: <p>New list:</p>,
+            showCancelButton: true,
+            confirmButtonText: 'Save!',
+            input: 'text',
+            preConfirm: title => {
+                createList(title, id);
+            }
+        });
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -38,7 +66,7 @@ const ShoppingList = () => {
                 description: newTodo,
                 completed: false,
                 lastModified: user.name,
-                listId: 1
+                listId: list.id
             })
             .then(res => {
                 if (res.data === 'created') {
@@ -64,8 +92,7 @@ const ShoppingList = () => {
                 console.log(err);
             });
     };
-
-    if (loading) {
+    if (loading || loadingList || lists.length === 0) {
         return <Spinner />;
     }
 
@@ -73,16 +100,32 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
+            <DropdownButton title="Select list">
+                {lists
+                    .sort((a, b) => (a.description > b.description ? 1 : -1))
+                    .map(l => (
+                        <Dropdown.Item
+                            eventKey={l.id}
+                            onSelect={e => changeList(e)}
+                            key={l.id}
+                        >
+                            {l.description}
+                        </Dropdown.Item>
+                    ))}
+            </DropdownButton>
+
             <button
                 type="button"
                 onClick={e => {
                     e.preventDefault();
-                    getLists(user.id);
+                    showModal(user.id);
                 }}
             >
                 Make a list
             </button>
-            <p className="shopping-list-title">Your Shopping List</p>
+            <p className="shopping-list-title">
+                {list ? list.description : ''}
+            </p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
                     className="mb-4"
