@@ -102,7 +102,12 @@ const ShoppingList = () => {
         <div className="shopping-list">
             <DropdownButton title="Select list">
                 {lists
-                    .sort((a, b) => (a.description > b.description ? 1 : -1))
+                    .sort((a, b) =>
+                        a.description.toLowerCase() >
+                        b.description.toLowerCase()
+                            ? 1
+                            : -1
+                    )
                     .map(l => (
                         <Dropdown.Item
                             eventKey={l.id}
