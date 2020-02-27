@@ -15,7 +15,6 @@ let socket;
 const MySwal = withReactContent(Swal);
 
 // TODO: create initial list if no list available
-// TODO: setList when page has loaded
 
 const ShoppingList = () => {
     const usePrevious = value => {
