@@ -8,6 +8,7 @@ import { GET_LISTS, SET_LOADING, CREATE_LIST } from '../types';
 const ListState = props => {
     const initialState = {
         loadingList: false,
+        reference: '',
         lists: []
     };
     const [state, dispatch] = useReducer(listReducer, initialState);
@@ -52,6 +53,7 @@ const ListState = props => {
             value={{
                 loadingList: state.loadingList,
                 lists: state.lists,
+                reference: state.reference,
                 getLists,
                 createList
             }}

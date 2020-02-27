@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -18,15 +18,25 @@ const MySwal = withReactContent(Swal);
 // TODO: setList when page has loaded
 
 const ShoppingList = () => {
+    const usePrevious = value => {
+        const ref = useRef();
+        useEffect(() => {
+            ref.current = value;
+        });
+        return ref.current;
+    };
+
     const listContext = useContext(ListContext);
     const userContext = useContext(UserContext);
-    const { getLists, lists, createList, loadingList } = listContext;
+    const { getLists, lists, createList, loadingList, reference } = listContext;
     const { loggedIn, loading, user } = userContext;
 
+    const prevReference = usePrevious(reference);
+
     const [newTodo, setNewTodo] = useState('');
-    const [list, setList] = useState();
     const [selectedList, setSelectedList] = useState();
 
+    // COMPONENT DID MOUNT
     useEffect(() => {
         getLists(user.id);
         socket = io();
@@ -36,14 +46,14 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, []);
 
+    // COMPONENT DID UPDATE
     useEffect(() => {
-        const currentList = lists.find(l => l.id === +selectedList);
-        setList(currentList);
-    }, [lists, selectedList]);
+        if (prevReference !== reference && reference === 'GET_LISTS') {
+            setSelectedList(lists[0].id);
+        }
+    }, [lists, prevReference, reference]);
 
     const changeList = id => {
-        const myList = lists.find(l => l.id === +id);
-        setList(myList);
         setSelectedList(id);
     };
 
@@ -59,6 +69,11 @@ const ShoppingList = () => {
         });
     };
 
+    let currentList = {};
+    if (lists) {
+        currentList = lists.find(l => +l.id === +selectedList);
+    }
+
     const handleSubmit = e => {
         e.preventDefault();
         axios
@@ -66,7 +81,7 @@ const ShoppingList = () => {
                 description: newTodo,
                 completed: false,
                 lastModified: user.name,
-                listId: list.id
+                listId: currentList.id
             })
             .then(res => {
                 if (res.data === 'created') {
@@ -129,7 +144,7 @@ const ShoppingList = () => {
                 Make a list
             </button>
             <p className="shopping-list-title">
-                {list ? list.description : ''}
+                {currentList ? currentList.description : ''}
             </p>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
@@ -142,8 +157,8 @@ const ShoppingList = () => {
                 ></Form.Control>
             </Form>
 
-            {list && list.items && list.items.length > 0
-                ? list.items
+            {currentList && currentList.items && currentList.items.length > 0
+                ? currentList.items
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
                       .map(item => (
                           <SocketContext.Provider key={item.id} value={socket}>

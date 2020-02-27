@@ -12,7 +12,8 @@ export default (state, action) => {
             return {
                 ...state,
                 loadingList: false,
-                lists: action.payload
+                lists: action.payload,
+                reference: action.type
             };
         case SET_LOADING:
             return {

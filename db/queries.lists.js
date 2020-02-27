@@ -8,13 +8,23 @@ module.exports = {
             return List.create({
                 description: newList.description,
                 userId: newList.userId
-            })
-                .then(item => {
-                    callback(null, item);
+            }).then(list => {
+                return List.findAll({
+                    where: { userId: list.userId },
+                    include: [
+                        {
+                            model: Item,
+                            as: 'items'
+                        }
+                    ]
                 })
-                .catch(err => {
-                    callback(err);
-                });
+                    .then(lists => {
+                        callback(null, lists);
+                    })
+                    .catch(err => {
+                        callback(err);
+                    });
+            });
         }
         callback('not authorized');
     },
