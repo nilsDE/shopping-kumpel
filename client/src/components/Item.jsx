@@ -4,7 +4,7 @@
 import React, { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import SocketContext from './socket-context';
@@ -104,7 +104,7 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
                         className="general-btn delete-btn"
                         type="button"
                     >
-                        <span>&times;</span>
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </>
             ) : (

@@ -171,7 +171,7 @@ form {
 
 .list-btn {
     background-color: var(--secondary-color);
-    color: black;
+    color: var(--main-color-dark);
     border: 1px solid var(--main-color-dark);
     width: 115px;
     height: 30px;
@@ -276,6 +276,11 @@ form {
     justify-content: center;
     text-align: center;
     align-items: center;
+}
+
+.general-btn svg {
+    height: 12px;
+    width: 12px;
 }
 
 .edit-btn {

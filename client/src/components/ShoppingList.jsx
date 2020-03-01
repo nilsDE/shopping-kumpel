@@ -107,7 +107,7 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
-            <div className="btn-row d-flex justify-content-between mb-2">
+            <div className="btn-row d-flex justify-content-between mb-3">
                 <button
                     type="button"
                     className="list-btn mr-1"
@@ -181,7 +181,7 @@ const ShoppingList = () => {
                       ))
                 : null}
 
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mt-3">
                 <button
                     type="button"
                     className="list-btn"
