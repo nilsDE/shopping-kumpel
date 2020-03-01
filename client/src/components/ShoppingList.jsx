@@ -49,10 +49,6 @@ const ShoppingList = () => {
         }
     }, [lists, reference]);
 
-    const changeList = id => {
-        setSelectedList(id);
-    };
-
     const showModal = id => {
         MySwal.fire({
             title: <p>New list:</p>,
@@ -136,7 +132,7 @@ const ShoppingList = () => {
                               .map(l => (
                                   <Dropdown.Item
                                       eventKey={l.id}
-                                      onSelect={e => changeList(e)}
+                                      onSelect={e => setSelectedList(e)}
                                       key={l.id}
                                   >
                                       {l.description}
@@ -151,7 +147,7 @@ const ShoppingList = () => {
                     onClick={() => deleteList(user.id, selectedList)}
                     disabled={loading || loadingList || !lists}
                 >
-                    Delete this list
+                    Delete list
                 </button>
             </div>
             <p className="shopping-list-title">
@@ -184,6 +180,17 @@ const ShoppingList = () => {
                           </SocketContext.Provider>
                       ))
                 : null}
+
+            <div className="d-flex justify-content-center">
+                <button
+                    type="button"
+                    className="list-btn"
+                    onClick={() => console.log('addColab')}
+                    disabled={loading || loadingList || !lists}
+                >
+                    Share this list!
+                </button>
+            </div>
         </div>
     );
 };

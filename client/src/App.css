@@ -173,12 +173,17 @@ form {
     background-color: var(--secondary-color);
     color: black;
     border: 1px solid var(--main-color-dark);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     width: 115px;
+    height: 30px;
+}
+
+.list-btn:focus {
+    outline: 0;
 }
 
 .list-btn > button {
     color: black;
+    padding: 0;
 }
 
 .list-btn:hover {
