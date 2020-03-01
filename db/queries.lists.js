@@ -41,7 +41,27 @@ module.exports = {
                 ]
             })
                 .then(lists => {
-                    callback(null, lists);
+                    console.log(lists);
+                    if (lists && lists.length > 0) {
+                        callback(null, lists);
+                    } else {
+                        return List.create({
+                            description: 'New list',
+                            userId
+                        }).then(() => {
+                            return List.findAll({
+                                where: { userId },
+                                include: [
+                                    {
+                                        model: Item,
+                                        as: 'items'
+                                    }
+                                ]
+                            }).then(lists => {
+                                callback(null, lists);
+                            });
+                        });
+                    }
                 })
                 .catch(err => {
                     callback(err);

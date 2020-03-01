@@ -14,8 +14,6 @@ import Spinner from './Spinner';
 let socket;
 const MySwal = withReactContent(Swal);
 
-// TODO: create initial list if no list available
-
 const ShoppingList = () => {
     const usePrevious = value => {
         const ref = useRef();
