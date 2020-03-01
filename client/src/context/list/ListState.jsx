@@ -3,7 +3,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import listContext from './listContext';
 import listReducer from './listReducer';
-import { GET_LISTS, SET_LOADING, CREATE_LIST } from '../types';
+import { GET_LISTS, SET_LOADING, CREATE_LIST, DELETE_LIST } from '../types';
 
 const ListState = props => {
     const initialState = {
@@ -44,6 +44,19 @@ const ListState = props => {
         }
     };
 
+    const deleteList = async (userId, listId) => {
+        setLoading();
+        const res = await axios.delete('/list/delete', {
+            params: { userId, listId }
+        });
+        if (res.data !== null) {
+            dispatch({
+                type: DELETE_LIST,
+                payload: res.data
+            });
+        }
+    };
+
     // End Actions
 
     const { children } = props;
@@ -55,7 +68,8 @@ const ListState = props => {
                 lists: state.lists,
                 reference: state.reference,
                 getLists,
-                createList
+                createList,
+                deleteList
             }}
         >
             {children}

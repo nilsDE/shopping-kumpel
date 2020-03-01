@@ -1,4 +1,4 @@
-import { GET_LISTS, SET_LOADING, CREATE_LIST } from '../types';
+import { GET_LISTS, SET_LOADING, CREATE_LIST, DELETE_LIST } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
@@ -9,6 +9,13 @@ export default (state, action) => {
                 lists: action.payload
             };
         case GET_LISTS:
+            return {
+                ...state,
+                loadingList: false,
+                lists: action.payload,
+                reference: action.type
+            };
+        case DELETE_LIST:
             return {
                 ...state,
                 loadingList: false,

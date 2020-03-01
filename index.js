@@ -64,13 +64,16 @@ io.on('connection', socket => {
 app.post('/users', userController.create);
 app.post('/users/signin', userController.signIn);
 app.post('/users/signout', userController.signOut);
+
 app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
 app.post('/update', itemController.update);
 app.get('/items', itemController.index);
+
 app.post('/list/create', listController.create);
 app.get('/list/index', listController.index);
+app.delete('/list/delete', listController.delete);
 
 app.get('/users/verify', (req, res) => {
     const loggedIn = req.user ? true : false;

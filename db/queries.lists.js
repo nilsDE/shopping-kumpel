@@ -28,6 +28,52 @@ module.exports = {
         }
         callback('not authorized');
     },
+    deleteList(data, req, callback) {
+        const authorized = new Authorizer(req.user).isAllowed();
+        if (authorized) {
+            return List.findByPk(data.listId)
+                .then(list => {
+                    if (+list.userId === +data.userId) {
+                        list.destroy();
+                    }
+                })
+                .then(() => {
+                    return List.findAll({
+                        where: { userId: data.userId },
+                        include: [
+                            {
+                                model: Item,
+                                as: 'items'
+                            }
+                        ]
+                    }).then(lists => {
+                        if (lists && lists.length > 0) {
+                            callback(null, lists);
+                        } else {
+                            return List.create({
+                                description: 'New list',
+                                userId: data.userId
+                            }).then(() => {
+                                return List.findAll({
+                                    where: { userId: data.userId },
+                                    include: [
+                                        {
+                                            model: Item,
+                                            as: 'items'
+                                        }
+                                    ]
+                                }).then(lists => {
+                                    callback(null, lists);
+                                });
+                            });
+                        }
+                    });
+                })
+                .catch(err => {
+                    callback(err);
+                });
+        }
+    },
     getLists(userId, req, callback) {
         const authorized = new Authorizer(req.user).isAllowed();
         if (authorized) {
@@ -41,7 +87,6 @@ module.exports = {
                 ]
             })
                 .then(lists => {
-                    console.log(lists);
                     if (lists && lists.length > 0) {
                         callback(null, lists);
                     } else {

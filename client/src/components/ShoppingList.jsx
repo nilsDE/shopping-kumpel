@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -15,20 +15,17 @@ let socket;
 const MySwal = withReactContent(Swal);
 
 const ShoppingList = () => {
-    const usePrevious = value => {
-        const ref = useRef();
-        useEffect(() => {
-            ref.current = value;
-        });
-        return ref.current;
-    };
-
     const listContext = useContext(ListContext);
     const userContext = useContext(UserContext);
-    const { getLists, lists, createList, loadingList, reference } = listContext;
+    const {
+        getLists,
+        lists,
+        createList,
+        deleteList,
+        loadingList,
+        reference
+    } = listContext;
     const { loggedIn, loading, user } = userContext;
-
-    const prevReference = usePrevious(reference);
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -45,10 +42,12 @@ const ShoppingList = () => {
 
     // COMPONENT DID UPDATE
     useEffect(() => {
-        if (prevReference !== reference && reference === 'GET_LISTS') {
-            setSelectedList(lists[0].id);
+        if (reference === 'GET_LISTS' || reference === 'DELETE_LIST') {
+            if (lists && lists.length !== 0) {
+                setSelectedList(lists[0].id);
+            }
         }
-    }, [lists, prevReference, reference]);
+    }, [lists, reference]);
 
     const changeList = id => {
         setSelectedList(id);
@@ -67,7 +66,7 @@ const ShoppingList = () => {
     };
 
     let currentList = {};
-    if (lists) {
+    if (lists && lists.length > 0) {
         currentList = lists.find(l => +l.id === +selectedList);
     }
 
@@ -104,7 +103,7 @@ const ShoppingList = () => {
                 console.log(err);
             });
     };
-    if (loading || loadingList || lists.length === 0) {
+    if (lists.length === 0) {
         return <Spinner />;
     }
 
@@ -112,34 +111,49 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
-            <DropdownButton title="Select list">
-                {lists
-                    .sort((a, b) =>
-                        a.description.toLowerCase() >
-                        b.description.toLowerCase()
-                            ? 1
-                            : -1
-                    )
-                    .map(l => (
-                        <Dropdown.Item
-                            eventKey={l.id}
-                            onSelect={e => changeList(e)}
-                            key={l.id}
-                        >
-                            {l.description}
-                        </Dropdown.Item>
-                    ))}
-            </DropdownButton>
+            <div className="btn-row d-flex justify-content-between mb-2">
+                <button
+                    type="button"
+                    className="list-btn mr-1"
+                    disabled={loading || loadingList}
+                    onClick={e => {
+                        e.preventDefault();
+                        showModal(user.id);
+                    }}
+                >
+                    Make a list
+                </button>
 
-            <button
-                type="button"
-                onClick={e => {
-                    e.preventDefault();
-                    showModal(user.id);
-                }}
-            >
-                Make a list
-            </button>
+                <DropdownButton title="Select list" className="list-btn">
+                    {lists && lists.length !== 0
+                        ? lists
+                              .sort((a, b) =>
+                                  a.description.toLowerCase() >
+                                  b.description.toLowerCase()
+                                      ? 1
+                                      : -1
+                              )
+                              .map(l => (
+                                  <Dropdown.Item
+                                      eventKey={l.id}
+                                      onSelect={e => changeList(e)}
+                                      key={l.id}
+                                  >
+                                      {l.description}
+                                  </Dropdown.Item>
+                              ))
+                        : null}
+                </DropdownButton>
+
+                <button
+                    type="button"
+                    className="ml-1 list-btn"
+                    onClick={() => deleteList(user.id, selectedList)}
+                    disabled={loading || loadingList || !lists}
+                >
+                    Delete this list
+                </button>
+            </div>
             <p className="shopping-list-title">
                 {currentList ? currentList.description : ''}
             </p>
