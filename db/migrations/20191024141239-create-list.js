@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Items', {
+        return queryInterface.createTable('Lists', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -12,22 +12,14 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            completed: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
-            },
-            lastModified: {
-                type: Sequelize.STRING,
-                allowNull: false
-            },
-            listId: {
+            userId: {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
                 allowNull: false,
                 references: {
-                    model: 'Lists',
+                    model: 'Users',
                     key: 'id',
-                    as: 'listId'
+                    as: 'userId'
                 }
             },
             createdAt: {
@@ -41,6 +33,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('Items');
+        return queryInterface.dropTable('Lists');
     }
 };

@@ -8,7 +8,8 @@ module.exports = {
             return Item.create({
                 description: newItem.description,
                 completed: newItem.completed,
-                lastModified: newItem.lastModified
+                lastModified: newItem.lastModified,
+                listId: newItem.listId
             })
                 .then(item => {
                     callback(null, item);
