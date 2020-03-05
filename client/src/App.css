@@ -175,6 +175,7 @@ form {
     border: 1px solid var(--main-color-dark);
     width: 115px;
     height: 30px;
+    border-radius: 10px;
 }
 
 .list-btn:focus {
