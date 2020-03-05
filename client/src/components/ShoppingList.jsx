@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -23,7 +23,10 @@ const ShoppingList = () => {
         createList,
         deleteList,
         loadingList,
-        reference
+        reference,
+        getCollabs,
+        collabs,
+        users
     } = listContext;
     const { loggedIn, loading, user } = userContext;
 
@@ -48,6 +51,10 @@ const ShoppingList = () => {
             }
         }
     }, [lists, reference]);
+
+    useEffect(() => {
+        getCollabs(selectedList);
+    }, [selectedList]);
 
     const showModal = id => {
         MySwal.fire({
@@ -185,11 +192,23 @@ const ShoppingList = () => {
                 <button
                     type="button"
                     className="list-btn"
-                    onClick={() => console.log('addColab')}
+                    onClick={() => console.log('add collab')}
                     disabled={loading || loadingList || !lists}
                 >
                     Share this list!
                 </button>
+            </div>
+            <div className="d-flex flex-column justify-content-center mt-3">
+                {collabs && collabs.length > 0 && (
+                    <>
+                        <p className="mb-0 small text-muted">Collaborators: </p>
+                        {collabs.map(c => (
+                            <p className="mb-0 small text-muted" key={c.id}>
+                                {c.User.name}
+                            </p>
+                        ))}
+                    </>
+                )}
             </div>
         </div>
     );

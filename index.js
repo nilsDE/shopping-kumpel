@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const itemController = require('./controllers/itemController');
 const listController = require('./controllers/listController');
+const collabController = require('./controllers/collabController');
 const userController = require('./controllers/userController');
 const passportConfig = require('./config/passport-config');
 
@@ -74,6 +75,8 @@ app.get('/items', itemController.index);
 app.post('/list/create', listController.create);
 app.get('/list/index', listController.index);
 app.delete('/list/delete', listController.delete);
+
+app.get('/collab/index', collabController.index);
 
 app.get('/users/verify', (req, res) => {
     const loggedIn = req.user ? true : false;

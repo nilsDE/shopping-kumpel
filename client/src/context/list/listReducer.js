@@ -1,4 +1,10 @@
-import { GET_LISTS, SET_LOADING, CREATE_LIST, DELETE_LIST } from '../types';
+import {
+    GET_LISTS,
+    SET_LOADING,
+    CREATE_LIST,
+    DELETE_LIST,
+    GET_COLLABS
+} from '../types';
 
 export default (state, action) => {
     switch (action.type) {
@@ -26,6 +32,14 @@ export default (state, action) => {
             return {
                 ...state,
                 loadingList: true
+            };
+        case GET_COLLABS:
+            return {
+                ...state,
+                loadingList: false,
+                collabs: action.payload[0],
+                users: action.payload[1],
+                reference: action.type
             };
         default:
             return state;
