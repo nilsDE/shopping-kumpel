@@ -1,26 +1,21 @@
 const Collab = require('./models').Collab;
-const List = require('./models').List;
 const User = require('./models').User;
 
 module.exports = {
-    getCollabs(id, callback) {
-        const getCollabsForList = Collab.findAll({
-            where: { listId: id },
-            include: [
-                {
-                    model: User
-                }
-            ]
-        });
-
-        const getUserList = User.findAll();
-
-        return Promise.all([getCollabsForList, getUserList])
-            .then(result => {
-                callback(null, result);
-            })
-            .catch(err => {
-                callback(err);
+    async getCollabs(id, callback) {
+        try {
+            const getCollabsForList = await Collab.findAll({
+                where: { listId: id },
+                include: [
+                    {
+                        model: User
+                    }
+                ]
             });
+            const getUserList = await User.findAll();
+            callback(null, [getCollabsForList, getUserList]);
+        } catch (err) {
+            callback(err);
+        }
     }
 };
