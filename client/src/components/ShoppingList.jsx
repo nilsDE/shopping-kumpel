@@ -106,6 +106,21 @@ const ShoppingList = () => {
                 console.log(err);
             });
     };
+
+    let listOwner = '';
+
+    if (
+        lists &&
+        lists.length > 0 &&
+        users &&
+        users.length > 0 &&
+        selectedList
+    ) {
+        const currentListUserId = lists.find(l => +l.id === +selectedList)
+            .userId;
+        listOwner = users.find(u => u.id === currentListUserId).name;
+    }
+
     if (lists.length === 0) {
         return <Spinner />;
     }
@@ -199,12 +214,15 @@ const ShoppingList = () => {
                 </button>
             </div>
             <div className="d-flex flex-column justify-content-center mt-3">
-                {collabs && collabs.length > 0 && (
+                {collabs && collabs.length > 0 && users && users.length > 0 && (
                     <>
+                        <p className="mb-0 small text-muted">{`List owner: ${
+                            listOwner === user.name ? 'me' : listOwner
+                        }`}</p>
                         <p className="mb-0 small text-muted">Collaborators: </p>
                         {collabs.map(c => (
                             <p className="mb-0 small text-muted" key={c.id}>
-                                {c.User.name}
+                                {c.User.name === user.name ? 'me' : c.User.name}
                             </p>
                         ))}
                     </>

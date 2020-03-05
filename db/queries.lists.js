@@ -1,5 +1,7 @@
-const { List, Item } = require('./models');
+const { List, Item, Collab } = require('./models');
 const Authorizer = require('../policies/application');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = {
     createList(newList, req, callback) {
@@ -78,11 +80,19 @@ module.exports = {
         const authorized = new Authorizer(req.user).isAllowed();
         if (authorized) {
             return List.findAll({
-                where: { userId },
+                where: {
+                    [Op.or]: [{ userId }, { '$collabs.userId$': userId }]
+                },
                 include: [
                     {
                         model: Item,
                         as: 'items'
+                    },
+                    {
+                        model: Collab,
+                        as: 'collabs',
+                        where: { userId },
+                        required: false
                     }
                 ]
             })
