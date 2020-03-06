@@ -69,7 +69,7 @@ app.post('/users/signout', userController.signOut);
 app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
-app.post('/update', itemController.update);
+app.put('/update', itemController.update);
 app.get('/items', itemController.index);
 
 app.post('/list/create', listController.create);

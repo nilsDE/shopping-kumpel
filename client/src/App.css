@@ -169,11 +169,14 @@ form {
     border-radius: 10px;
 }
 
+.list-btn-fixed-width {
+    width: 115px;
+}
+
 .list-btn {
     background-color: var(--secondary-color);
     color: var(--main-color-dark);
     border: 1px solid var(--main-color-dark);
-    width: 115px;
     height: 30px;
     border-radius: 10px;
 }
@@ -185,6 +188,7 @@ form {
 .list-btn > button {
     color: black;
     padding: 0;
+    width: 100%;
 }
 
 .list-btn:hover {
