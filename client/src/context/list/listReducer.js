@@ -4,7 +4,8 @@ import {
     CREATE_LIST,
     DELETE_LIST,
     GET_COLLABS,
-    GENERAL_ERROR
+    GENERAL_ERROR,
+    CREATE_COLLABS
 } from '../types';
 
 export default (state, action) => {
@@ -46,6 +47,12 @@ export default (state, action) => {
                 collabs: action.payload[0],
                 users: action.payload[1],
                 reference: action.type
+            };
+        case CREATE_COLLABS:
+            return {
+                ...state,
+                loadingList: false,
+                collabs: [...action.payload]
             };
         default:
             return state;

@@ -17,5 +17,24 @@ module.exports = {
         } catch (err) {
             callback(err);
         }
+    },
+    async createCollab(collab, callback) {
+        try {
+            const newCollab = await Collab.create({
+                userId: collab.userId,
+                listId: collab.listId
+            });
+            const getCollabsForList = await Collab.findAll({
+                where: { listId: collab.listId },
+                include: [
+                    {
+                        model: User
+                    }
+                ]
+            });
+            callback(null, getCollabsForList);
+        } catch (err) {
+            callback(err);
+        }
     }
 };

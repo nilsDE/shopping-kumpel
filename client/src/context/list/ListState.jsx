@@ -9,6 +9,7 @@ import {
     CREATE_LIST,
     DELETE_LIST,
     GET_COLLABS,
+    CREATE_COLLABS,
     GENERAL_ERROR
 } from '../types';
 
@@ -85,6 +86,18 @@ const ListState = props => {
         }
     };
 
+    const createCollab = async (userId, listId) => {
+        setLoading();
+        const res = await axios.post('/collab/create', {
+            userId,
+            listId
+        });
+        dispatch({
+            type: CREATE_COLLABS,
+            payload: res.data
+        });
+    };
+
     // End Actions
 
     const { children } = props;
@@ -100,7 +113,8 @@ const ListState = props => {
                 getLists,
                 createList,
                 deleteList,
-                getCollabs
+                getCollabs,
+                createCollab
             }}
         >
             {children}

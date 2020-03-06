@@ -26,6 +26,7 @@ const ShoppingList = () => {
         loadingList,
         reference,
         getCollabs,
+        createCollab,
         collabs,
         users
     } = listContext;
@@ -36,8 +37,9 @@ const ShoppingList = () => {
     const [selectedList, setSelectedList] = useState();
 
     // DONE: Remove all backend calls from this file
-    // TODO: Allow user to create collabs
+    // DONE: Allow user to create collabs
     // TODO: Allow user to delete collabs
+    // TODO: Prevent reloading all lists after changing items - data already comes from the reducer
     // TODO: Check why app crashes after logout and go back to login
     // TODO: fix UnhandledPromiseRejectionWarning
     // TODO: Refactor to JWT
@@ -195,7 +197,7 @@ const ShoppingList = () => {
                         {users.map(u => (
                             <Dropdown.Item
                                 eventKey={u.id}
-                                onSelect={e => console.log(e)}
+                                onSelect={e => createCollab(e, selectedList)}
                                 key={u.id}
                             >
                                 {u.email}

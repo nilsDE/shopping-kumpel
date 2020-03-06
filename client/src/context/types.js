@@ -14,5 +14,6 @@ export const CREATE_ITEM = 'CREATE_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 
 export const GET_COLLABS = 'GET_COLLABS';
+export const CREATE_COLLABS = 'CREATE_COLLABS';
 
 export const GENERAL_ERROR = 'GENERAL_ERROR';
