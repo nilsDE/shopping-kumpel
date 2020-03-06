@@ -8,7 +8,8 @@ import {
     SET_LOADING,
     CREATE_LIST,
     DELETE_LIST,
-    GET_COLLABS
+    GET_COLLABS,
+    GENERAL_ERROR
 } from '../types';
 
 const ListState = props => {
@@ -58,10 +59,16 @@ const ListState = props => {
             params: { userId, listId }
         });
         if (res.data !== null) {
-            dispatch({
-                type: DELETE_LIST,
-                payload: res.data
-            });
+            if (res.data === 'error') {
+                dispatch({
+                    type: GENERAL_ERROR
+                });
+            } else {
+                dispatch({
+                    type: DELETE_LIST,
+                    payload: res.data
+                });
+            }
         }
     };
 

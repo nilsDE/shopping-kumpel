@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -116,9 +116,11 @@ const ShoppingList = () => {
         users.length > 0 &&
         selectedList
     ) {
-        const currentListUserId = lists.find(l => +l.id === +selectedList)
-            .userId;
-        listOwner = users.find(u => u.id === currentListUserId).name;
+        const currentListUserId = lists.find(l => +l.id === +selectedList);
+
+        if (currentListUserId) {
+            listOwner = users.find(u => u.id === currentListUserId.userId).name;
+        }
     }
 
     if (lists.length === 0) {

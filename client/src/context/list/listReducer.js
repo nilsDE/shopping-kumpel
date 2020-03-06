@@ -3,11 +3,17 @@ import {
     SET_LOADING,
     CREATE_LIST,
     DELETE_LIST,
-    GET_COLLABS
+    GET_COLLABS,
+    GENERAL_ERROR
 } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
+        case GENERAL_ERROR:
+            return {
+                ...state,
+                loadingList: false
+            };
         case CREATE_LIST:
             return {
                 ...state,
