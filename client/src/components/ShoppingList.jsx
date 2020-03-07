@@ -3,6 +3,8 @@ import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
@@ -27,6 +29,7 @@ const ShoppingList = () => {
         reference,
         getCollabs,
         createCollab,
+        deleteCollab,
         collabs,
         users
     } = listContext;
@@ -38,14 +41,15 @@ const ShoppingList = () => {
 
     // DONE: Remove all backend calls from this file
     // DONE: Allow user to create collabs
-    // TODO: Allow user to delete collabs
+    // DONE: Allow user to delete collabs
+    // DONE: fix UnhandledPromiseRejectionWarning
+    // TODO: Clean up socket.io context and check when it triggers and what
     // TODO: Prevent reloading all lists after changing items - data already comes from the reducer
+    // TODO: keep previous list selection after api calls
     // TODO: Check why app crashes after logout and go back to login
-    // TODO: fix UnhandledPromiseRejectionWarning
     // TODO: Refactor to JWT
     // TODO: Refactor protected routes in backend and frontend
     // TODO: Refactor socket.io so that it only triggers actions where the actual user is involved.
-    // TODO: Clean up socket.io context and check when it triggers and what
     // TODO: Clean up the error handling and show feedback to the user
 
     // COMPONENT DID MOUNT
@@ -61,7 +65,7 @@ const ShoppingList = () => {
     // COMPONENT DID UPDATE
     useEffect(() => {
         if (reference === 'GET_LISTS' || reference === 'DELETE_LIST') {
-            if (lists && lists.length !== 0) {
+            if (lists && lists.length !== 0 && lists instanceof Array) {
                 setSelectedList(lists[0].id);
             }
         }
@@ -69,6 +73,7 @@ const ShoppingList = () => {
 
     useEffect(() => {
         getCollabs(selectedList);
+        // eslint-disable-next-line
     }, [selectedList]);
 
     const showModal = id => {
@@ -214,9 +219,29 @@ const ShoppingList = () => {
                         }`}</p>
                         <p className="mb-0 small text-muted">Collaborators: </p>
                         {collabs.map(c => (
-                            <p className="mb-0 small text-muted" key={c.id}>
-                                {c.User.name === user.name ? 'me' : c.User.name}
-                            </p>
+                            <div
+                                className="d-flex justify-content-center"
+                                key={c.id}
+                            >
+                                <p className="mb-0 small text-muted">
+                                    {c.User.name === user.name
+                                        ? 'me'
+                                        : c.User.name}
+                                </p>
+                                <button
+                                    onClick={() =>
+                                        deleteCollab(
+                                            user.id,
+                                            c.id,
+                                            selectedList
+                                        )
+                                    }
+                                    className="general-btn ml-1 delete-btn"
+                                    type="button"
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                            </div>
                         ))}
                     </>
                 )}

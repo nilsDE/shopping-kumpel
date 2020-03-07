@@ -5,7 +5,8 @@ import {
     DELETE_LIST,
     GET_COLLABS,
     GENERAL_ERROR,
-    CREATE_COLLABS
+    CREATE_COLLABS,
+    DELETE_COLLAB
 } from '../types';
 
 export default (state, action) => {
@@ -53,6 +54,12 @@ export default (state, action) => {
                 ...state,
                 loadingList: false,
                 collabs: [...action.payload]
+            };
+        case DELETE_COLLAB:
+            return {
+                ...state,
+                loadingList: false,
+                collabs: state.collabs.filter(c => c.id !== action.payload.id)
             };
         default:
             return state;

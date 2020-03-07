@@ -15,5 +15,6 @@ export const UPDATE_ITEM = 'UPDATE_ITEM';
 
 export const GET_COLLABS = 'GET_COLLABS';
 export const CREATE_COLLABS = 'CREATE_COLLABS';
+export const DELETE_COLLAB = 'DELETE_COLLAB';
 
 export const GENERAL_ERROR = 'GENERAL_ERROR';

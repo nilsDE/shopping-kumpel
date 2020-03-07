@@ -10,6 +10,7 @@ import {
     DELETE_LIST,
     GET_COLLABS,
     CREATE_COLLABS,
+    DELETE_COLLAB,
     GENERAL_ERROR
 } from '../types';
 
@@ -98,6 +99,17 @@ const ListState = props => {
         });
     };
 
+    const deleteCollab = async (userId, collabId, listId) => {
+        setLoading();
+        const res = await axios.delete('/collab/delete', {
+            params: { userId, collabId, listId }
+        });
+        dispatch({
+            type: DELETE_COLLAB,
+            payload: res.data
+        });
+    };
+
     // End Actions
 
     const { children } = props;
@@ -114,7 +126,8 @@ const ListState = props => {
                 createList,
                 deleteList,
                 getCollabs,
-                createCollab
+                createCollab,
+                deleteCollab
             }}
         >
             {children}

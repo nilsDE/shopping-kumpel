@@ -78,6 +78,7 @@ app.delete('/list/delete', listController.delete);
 
 app.get('/collab/index', collabController.index);
 app.post('/collab/create', collabController.create);
+app.delete('/collab/delete', collabController.delete);
 
 app.get('/users/verify', (req, res) => {
     const loggedIn = req.user ? true : false;

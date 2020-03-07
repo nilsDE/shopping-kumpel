@@ -1,5 +1,6 @@
 const Collab = require('./models').Collab;
 const User = require('./models').User;
+const List = require('./models').List;
 const Authorizer = require('../policies/application');
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
             callback(err);
         }
     },
-    async createCollab(collab, callback) {
+    async createCollab(req, collab, callback) {
         const authorized = new Authorizer(req.user).isAllowed();
         try {
             if (!authorized) {
@@ -42,6 +43,27 @@ module.exports = {
                 ]
             });
             callback(null, getCollabsForList);
+        } catch (err) {
+            callback(err);
+        }
+    },
+    async deleteCollab(req, userId, collabId, listId, callback) {
+        const authorized = new Authorizer(req.user).isAllowed();
+        try {
+            if (!authorized) {
+                throw 401;
+            }
+            const collab = await Collab.findByPk(collabId);
+            const list = await List.findByPk(listId);
+            if (
+                +userId === collab.dataValues.userId ||
+                +userId === list.dataValues.userId
+            ) {
+                const destroy = await collab.destroy();
+                callback(null, collab);
+            } else {
+                throw 401;
+            }
         } catch (err) {
             callback(err);
         }
