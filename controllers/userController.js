@@ -3,7 +3,6 @@ const userQueries = require('../db/queries.users.js');
 
 module.exports = {
     create(req, res) {
-        console.log('in create');
         let newUser = {
             name: req.body.name,
             email: req.body.email,

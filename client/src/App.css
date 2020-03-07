@@ -169,16 +169,26 @@ form {
     border-radius: 10px;
 }
 
+.list-btn-fixed-width {
+    width: 115px;
+}
+
 .list-btn {
     background-color: var(--secondary-color);
-    color: black;
+    color: var(--main-color-dark);
     border: 1px solid var(--main-color-dark);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    width: 115px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.list-btn:focus {
+    outline: 0;
 }
 
 .list-btn > button {
     color: black;
+    padding: 0;
+    width: 100%;
 }
 
 .list-btn:hover {
@@ -271,6 +281,11 @@ form {
     justify-content: center;
     text-align: center;
     align-items: center;
+}
+
+.general-btn svg {
+    height: 12px;
+    width: 12px;
 }
 
 .edit-btn {

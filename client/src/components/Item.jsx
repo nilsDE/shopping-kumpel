@@ -4,38 +4,22 @@
 import React, { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import SocketContext from './socket-context';
 import UserContext from '../context/user/userContext';
+import ItemContext from '../context/item/itemContext';
 import '../App.css';
 
-const Item = ({ item, deleteItem, socket, getAllItems }) => {
+const Item = ({ item }) => {
     const userContext = useContext(UserContext);
+    const itemContext = useContext(ItemContext);
+
     const { user } = userContext;
+    const { updateItem, deleteItem } = itemContext;
 
     const [editable, setEditable] = useState(false);
     const [todo, setTodo] = useState(item.description);
-
-    const toggleCompleted = () => {
-        axios
-            .post('/complete', {
-                id: item.id,
-                completed: !item.completed,
-                description: item.description,
-                lastModified: user.name
-            })
-            .then(res => {
-                if (res.data === 'changed') {
-                    socket.emit('sendItem');
-                    getAllItems();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
 
     const editItem = () => {
         const changedState = !editable;
@@ -49,19 +33,7 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios
-            .post('/update', {
-                description: todo,
-                completed: item.completed,
-                id: item.id,
-                lastModified: user.name
-            })
-            .then(res => {
-                if (res.data === 'changed') {
-                    socket.emit('sendItem');
-                    getAllItems();
-                }
-            });
+        updateItem(todo, item.completed, item.id, user.name);
         const changedState = !editable;
         setEditable(changedState);
     };
@@ -71,7 +43,14 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
             {!editable ? (
                 <>
                     <p
-                        onClick={() => toggleCompleted()}
+                        onClick={() =>
+                            updateItem(
+                                item.description,
+                                !item.completed,
+                                item.id,
+                                user.name
+                            )
+                        }
                         className={`shopping-item ${
                             item.completed ? 'item-completed' : ''
                         }`}
@@ -104,7 +83,7 @@ const Item = ({ item, deleteItem, socket, getAllItems }) => {
                         className="general-btn delete-btn"
                         type="button"
                     >
-                        <span>&times;</span>
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </>
             ) : (
@@ -131,8 +110,6 @@ const ItemWithSocket = props => (
 );
 
 Item.propTypes = {
-    deleteItem: PropTypes.func.isRequired,
-    getAllItems: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     socket: PropTypes.any.isRequired
 };

@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
         });
+        List.hasMany(models.Collab, {
+            foreignKey: 'listId',
+            as: 'collabs'
+        });
     };
     return List;
 };

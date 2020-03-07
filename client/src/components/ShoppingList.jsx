@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
-import axios from 'axios';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Item from './Item';
 import SocketContext from './socket-context';
 import '../App.css';
 import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
+import ItemContext from '../context/item/itemContext';
 import Spinner from './Spinner';
 
 let socket;
@@ -17,18 +19,38 @@ const MySwal = withReactContent(Swal);
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
     const userContext = useContext(UserContext);
+    const itemContext = useContext(ItemContext);
     const {
         getLists,
         lists,
         createList,
         deleteList,
         loadingList,
-        reference
+        reference,
+        getCollabs,
+        createCollab,
+        deleteCollab,
+        collabs,
+        users
     } = listContext;
     const { loggedIn, loading, user } = userContext;
+    const { createItem } = itemContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
+
+    // DONE: Remove all backend calls from this file
+    // DONE: Allow user to create collabs
+    // DONE: Allow user to delete collabs
+    // DONE: fix UnhandledPromiseRejectionWarning
+    // TODO: Clean up socket.io context and check when it triggers and what
+    // TODO: Prevent reloading all lists after changing items - data already comes from the reducer
+    // TODO: keep previous list selection after api calls
+    // TODO: Check why app crashes after logout and go back to login
+    // TODO: Refactor to JWT
+    // TODO: Refactor protected routes in backend and frontend
+    // TODO: Refactor socket.io so that it only triggers actions where the actual user is involved.
+    // TODO: Clean up the error handling and show feedback to the user
 
     // COMPONENT DID MOUNT
     useEffect(() => {
@@ -43,15 +65,16 @@ const ShoppingList = () => {
     // COMPONENT DID UPDATE
     useEffect(() => {
         if (reference === 'GET_LISTS' || reference === 'DELETE_LIST') {
-            if (lists && lists.length !== 0) {
+            if (lists && lists.length !== 0 && lists instanceof Array) {
                 setSelectedList(lists[0].id);
             }
         }
     }, [lists, reference]);
 
-    const changeList = id => {
-        setSelectedList(id);
-    };
+    useEffect(() => {
+        getCollabs(selectedList);
+        // eslint-disable-next-line
+    }, [selectedList]);
 
     const showModal = id => {
         MySwal.fire({
@@ -65,44 +88,33 @@ const ShoppingList = () => {
         });
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        createItem(newTodo, user.name, currentList.id);
+        setNewTodo('');
+    };
+
     let currentList = {};
     if (lists && lists.length > 0) {
         currentList = lists.find(l => +l.id === +selectedList);
     }
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        axios
-            .post('/create', {
-                description: newTodo,
-                completed: false,
-                lastModified: user.name,
-                listId: currentList.id
-            })
-            .then(res => {
-                if (res.data === 'created') {
-                    socket.emit('sendItem');
-                    setNewTodo('');
-                    getLists(user.id);
-                }
-            });
-    };
+    let listOwner = '';
 
-    const deleteItem = item => {
-        axios
-            .post('/delete', {
-                id: item.id
-            })
-            .then(res => {
-                if (res.data === 'deleted') {
-                    socket.emit('sendItem');
-                    getLists(user.id);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
+    if (
+        lists &&
+        lists.length > 0 &&
+        users &&
+        users.length > 0 &&
+        selectedList
+    ) {
+        const currentListUserId = lists.find(l => +l.id === +selectedList);
+
+        if (currentListUserId) {
+            listOwner = users.find(u => u.id === currentListUserId.userId).name;
+        }
+    }
+
     if (lists.length === 0) {
         return <Spinner />;
     }
@@ -111,10 +123,10 @@ const ShoppingList = () => {
         <h2 className="mt-5">You are logged out</h2>
     ) : (
         <div className="shopping-list">
-            <div className="btn-row d-flex justify-content-between mb-2">
+            <div className="btn-row d-flex justify-content-between mb-3">
                 <button
                     type="button"
-                    className="list-btn mr-1"
+                    className="list-btn list-btn-fixed-width mr-1"
                     disabled={loading || loadingList}
                     onClick={e => {
                         e.preventDefault();
@@ -124,7 +136,10 @@ const ShoppingList = () => {
                     Make a list
                 </button>
 
-                <DropdownButton title="Select list" className="list-btn">
+                <DropdownButton
+                    title="Select list"
+                    className="list-btn list-btn-fixed-width"
+                >
                     {lists && lists.length !== 0
                         ? lists
                               .sort((a, b) =>
@@ -136,7 +151,7 @@ const ShoppingList = () => {
                               .map(l => (
                                   <Dropdown.Item
                                       eventKey={l.id}
-                                      onSelect={e => changeList(e)}
+                                      onSelect={e => setSelectedList(e)}
                                       key={l.id}
                                   >
                                       {l.description}
@@ -147,11 +162,11 @@ const ShoppingList = () => {
 
                 <button
                     type="button"
-                    className="ml-1 list-btn"
+                    className="ml-1 list-btn list-btn-fixed-width"
                     onClick={() => deleteList(user.id, selectedList)}
                     disabled={loading || loadingList || !lists}
                 >
-                    Delete this list
+                    Delete list
                 </button>
             </div>
             <p className="shopping-list-title">
@@ -173,17 +188,64 @@ const ShoppingList = () => {
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
                       .map(item => (
                           <SocketContext.Provider key={item.id} value={socket}>
-                              <Item
-                                  key={item.id}
-                                  item={item}
-                                  getAllItems={() => getLists(user.id)}
-                                  deleteItem={itemToDelete =>
-                                      deleteItem(itemToDelete)
-                                  }
-                              />
+                              <Item key={item.id} item={item} />
                           </SocketContext.Provider>
                       ))
                 : null}
+
+            {users && users.length > 0 && (
+                <div className="d-flex justify-content-center mt-3">
+                    <DropdownButton
+                        title="Select a user to share the list!"
+                        className="list-btn"
+                    >
+                        {users.map(u => (
+                            <Dropdown.Item
+                                eventKey={u.id}
+                                onSelect={e => createCollab(e, selectedList)}
+                                key={u.id}
+                            >
+                                {u.email}
+                            </Dropdown.Item>
+                        ))}
+                    </DropdownButton>
+                </div>
+            )}
+            <div className="d-flex flex-column justify-content-center mt-3">
+                {collabs && collabs.length > 0 && users && users.length > 0 && (
+                    <>
+                        <p className="mb-0 small text-muted">{`List owner: ${
+                            listOwner === user.name ? 'me' : listOwner
+                        }`}</p>
+                        <p className="mb-0 small text-muted">Collaborators: </p>
+                        {collabs.map(c => (
+                            <div
+                                className="d-flex justify-content-center"
+                                key={c.id}
+                            >
+                                <p className="mb-0 small text-muted">
+                                    {c.User.name === user.name
+                                        ? 'me'
+                                        : c.User.name}
+                                </p>
+                                <button
+                                    onClick={() =>
+                                        deleteCollab(
+                                            user.id,
+                                            c.id,
+                                            selectedList
+                                        )
+                                    }
+                                    className="general-btn ml-1 delete-btn"
+                                    type="button"
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                            </div>
+                        ))}
+                    </>
+                )}
+            </div>
         </div>
     );
 };

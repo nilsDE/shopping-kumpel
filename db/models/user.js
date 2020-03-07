@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             as: 'users'
         });
+        User.hasMany(models.Collab, {
+            foreignKey: 'userId',
+            as: 'collabs'
+        });
     };
     return User;
 };

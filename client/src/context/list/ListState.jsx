@@ -3,13 +3,24 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import listContext from './listContext';
 import listReducer from './listReducer';
-import { GET_LISTS, SET_LOADING, CREATE_LIST, DELETE_LIST } from '../types';
+import {
+    GET_LISTS,
+    SET_LOADING,
+    CREATE_LIST,
+    DELETE_LIST,
+    GET_COLLABS,
+    CREATE_COLLABS,
+    DELETE_COLLAB,
+    GENERAL_ERROR
+} from '../types';
 
 const ListState = props => {
     const initialState = {
         loadingList: false,
         reference: '',
-        lists: []
+        lists: [],
+        collabs: [],
+        users: []
     };
     const [state, dispatch] = useReducer(listReducer, initialState);
 
@@ -50,11 +61,53 @@ const ListState = props => {
             params: { userId, listId }
         });
         if (res.data !== null) {
+            if (res.data === 'error') {
+                dispatch({
+                    type: GENERAL_ERROR
+                });
+            } else {
+                dispatch({
+                    type: DELETE_LIST,
+                    payload: res.data
+                });
+            }
+        }
+    };
+
+    const getCollabs = async listId => {
+        setLoading();
+        const res = await axios.get('/collab/index', {
+            params: { listId }
+        });
+        if (res.data !== null) {
             dispatch({
-                type: DELETE_LIST,
+                type: GET_COLLABS,
                 payload: res.data
             });
         }
+    };
+
+    const createCollab = async (userId, listId) => {
+        setLoading();
+        const res = await axios.post('/collab/create', {
+            userId,
+            listId
+        });
+        dispatch({
+            type: CREATE_COLLABS,
+            payload: res.data
+        });
+    };
+
+    const deleteCollab = async (userId, collabId, listId) => {
+        setLoading();
+        const res = await axios.delete('/collab/delete', {
+            params: { userId, collabId, listId }
+        });
+        dispatch({
+            type: DELETE_COLLAB,
+            payload: res.data
+        });
     };
 
     // End Actions
@@ -67,9 +120,14 @@ const ListState = props => {
                 loadingList: state.loadingList,
                 lists: state.lists,
                 reference: state.reference,
+                collabs: state.collabs,
+                users: state.users,
                 getLists,
                 createList,
-                deleteList
+                deleteList,
+                getCollabs,
+                createCollab,
+                deleteCollab
             }}
         >
             {children}

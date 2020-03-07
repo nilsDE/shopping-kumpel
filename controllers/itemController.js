@@ -12,7 +12,7 @@ module.exports = {
             if (err) {
                 res.send(err);
             } else {
-                res.send('created');
+                res.send(item);
             }
         });
     },
@@ -30,7 +30,7 @@ module.exports = {
             if (err || item === null) {
                 res.send(err);
             } else {
-                res.send('changed');
+                res.send(item);
             }
         });
     },
@@ -39,7 +39,7 @@ module.exports = {
             if (err) {
                 res.send(err);
             } else {
-                res.send('deleted');
+                res.send(item);
             }
         });
     }

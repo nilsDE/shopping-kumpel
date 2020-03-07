@@ -7,24 +7,27 @@ import SignUpForm from './components/SignUpForm';
 import LoginForm from './components/LoginForm';
 import UserState from './context/user/UserState';
 import ListState from './context/list/ListState';
+import ItemState from './context/item/ItemState';
 
 import './App.css';
 
 const App = () => {
     return (
-        <UserState>
-            <ListState>
-                <div className="App">
-                    <NavBar />
-                    <div className="main-content">
-                        <Route exact path="/" component={LandingPage} />
-                        <Route path="/signup" component={SignUpForm} />
-                        <Route path="/login" component={LoginForm} />
-                        <Route path="/list" component={ShoppingList} />
+        <ItemState>
+            <UserState>
+                <ListState>
+                    <div className="App">
+                        <NavBar />
+                        <div className="main-content">
+                            <Route exact path="/" component={LandingPage} />
+                            <Route path="/signup" component={SignUpForm} />
+                            <Route path="/login" component={LoginForm} />
+                            <Route path="/list" component={ShoppingList} />
+                        </div>
                     </div>
-                </div>
-            </ListState>
-        </UserState>
+                </ListState>
+            </UserState>
+        </ItemState>
     );
 };
 
