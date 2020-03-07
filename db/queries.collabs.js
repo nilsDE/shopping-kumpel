@@ -1,9 +1,14 @@
 const Collab = require('./models').Collab;
 const User = require('./models').User;
+const Authorizer = require('../policies/application');
 
 module.exports = {
-    async getCollabs(id, callback) {
+    async getCollabs(req, id, callback) {
+        const authorized = new Authorizer(req.user).isAllowed();
         try {
+            if (!authorized) {
+                throw 401;
+            }
             const getCollabsForList = await Collab.findAll({
                 where: { listId: id },
                 include: [
@@ -19,7 +24,11 @@ module.exports = {
         }
     },
     async createCollab(collab, callback) {
+        const authorized = new Authorizer(req.user).isAllowed();
         try {
+            if (!authorized) {
+                throw 401;
+            }
             const newCollab = await Collab.create({
                 userId: collab.userId,
                 listId: collab.listId
