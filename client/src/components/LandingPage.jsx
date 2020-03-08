@@ -7,7 +7,6 @@ import '../App.css';
 
 const LandingPage = () => {
     const userContext = useContext(UserContext);
-    const { loggedIn } = userContext;
     return (
         <>
             <div className="bg-container">
@@ -16,7 +15,7 @@ const LandingPage = () => {
                 <img src={bg} className="bg-pic" alt="" />
             </div>
             <div className="btn-container">
-                {!loggedIn ? (
+                {/* {!loggedIn ? (
                     <Link to="/signup">
                         <Button
                             variant="outline-dark"
@@ -28,7 +27,7 @@ const LandingPage = () => {
                     </Link>
                 ) : (
                     <p>Logged in successfully!</p>
-                )}
+                )} */}
             </div>
         </>
     );

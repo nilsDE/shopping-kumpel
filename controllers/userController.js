@@ -19,22 +19,22 @@ module.exports = {
                 });
             }
         });
-    },
-    signIn(req, res) {
-        userQueries.getUser(req, (err, user) => {
-            if (err) {
-                req.send(err);
-                res.redirect('/users/login');
-            } else {
-                passport.authenticate('local')(req, res, () => {
-                    delete user.dataValues.password;
-                    res.send(user.dataValues);
-                });
-            }
-        });
-    },
-    signOut(req, res) {
-        req.logout();
-        res.send('ok');
     }
+    // signIn(req, res) {
+    //     userQueries.getUser(req, (err, user) => {
+    //         if (err) {
+    //             req.send(err);
+    //             res.redirect('/users/login');
+    //         } else {
+    //             passport.authenticate('local')(req, res, () => {
+    //                 delete user.dataValues.password;
+    //                 res.send(user.dataValues);
+    //             });
+    //         }
+    //     });
+    // },
+    // signOut(req, res) {
+    //     req.logout();
+    //     res.send('ok');
+    // }
 };

@@ -1,15 +1,10 @@
 const { Item, List, Collab } = require('./models');
-const Authorizer = require('../policies/application');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 module.exports = {
     async createItem(newItem, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             const item = await Item.create({
                 description: newItem.description,
                 completed: newItem.completed,
@@ -45,11 +40,7 @@ module.exports = {
         }
     },
     async update(updatedItem, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             const item = await Item.findByPk(updatedItem.id);
             if (!item) {
                 return callback('Not found!');
@@ -83,11 +74,7 @@ module.exports = {
         }
     },
     async delete(itemToDelete, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             const item = await Item.findByPk(itemToDelete.id);
 
             const destroy = await item.destroy();

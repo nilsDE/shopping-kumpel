@@ -1,15 +1,10 @@
 const { List, Item, Collab } = require('./models');
-const Authorizer = require('../policies/application');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 module.exports = {
     async createList(newList, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             const createdList = await List.create({
                 description: newList.description,
                 userId: newList.userId
@@ -40,11 +35,7 @@ module.exports = {
         }
     },
     async deleteList(data, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             let list = await List.findByPk(data.listId);
             if (+list.userId === +data.userId) {
                 list.destroy();
@@ -85,11 +76,7 @@ module.exports = {
         }
     },
     async getLists(userId, req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
         try {
-            if (!authorized) {
-                throw 401;
-            }
             const lists = await List.findAll({
                 where: {
                     [Op.or]: [{ userId }, { '$collabs.userId$': userId }]

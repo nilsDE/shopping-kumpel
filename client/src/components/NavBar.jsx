@@ -5,7 +5,7 @@ import UserContext from '../context/user/userContext';
 
 const SiteNavbar = () => {
     const userContext = useContext(UserContext);
-    const { loggedIn, logOut } = userContext;
+    const { logOut } = userContext;
 
     return (
         <>
@@ -14,7 +14,7 @@ const SiteNavbar = () => {
                     Shopping Kumpel
                 </Link>
                 <Nav className="ml-auto">
-                    {!loggedIn ? (
+                    {/* {!loggedIn ? (
                         <>
                             <Link to="/login" className="sidebar-link">
                                 LogIn
@@ -23,19 +23,19 @@ const SiteNavbar = () => {
                                 SignUp
                             </Link>
                         </>
-                    ) : (
-                        <>
-                            <Link to="/list" className="sidebar-link">
-                                My List
-                            </Link>
-                            <Button
-                                onClick={() => logOut()}
-                                className="sidebar-link"
-                            >
-                                SignOut
-                            </Button>
-                        </>
-                    )}
+                    ) : ( */}
+                    <>
+                        <Link to="/list" className="sidebar-link">
+                            My List
+                        </Link>
+                        <Button
+                            onClick={() => logOut()}
+                            className="sidebar-link"
+                        >
+                            SignOut
+                        </Button>
+                    </>
+                    {/* )} */}
                 </Nav>
             </Navbar>
         </>

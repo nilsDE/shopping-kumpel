@@ -30,7 +30,7 @@ const ShoppingList = () => {
         users,
         socket
     } = listContext;
-    const { loggedIn, loading, user } = userContext;
+    const { loading, user } = userContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -118,9 +118,7 @@ const ShoppingList = () => {
         return <Spinner />;
     }
 
-    return !loggedIn ? (
-        <h2 className="mt-5">You are logged out</h2>
-    ) : (
+    return (
         <div className="shopping-list">
             <div className="btn-row d-flex justify-content-between mb-3">
                 <button
