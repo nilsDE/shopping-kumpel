@@ -74,37 +74,37 @@ module.exports = {
         } catch (err) {
             callback('error');
         }
-    },
-    async getLists(userId, req, callback) {
-        try {
-            const lists = await List.findAll({
-                where: {
-                    [Op.or]: [{ userId }, { '$collabs.userId$': userId }]
-                },
-                include: [
-                    {
-                        model: Item,
-                        as: 'items'
-                    },
-                    {
-                        model: Collab,
-                        as: 'collabs',
-                        where: { userId },
-                        required: false
-                    }
-                ]
-            });
-            if (lists && lists.length > 0) {
-                callback(null, lists);
-            } else {
-                const newList = await List.create({
-                    description: 'New list',
-                    userId
-                });
-                callback(null, [...lists, newList]);
-            }
-        } catch (err) {
-            callback(err);
-        }
     }
+    // async getLists(userId, req, callback) {
+    //     try {
+    //         const lists = await List.findAll({
+    //             where: {
+    //                 [Op.or]: [{ userId }, { '$collabs.userId$': userId }]
+    //             },
+    //             include: [
+    //                 {
+    //                     model: Item,
+    //                     as: 'items'
+    //                 },
+    //                 {
+    //                     model: Collab,
+    //                     as: 'collabs',
+    //                     where: { userId },
+    //                     required: false
+    //                 }
+    //             ]
+    //         });
+    //         if (lists && lists.length > 0) {
+    //             callback(null, lists);
+    //         } else {
+    //             const newList = await List.create({
+    //                 description: 'New list',
+    //                 userId
+    //             });
+    //             callback(null, [...lists, newList]);
+    //         }
+    //     } catch (err) {
+    //         callback(err);
+    //     }
+    // }
 };

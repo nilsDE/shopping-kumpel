@@ -1,10 +1,7 @@
 const express = require('express');
-require('dotenv').config();
 const path = require('path');
 const socketio = require('socket.io');
-const session = require('express-session');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const itemController = require('./controllers/itemController');
 const listController = require('./controllers/listController');
 const collabController = require('./controllers/collabController');
@@ -14,16 +11,9 @@ const userController = require('./controllers/userController');
 const app = express();
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(
-    session({
-        secret: process.env.cookieSecret,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { maxAge: 1.21e9 }
-    })
-);
+
+app.use(express.json({ extended: false }));
+
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
@@ -52,6 +42,10 @@ io.on('connection', socket => {
         console.log('User has left!');
     });
 });
+
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/lists', require('./routes/lists'));
 
 // Routes
 app.post('/users', userController.create);
