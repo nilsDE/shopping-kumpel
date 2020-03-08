@@ -1,23 +1,18 @@
 /* eslint-disable react/prop-types */
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import itemContext from './itemContext';
 import itemReducer from './itemReducer';
 import { SET_LOADING, DELETE_ITEM, CREATE_ITEM, UPDATE_ITEM } from '../types';
 
-let socket;
-
 const ItemState = props => {
     const initialState = {
         items: [],
-        loading: false
+        loading: false,
+        socket: io()
     };
     const [state, dispatch] = useReducer(itemReducer, initialState);
-
-    useEffect(() => {
-        socket = io();
-    }, []);
 
     // Actions
 
@@ -28,7 +23,7 @@ const ItemState = props => {
         const res = await axios.post('/delete', {
             id: item.id
         });
-        socket.emit('sendItem');
+        state.socket.emit('sendItem');
         dispatch({
             type: DELETE_ITEM,
             payload: res.data
@@ -43,7 +38,7 @@ const ItemState = props => {
             lastModified,
             listId
         });
-        socket.emit('sendItem');
+        state.socket.emit('sendItem');
         dispatch({
             type: CREATE_ITEM,
             payload: res.data
@@ -58,7 +53,7 @@ const ItemState = props => {
             id,
             lastModified: name
         });
-        socket.emit('sendItem');
+        state.socket.emit('sendItem');
         dispatch({
             type: UPDATE_ITEM,
             payload: res.data
@@ -76,7 +71,8 @@ const ItemState = props => {
                 items: state.items,
                 deleteItem,
                 createItem,
-                updateItem
+                updateItem,
+                socket: state.socket
             }}
         >
             {children}

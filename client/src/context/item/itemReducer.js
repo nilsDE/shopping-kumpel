@@ -1,6 +1,7 @@
 import { DELETE_ITEM, CREATE_ITEM, UPDATE_ITEM } from '../types';
 
 export default (state, action) => {
+    console.log(action.payload);
     switch (action.type) {
         case DELETE_ITEM:
             return {

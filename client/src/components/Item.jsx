@@ -6,7 +6,6 @@ import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import SocketContext from './socket-context';
 import UserContext from '../context/user/userContext';
 import ItemContext from '../context/item/itemContext';
 import '../App.css';
@@ -103,15 +102,9 @@ const Item = ({ item }) => {
     );
 };
 
-const ItemWithSocket = props => (
-    <SocketContext.Consumer>
-        {socket => <Item {...props} socket={socket} />}
-    </SocketContext.Consumer>
-);
-
 Item.propTypes = {
     item: PropTypes.object.isRequired,
     socket: PropTypes.any.isRequired
 };
 
-export default ItemWithSocket;
+export default Item;
