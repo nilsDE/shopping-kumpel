@@ -43,7 +43,9 @@ const ShoppingList = () => {
     // DONE: Combine item context into list context
     // DONE: Prevent reloading all lists after changing items - data already comes from the reducer
     // DONE: keep previous list selection after api calls
-    // TODO: keep previous list selection after collab user had changed something
+    // DONE: List owner can delete all collabs, collab user can only delete themselves - FE
+    // TODO: keep previous list selection after collab user has changed something
+    // TODO: check BE queries for authorization
     // TODO: Check why app crashes after logout and go back to login
     // TODO: Refactor to JWT
     // TODO: Refactor protected routes in backend and frontend
@@ -188,7 +190,7 @@ const ShoppingList = () => {
                       ))
                 : null}
 
-            {users && users.length > 0 && (
+            {users && users.length > 0 && listOwner === user.name && (
                 <div className="d-flex justify-content-center mt-3">
                     <DropdownButton
                         title="Select a user to share the list!"
@@ -207,39 +209,45 @@ const ShoppingList = () => {
                 </div>
             )}
             <div className="d-flex flex-column justify-content-center mt-3">
-                {collabs && collabs.length > 0 && users && users.length > 0 && (
-                    <>
-                        <p className="mb-0 small text-muted">{`List owner: ${
-                            listOwner === user.name ? 'me' : listOwner
-                        }`}</p>
-                        <p className="mb-0 small text-muted">Collaborators: </p>
-                        {collabs.map(c => (
-                            <div
-                                className="d-flex justify-content-center"
-                                key={c.id}
-                            >
-                                <p className="mb-0 small text-muted">
-                                    {c.User.name === user.name
-                                        ? 'me'
-                                        : c.User.name}
-                                </p>
-                                <button
-                                    onClick={() =>
-                                        deleteCollab(
-                                            user.id,
-                                            c.id,
-                                            selectedList
-                                        )
-                                    }
-                                    className="general-btn ml-1 delete-btn"
-                                    type="button"
+                <p className="mb-0 small text-muted">{`List owner: ${
+                    listOwner === user.name ? 'me' : listOwner
+                }`}</p>
+                {collabs &&
+                    collabs.length > 0 &&
+                    users &&
+                    users.length > 0 &&
+                    listOwner === user.name && (
+                        <>
+                            <p className="mb-0 small text-muted">
+                                Collaborators:{' '}
+                            </p>
+                            {collabs.map(c => (
+                                <div
+                                    className="d-flex justify-content-center"
+                                    key={c.id}
                                 >
-                                    <FontAwesomeIcon icon={faTimes} />
-                                </button>
-                            </div>
-                        ))}
-                    </>
-                )}
+                                    <p className="mb-0 small text-muted">
+                                        {c.User.name === user.name
+                                            ? 'me'
+                                            : c.User.name}
+                                    </p>
+                                    <button
+                                        onClick={() =>
+                                            deleteCollab(
+                                                user.id,
+                                                c.id,
+                                                selectedList
+                                            )
+                                        }
+                                        className="general-btn ml-1 delete-btn"
+                                        type="button"
+                                    >
+                                        <FontAwesomeIcon icon={faTimes} />
+                                    </button>
+                                </div>
+                            ))}
+                        </>
+                    )}
             </div>
         </div>
     );
