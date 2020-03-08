@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
-import io from 'socket.io-client';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Item from './Item';
-import SocketContext from './socket-context';
 import '../App.css';
 import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
 import ItemContext from '../context/item/itemContext';
 import Spinner from './Spinner';
 
-let socket;
 const MySwal = withReactContent(Swal);
 
 const ShoppingList = () => {
@@ -34,7 +31,7 @@ const ShoppingList = () => {
         users
     } = listContext;
     const { loggedIn, loading, user } = userContext;
-    const { createItem } = itemContext;
+    const { createItem, socket } = itemContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -43,7 +40,8 @@ const ShoppingList = () => {
     // DONE: Allow user to create collabs
     // DONE: Allow user to delete collabs
     // DONE: fix UnhandledPromiseRejectionWarning
-    // TODO: Clean up socket.io context and check when it triggers and what
+    // DONE: Clean up socket.io context and check when it triggers and what
+    // TODO: Combine item context into list context
     // TODO: Prevent reloading all lists after changing items - data already comes from the reducer
     // TODO: keep previous list selection after api calls
     // TODO: Check why app crashes after logout and go back to login
@@ -55,7 +53,6 @@ const ShoppingList = () => {
     // COMPONENT DID MOUNT
     useEffect(() => {
         getLists(user.id);
-        socket = io();
         socket.on('change', () => {
             getLists(user.id);
         });
@@ -187,9 +184,7 @@ const ShoppingList = () => {
                 ? currentList.items
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
                       .map(item => (
-                          <SocketContext.Provider key={item.id} value={socket}>
-                              <Item key={item.id} item={item} />
-                          </SocketContext.Provider>
+                          <Item key={item.id} item={item} socket={socket} />
                       ))
                 : null}
 
