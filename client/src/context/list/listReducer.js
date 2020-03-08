@@ -6,7 +6,10 @@ import {
     GET_COLLABS,
     GENERAL_ERROR,
     CREATE_COLLABS,
-    DELETE_COLLAB
+    DELETE_COLLAB,
+    CREATE_ITEM,
+    UPDATE_ITEM,
+    DELETE_ITEM
 } from '../types';
 
 export default (state, action) => {
@@ -15,6 +18,14 @@ export default (state, action) => {
             return {
                 ...state,
                 loadingList: false
+            };
+        case CREATE_ITEM:
+        case UPDATE_ITEM:
+        case DELETE_ITEM:
+            return {
+                ...state,
+                loadingList: false,
+                lists: action.payload
             };
         case CREATE_LIST:
             return {

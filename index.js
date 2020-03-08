@@ -70,7 +70,6 @@ app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
 app.put('/update', itemController.update);
-app.get('/items', itemController.index);
 
 app.post('/list/create', listController.create);
 app.get('/list/index', listController.index);

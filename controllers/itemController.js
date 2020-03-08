@@ -2,6 +2,7 @@ const itemQueries = require('../db/queries.items.js');
 
 module.exports = {
     create(req, res) {
+        console.log('create item');
         let newItem = {
             description: req.body.description,
             completed: req.body.completed,
@@ -13,15 +14,6 @@ module.exports = {
                 res.send(err);
             } else {
                 res.send(item);
-            }
-        });
-    },
-    index(req, res) {
-        itemQueries.getAllItems(req, (err, items) => {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(items);
             }
         });
     },

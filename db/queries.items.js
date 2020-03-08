@@ -1,5 +1,7 @@
-const { Item } = require('./models');
+const { Item, List, Collab } = require('./models');
 const Authorizer = require('../policies/application');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = {
     async createItem(newItem, req, callback) {
@@ -14,21 +16,31 @@ module.exports = {
                 lastModified: newItem.lastModified,
                 listId: newItem.listId
             });
-
-            callback(null, item);
+            console.log(req.user.id);
+            const allLists = await List.findAll({
+                where: {
+                    [Op.or]: [
+                        { userId: req.user.id },
+                        { '$collabs.userId$': req.user.id }
+                    ]
+                },
+                include: [
+                    {
+                        model: Item,
+                        as: 'items'
+                    },
+                    {
+                        model: Collab,
+                        as: 'collabs',
+                        where: { userId: req.user.id },
+                        required: false
+                    }
+                ]
+            });
+            console.log(allLists);
+            callback(null, allLists);
         } catch (err) {
-            callback(err);
-        }
-    },
-    async getAllItems(req, callback) {
-        const authorized = new Authorizer(req.user).isAllowed();
-        try {
-            if (!authorized) {
-                throw 401;
-            }
-            const items = await Item.findAll();
-            callback(null, items);
-        } catch (err) {
+            console.log(err);
             callback(err);
         }
     },
@@ -45,7 +57,27 @@ module.exports = {
             const updateItem = await item.update(updatedItem, {
                 fields: Object.keys(updatedItem)
             });
-            callback(null, updateItem);
+            const allLists = await List.findAll({
+                where: {
+                    [Op.or]: [
+                        { userId: req.user.id },
+                        { '$collabs.userId$': req.user.id }
+                    ]
+                },
+                include: [
+                    {
+                        model: Item,
+                        as: 'items'
+                    },
+                    {
+                        model: Collab,
+                        as: 'collabs',
+                        where: { userId: req.user.id },
+                        required: false
+                    }
+                ]
+            });
+            callback(null, allLists);
         } catch (err) {
             callback(err);
         }
@@ -60,7 +92,28 @@ module.exports = {
 
             const destroy = await item.destroy();
 
-            callback(null, item);
+            const allLists = await List.findAll({
+                where: {
+                    [Op.or]: [
+                        { userId: req.user.id },
+                        { '$collabs.userId$': req.user.id }
+                    ]
+                },
+                include: [
+                    {
+                        model: Item,
+                        as: 'items'
+                    },
+                    {
+                        model: Collab,
+                        as: 'collabs',
+                        where: { userId: req.user.id },
+                        required: false
+                    }
+                ]
+            });
+
+            callback(null, allLists);
         } catch (err) {
             callback(err);
         }

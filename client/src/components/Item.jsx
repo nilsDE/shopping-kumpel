@@ -7,15 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import UserContext from '../context/user/userContext';
-import ItemContext from '../context/item/itemContext';
+import ListContext from '../context/list/listContext';
 import '../App.css';
 
 const Item = ({ item }) => {
     const userContext = useContext(UserContext);
-    const itemContext = useContext(ItemContext);
+    const listContext = useContext(ListContext);
 
     const { user } = userContext;
-    const { updateItem, deleteItem } = itemContext;
+    const { updateItem, deleteItem } = listContext;
 
     const [editable, setEditable] = useState(false);
     const [todo, setTodo] = useState(item.description);

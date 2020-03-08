@@ -8,7 +8,6 @@ import Item from './Item';
 import '../App.css';
 import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
-import ItemContext from '../context/item/itemContext';
 import Spinner from './Spinner';
 
 const MySwal = withReactContent(Swal);
@@ -16,22 +15,22 @@ const MySwal = withReactContent(Swal);
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
     const userContext = useContext(UserContext);
-    const itemContext = useContext(ItemContext);
     const {
         getLists,
-        lists,
         createList,
         deleteList,
         loadingList,
-        reference,
         getCollabs,
         createCollab,
         deleteCollab,
+        createItem,
+        lists,
+        reference,
         collabs,
-        users
+        users,
+        socket
     } = listContext;
     const { loggedIn, loading, user } = userContext;
-    const { createItem, socket } = itemContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -41,9 +40,10 @@ const ShoppingList = () => {
     // DONE: Allow user to delete collabs
     // DONE: fix UnhandledPromiseRejectionWarning
     // DONE: Clean up socket.io context and check when it triggers and what
-    // TODO: Combine item context into list context
-    // TODO: Prevent reloading all lists after changing items - data already comes from the reducer
-    // TODO: keep previous list selection after api calls
+    // DONE: Combine item context into list context
+    // DONE: Prevent reloading all lists after changing items - data already comes from the reducer
+    // DONE: keep previous list selection after api calls
+    // TODO: keep previous list selection after collab user had changed something
     // TODO: Check why app crashes after logout and go back to login
     // TODO: Refactor to JWT
     // TODO: Refactor protected routes in backend and frontend
