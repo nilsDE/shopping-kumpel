@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
     try {
         const createdList = await List.create({
             description: newList.description,
-            userId: newList.userId
+            userId: req.user.id
         });
         res.json({ createdList });
     } catch (err) {
