@@ -1,20 +1,30 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router';
-import UserContext from '../context/user/userContext';
+import AuthContext from '../context/auth/authContext';
 
-const LoginForm = () => {
-    const userContext = useContext(UserContext);
-    const { logIn, redirect } = userContext;
+const LoginForm = props => {
+    const authContext = useContext(AuthContext);
+    const { login, isAuthenticated } = authContext;
 
     const [form, setForm] = useState({
         email: '',
         password: ''
     });
 
+    useEffect(() => {
+        // TODO: get the error from authContext and handle it
+        // if (isAuthenticated) {
+        //     props.history.push('/list');
+        // }
+    }, [isAuthenticated, props.history]);
+
     const handleSubmit = e => {
         e.preventDefault();
-        logIn(form.email, form.password);
+        const data = {
+            email: form.email,
+            password: form.password
+        };
+        login(data);
     };
 
     const handleChange = e =>
@@ -22,10 +32,6 @@ const LoginForm = () => {
             ...form,
             [e.target.name]: e.target.value
         });
-
-    if (redirect) {
-        return <Redirect to="/list" />;
-    }
 
     return (
         <>

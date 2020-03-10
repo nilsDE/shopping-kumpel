@@ -1,3 +1,12 @@
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
 export const SIGN_UP = 'SIGN_UP';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
@@ -18,3 +27,5 @@ export const CREATE_COLLABS = 'CREATE_COLLABS';
 export const DELETE_COLLAB = 'DELETE_COLLAB';
 
 export const GENERAL_ERROR = 'GENERAL_ERROR';
+
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';

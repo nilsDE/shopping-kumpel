@@ -1,18 +1,23 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import setAuthToken from './utils/setAuthToken';
 import NavBar from './components/NavBar';
 import ShoppingList from './components/ShoppingList';
 import LandingPage from './components/LandingPage';
 import SignUpForm from './components/SignUpForm';
 import LoginForm from './components/LoginForm';
-import UserState from './context/user/UserState';
 import ListState from './context/list/ListState';
+import AuthState from './context/auth/AuthState';
 
 import './App.css';
 
+if (localStorage.token) {
+    setAuthToken(localStorage.token);
+}
+
 const App = () => {
     return (
-        <UserState>
+        <AuthState>
             <ListState>
                 <div className="App">
                     <NavBar />
@@ -24,7 +29,7 @@ const App = () => {
                     </div>
                 </div>
             </ListState>
-        </UserState>
+        </AuthState>
     );
 };
 

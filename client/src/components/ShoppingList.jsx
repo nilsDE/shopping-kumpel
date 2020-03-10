@@ -8,13 +8,16 @@ import Item from './Item';
 import '../App.css';
 import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
+import AuthContext from '../context/auth/authContext';
 import Spinner from './Spinner';
 
 const MySwal = withReactContent(Swal);
 
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
+    const authContext = useContext(AuthContext);
     const userContext = useContext(UserContext);
+
     const {
         getLists,
         createList,
@@ -31,6 +34,7 @@ const ShoppingList = () => {
         socket
     } = listContext;
     const { loading, user } = userContext;
+    const { loadUser } = authContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -54,6 +58,7 @@ const ShoppingList = () => {
 
     // COMPONENT DID MOUNT
     useEffect(() => {
+        loadUser();
         getLists(user.id);
         socket.on('change', () => {
             getLists(user.id);

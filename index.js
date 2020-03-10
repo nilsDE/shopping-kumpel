@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const itemController = require('./controllers/itemController');
 const listController = require('./controllers/listController');
 const collabController = require('./controllers/collabController');
-const userController = require('./controllers/userController');
 
 // General setup
 const app = express();
@@ -48,10 +47,6 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/lists', require('./routes/lists'));
 
 // Routes
-app.post('/users', userController.create);
-// app.post('/users/signin', userController.signIn);
-// app.post('/users/signout', userController.signOut);
-
 app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);

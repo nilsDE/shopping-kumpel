@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import UserContext from '../context/user/userContext';
+import AuthContext from '../context/auth/authContext';
 
 const SiteNavbar = () => {
-    const userContext = useContext(UserContext);
-    const { logOut } = userContext;
+    const authContext = useContext(AuthContext);
+    const { isAuthenticated, logout } = authContext;
 
     return (
         <>
@@ -14,7 +14,7 @@ const SiteNavbar = () => {
                     Shopping Kumpel
                 </Link>
                 <Nav className="ml-auto">
-                    {/* {!loggedIn ? (
+                    {!isAuthenticated ? (
                         <>
                             <Link to="/login" className="sidebar-link">
                                 LogIn
@@ -23,19 +23,19 @@ const SiteNavbar = () => {
                                 SignUp
                             </Link>
                         </>
-                    ) : ( */}
-                    <>
-                        <Link to="/list" className="sidebar-link">
-                            My List
-                        </Link>
-                        <Button
-                            onClick={() => logOut()}
-                            className="sidebar-link"
-                        >
-                            SignOut
-                        </Button>
-                    </>
-                    {/* )} */}
+                    ) : (
+                        <>
+                            <Link to="/list" className="sidebar-link">
+                                My List
+                            </Link>
+                            <Button
+                                onClick={() => logout()}
+                                className="sidebar-link"
+                            >
+                                SignOut
+                            </Button>
+                        </>
+                    )}
                 </Nav>
             </Navbar>
         </>
