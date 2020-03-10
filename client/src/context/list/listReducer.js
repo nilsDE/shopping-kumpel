@@ -37,7 +37,7 @@ export default (state, action) => {
             return {
                 ...state,
                 loadingList: false,
-                lists: action.payload,
+                lists: action.payload.lists,
                 reference: action.type
             };
         case DELETE_LIST:

@@ -56,9 +56,9 @@ const ShoppingList = () => {
     // COMPONENT DID MOUNT
     useEffect(() => {
         loadUser();
-        getLists(user.id);
+        getLists();
         socket.on('change', () => {
-            getLists(user.id);
+            getLists();
         });
         // eslint-disable-next-line
     }, []);
@@ -72,10 +72,10 @@ const ShoppingList = () => {
         }
     }, [lists, reference]);
 
-    useEffect(() => {
-        getCollabs(selectedList);
-        // eslint-disable-next-line
-    }, [selectedList]);
+    // useEffect(() => {
+    //     getCollabs(selectedList);
+    //     // eslint-disable-next-line
+    // }, [selectedList]);
 
     const showModal = id => {
         MySwal.fire({
@@ -134,7 +134,7 @@ const ShoppingList = () => {
                 >
                     Make a list
                 </button>
-
+                {console.log(lists)}
                 <DropdownButton
                     title="Select list"
                     className="list-btn list-btn-fixed-width"

@@ -49,11 +49,9 @@ const ListState = props => {
         }
     };
 
-    const getLists = async userId => {
+    const getLists = async () => {
         setLoading();
-        const res = await axios.get('/list/index', {
-            params: { userId }
-        });
+        const res = await axios.get('/api/lists');
         if (res.data !== null) {
             dispatch({
                 type: GET_LISTS,

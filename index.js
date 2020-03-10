@@ -53,7 +53,6 @@ app.post('/delete', itemController.delete);
 app.put('/update', itemController.update);
 
 app.post('/list/create', listController.create);
-app.get('/list/index', listController.index);
 app.delete('/list/delete', listController.delete);
 
 app.get('/collab/index', collabController.index);

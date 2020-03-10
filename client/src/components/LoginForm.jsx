@@ -13,9 +13,9 @@ const LoginForm = props => {
 
     useEffect(() => {
         // TODO: get the error from authContext and handle it
-        // if (isAuthenticated) {
-        //     props.history.push('/list');
-        // }
+        if (isAuthenticated) {
+            props.history.push('/list');
+        }
     }, [isAuthenticated, props.history]);
 
     const handleSubmit = e => {

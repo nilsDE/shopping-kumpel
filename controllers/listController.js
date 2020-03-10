@@ -1,15 +1,6 @@
 const listQueries = require('../db/queries.lists.js');
 
 module.exports = {
-    index(req, res) {
-        listQueries.getLists(req.query.userId, req, (err, lists) => {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(lists);
-            }
-        });
-    },
     create(req, res) {
         let newList = {
             description: req.body.description,
