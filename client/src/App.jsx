@@ -8,7 +8,6 @@ import SignUpForm from './components/SignUpForm';
 import LoginForm from './components/LoginForm';
 import ListState from './context/list/ListState';
 import AuthState from './context/auth/AuthState';
-import UserState from './context/user/UserState';
 
 import './App.css';
 
@@ -19,19 +18,17 @@ if (localStorage.token) {
 const App = () => {
     return (
         <AuthState>
-            <UserState>
-                <ListState>
-                    <div className="App">
-                        <NavBar />
-                        <div className="main-content">
-                            <Route exact path="/" component={LandingPage} />
-                            <Route path="/signup" component={SignUpForm} />
-                            <Route path="/login" component={LoginForm} />
-                            <Route path="/list" component={ShoppingList} />
-                        </div>
+            <ListState>
+                <div className="App">
+                    <NavBar />
+                    <div className="main-content">
+                        <Route exact path="/" component={LandingPage} />
+                        <Route path="/signup" component={SignUpForm} />
+                        <Route path="/login" component={LoginForm} />
+                        <Route path="/list" component={ShoppingList} />
                     </div>
-                </ListState>
-            </UserState>
+                </div>
+            </ListState>
         </AuthState>
     );
 };

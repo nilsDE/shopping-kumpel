@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import bg from '../assets/unsplash1.jpg';
-import UserContext from '../context/user/userContext';
+import AuthContext from '../context/auth/authContext';
 import '../App.css';
 
 const LandingPage = () => {
-    const userContext = useContext(UserContext);
+    const authContext = useContext(AuthContext);
     return (
         <>
             <div className="bg-container">
@@ -15,7 +15,7 @@ const LandingPage = () => {
                 <img src={bg} className="bg-pic" alt="" />
             </div>
             <div className="btn-container">
-                {/* {!loggedIn ? (
+                {!authContext.isAuthenticated ? (
                     <Link to="/signup">
                         <Button
                             variant="outline-dark"
@@ -27,7 +27,7 @@ const LandingPage = () => {
                     </Link>
                 ) : (
                     <p>Logged in successfully!</p>
-                )} */}
+                )}
             </div>
         </>
     );

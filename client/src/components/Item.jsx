@@ -6,15 +6,15 @@ import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import UserContext from '../context/user/userContext';
+import AuthContext from '../context/auth/authContext';
 import ListContext from '../context/list/listContext';
 import '../App.css';
 
 const Item = ({ item }) => {
-    const userContext = useContext(UserContext);
     const listContext = useContext(ListContext);
+    const authContext = useContext(AuthContext);
 
-    const { user } = userContext;
+    const { user } = authContext;
     const { updateItem, deleteItem } = listContext;
 
     const [editable, setEditable] = useState(false);

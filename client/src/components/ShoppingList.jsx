@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Item from './Item';
 import '../App.css';
-import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
 import AuthContext from '../context/auth/authContext';
 import Spinner from './Spinner';
@@ -16,7 +15,6 @@ const MySwal = withReactContent(Swal);
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const userContext = useContext(UserContext);
 
     const {
         getLists,
@@ -33,8 +31,7 @@ const ShoppingList = () => {
         users,
         socket
     } = listContext;
-    const { loading, user } = userContext;
-    const { loadUser } = authContext;
+    const { loadUser, loading, user } = authContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
