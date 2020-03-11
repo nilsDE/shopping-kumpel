@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { List, Collab, Item } = require('../db/models');
+const { List, Collab, Item, User } = require('../db/models');
 
 // @route       POST api/lists
 // @desc        Create a new list
@@ -107,6 +107,25 @@ router.delete('/', auth, async (req, res) => {
             });
             res.json({ allLists });
         }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+router.get('/collabs', auth, async (req, res) => {
+    try {
+        const { listId } = req.query;
+        const collabs = await Collab.findAll({
+            where: { listId },
+            include: [
+                {
+                    model: User
+                }
+            ]
+        });
+        const user = await User.findAll();
+        res.json({ collabs, user });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');

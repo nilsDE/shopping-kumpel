@@ -1,14 +1,18 @@
 import {
     GET_LISTS,
+    GET_LISTS_FAIL,
     SET_LOADING,
     CREATE_LIST,
+    CREATE_LIST_FAIL,
     DELETE_LIST,
+    DELETE_LIST_FAIL,
     GET_COLLABS,
     CREATE_COLLABS,
     DELETE_COLLAB,
     CREATE_ITEM,
     UPDATE_ITEM,
-    DELETE_ITEM
+    DELETE_ITEM,
+    GET_COLLABS_FAIL
 } from '../types';
 
 export default (state, action) => {
@@ -50,9 +54,17 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                collabs: action.payload[0],
-                users: action.payload[1],
+                collabs: action.payload.collabs,
+                users: action.payload.user,
                 reference: action.type
+            };
+        case GET_COLLABS_FAIL:
+        case GET_LISTS_FAIL:
+        case DELETE_LIST_FAIL:
+        case CREATE_LIST_FAIL:
+            return {
+                ...state,
+                loading: false
             };
         case CREATE_COLLABS:
             return {

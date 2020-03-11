@@ -7,15 +7,8 @@ const collabController = require('./controllers/collabController');
 
 // General setup
 const app = express();
-
 app.use(morgan('dev'));
-
 app.use(express.json({ extended: false }));
-
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    next();
-});
 
 // Server
 const PORT = process.env.PORT || 5000;
@@ -51,7 +44,6 @@ app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
 app.put('/update', itemController.update);
 
-app.get('/collab/index', collabController.index);
 app.post('/collab/create', collabController.create);
 app.delete('/collab/delete', collabController.delete);
 

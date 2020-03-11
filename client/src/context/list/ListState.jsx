@@ -13,6 +13,7 @@ import {
     DELETE_LIST,
     DELETE_LIST_FAIL,
     GET_COLLABS,
+    GET_COLLABS_FAIL,
     CREATE_COLLABS,
     DELETE_COLLAB,
     CREATE_ITEM,
@@ -64,6 +65,7 @@ const ListState = props => {
                 payload: res.data
             });
         } catch (err) {
+            console.log(err.response);
             dispatch({
                 type: GET_LISTS_FAIL,
                 payload: err.response.data.msg
@@ -83,25 +85,31 @@ const ListState = props => {
             });
         } catch (err) {
             dispatch({
-                type: DELETE_LIST_FAIL
+                type: DELETE_LIST_FAIL,
+                payload: err.response.data.msg
+            });
+        }
+    };
+
+    const getCollabs = async listId => {
+        setLoading();
+        const res = await axios.get('/api/lists/collabs', {
+            params: { listId }
+        });
+        try {
+            dispatch({
+                type: GET_COLLABS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: GET_COLLABS_FAIL,
+                payload: err.response.data.msg
             });
         }
     };
 
     // everything above is done
-
-    const getCollabs = async listId => {
-        setLoading();
-        const res = await axios.get('/collab/index', {
-            params: { listId }
-        });
-        if (res.data !== null) {
-            dispatch({
-                type: GET_COLLABS,
-                payload: res.data
-            });
-        }
-    };
 
     const createCollab = async (userId, listId) => {
         setLoading();

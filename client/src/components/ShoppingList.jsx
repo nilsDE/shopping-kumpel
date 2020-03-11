@@ -72,10 +72,12 @@ const ShoppingList = () => {
         }
     }, [lists, reference]);
 
-    // useEffect(() => {
-    //     getCollabs(selectedList);
-    //     // eslint-disable-next-line
-    // }, [selectedList]);
+    useEffect(() => {
+        if (selectedList) {
+            getCollabs(selectedList);
+        }
+        // eslint-disable-next-line
+    }, [selectedList]);
 
     const showModal = id => {
         MySwal.fire({
@@ -134,7 +136,6 @@ const ShoppingList = () => {
                 >
                     Make a list
                 </button>
-                {console.log(lists)}
                 <DropdownButton
                     title="Select list"
                     className="list-btn list-btn-fixed-width"

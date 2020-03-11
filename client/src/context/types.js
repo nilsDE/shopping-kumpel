@@ -26,6 +26,7 @@ export const CREATE_ITEM = 'CREATE_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 
 export const GET_COLLABS = 'GET_COLLABS';
+export const GET_COLLABS_FAIL = 'GET_COLLABS_FAIL';
 export const CREATE_COLLABS = 'CREATE_COLLABS';
 export const DELETE_COLLAB = 'DELETE_COLLAB';
 
