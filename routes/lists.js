@@ -12,7 +12,7 @@ const { List, Collab, Item } = require('../db/models');
 router.post('/', auth, async (req, res) => {
     try {
         const createdList = await List.create({
-            description: newList.description,
+            description: req.body.description,
             userId: req.user.id
         });
         res.json({ createdList });
@@ -71,9 +71,9 @@ router.get('/', auth, async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
     try {
-        const { listId } = req.body;
+        const { listId } = req.query;
         let list = await List.findByPk(listId);
-        if (+list.userId === req.user.id) {
+        if (list && +list.userId === req.user.id) {
             list.destroy();
         } else {
             res.status(401).send('Not allowed!');
@@ -101,11 +101,11 @@ router.delete('/', auth, async (req, res) => {
         if (allLists && allLists.length > 0) {
             res.json({ allLists });
         } else {
-            let newList = await List.create({
+            allLists = await List.create({
                 description: 'New list',
                 userId: req.user.id
             });
-            res.json({ newList });
+            res.json({ allLists });
         }
     } catch (err) {
         console.error(err);

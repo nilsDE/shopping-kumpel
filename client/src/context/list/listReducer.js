@@ -4,7 +4,6 @@ import {
     CREATE_LIST,
     DELETE_LIST,
     GET_COLLABS,
-    GENERAL_ERROR,
     CREATE_COLLABS,
     DELETE_COLLAB,
     CREATE_ITEM,
@@ -14,48 +13,43 @@ import {
 
 export default (state, action) => {
     switch (action.type) {
-        case GENERAL_ERROR:
-            return {
-                ...state,
-                loadingList: false
-            };
         case CREATE_ITEM:
         case UPDATE_ITEM:
         case DELETE_ITEM:
             return {
                 ...state,
-                loadingList: false,
+                loading: false,
                 lists: action.payload
             };
         case CREATE_LIST:
             return {
                 ...state,
-                loadingList: false,
-                lists: action.payload
+                loading: false,
+                lists: [...state.lists, action.payload.createdList]
             };
         case GET_LISTS:
             return {
                 ...state,
-                loadingList: false,
+                loading: false,
                 lists: action.payload.lists,
                 reference: action.type
             };
         case DELETE_LIST:
             return {
                 ...state,
-                loadingList: false,
-                lists: action.payload,
+                loading: false,
+                lists: action.payload.allLists,
                 reference: action.type
             };
         case SET_LOADING:
             return {
                 ...state,
-                loadingList: true
+                loading: true
             };
         case GET_COLLABS:
             return {
                 ...state,
-                loadingList: false,
+                loading: false,
                 collabs: action.payload[0],
                 users: action.payload[1],
                 reference: action.type
@@ -63,13 +57,13 @@ export default (state, action) => {
         case CREATE_COLLABS:
             return {
                 ...state,
-                loadingList: false,
+                loading: false,
                 collabs: [...action.payload]
             };
         case DELETE_COLLAB:
             return {
                 ...state,
-                loadingList: false,
+                loading: false,
                 collabs: state.collabs.filter(c => c.id !== action.payload.id)
             };
         default:

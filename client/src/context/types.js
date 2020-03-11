@@ -15,8 +15,11 @@ export const CHECK_LOGGED_IN = 'IS_LOGGED_IN';
 export const SET_LOADING = 'SET_LOADING';
 
 export const CREATE_LIST = 'CREATE_LIST';
+export const CREATE_LIST_FAIL = 'CREATE_LIST_FAIL';
 export const GET_LISTS = 'GET_LISTS';
+export const GET_LISTS_FAIL = 'GET_LISTS_FAIL';
 export const DELETE_LIST = 'DELETE_LIST';
+export const DELETE_LIST_FAIL = 'DELETE_LIST_FAIL';
 
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const CREATE_ITEM = 'CREATE_ITEM';
@@ -25,7 +28,5 @@ export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const GET_COLLABS = 'GET_COLLABS';
 export const CREATE_COLLABS = 'CREATE_COLLABS';
 export const DELETE_COLLAB = 'DELETE_COLLAB';
-
-export const GENERAL_ERROR = 'GENERAL_ERROR';
 
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';

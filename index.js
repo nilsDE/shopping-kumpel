@@ -3,7 +3,6 @@ const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
 const itemController = require('./controllers/itemController');
-const listController = require('./controllers/listController');
 const collabController = require('./controllers/collabController');
 
 // General setup
@@ -51,9 +50,6 @@ app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
 app.put('/update', itemController.update);
-
-app.post('/list/create', listController.create);
-app.delete('/list/delete', listController.delete);
 
 app.get('/collab/index', collabController.index);
 app.post('/collab/create', collabController.create);

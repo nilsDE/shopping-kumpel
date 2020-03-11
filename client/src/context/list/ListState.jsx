@@ -7,22 +7,24 @@ import listReducer from './listReducer';
 import {
     SET_LOADING,
     GET_LISTS,
+    GET_LISTS_FAIL,
     CREATE_LIST,
+    CREATE_LIST_FAIL,
     DELETE_LIST,
+    DELETE_LIST_FAIL,
     GET_COLLABS,
     CREATE_COLLABS,
     DELETE_COLLAB,
     CREATE_ITEM,
     UPDATE_ITEM,
-    DELETE_ITEM,
-    GENERAL_ERROR
+    DELETE_ITEM
 } from '../types';
 
 const socket = io();
 
 const ListState = props => {
     const initialState = {
-        loadingList: false,
+        loading: false,
         reference: '',
         lists: [],
         collabs: [],
@@ -35,49 +37,58 @@ const ListState = props => {
 
     const setLoading = () => dispatch({ type: SET_LOADING });
 
-    const createList = async (description, userId) => {
-        setLoading();
-        const res = await axios.post('/list/create', {
-            description,
-            userId
-        });
-        if (res.data !== null) {
+    const createList = async description => {
+        try {
+            setLoading();
+            const res = await axios.post('/api/lists', {
+                description
+            });
             dispatch({
                 type: CREATE_LIST,
                 payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: CREATE_LIST_FAIL,
+                payload: err.response.data.msg
             });
         }
     };
 
     const getLists = async () => {
-        setLoading();
-        const res = await axios.get('/api/lists');
-        if (res.data !== null) {
+        try {
+            setLoading();
+            const res = await axios.get('/api/lists');
             dispatch({
                 type: GET_LISTS,
                 payload: res.data
             });
+        } catch (err) {
+            dispatch({
+                type: GET_LISTS_FAIL,
+                payload: err.response.data.msg
+            });
         }
     };
 
-    const deleteList = async (userId, listId) => {
-        setLoading();
-        const res = await axios.delete('/list/delete', {
-            params: { userId, listId }
-        });
-        if (res.data !== null) {
-            if (res.data === 'error') {
-                dispatch({
-                    type: GENERAL_ERROR
-                });
-            } else {
-                dispatch({
-                    type: DELETE_LIST,
-                    payload: res.data
-                });
-            }
+    const deleteList = async listId => {
+        try {
+            setLoading();
+            const res = await axios.delete('/api/lists', {
+                params: { listId }
+            });
+            dispatch({
+                type: DELETE_LIST,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: DELETE_LIST_FAIL
+            });
         }
     };
+
+    // everything above is done
 
     const getCollabs = async listId => {
         setLoading();
@@ -164,7 +175,7 @@ const ListState = props => {
     return (
         <listContext.Provider
             value={{
-                loadingList: state.loadingList,
+                loading: state.loading,
                 lists: state.lists,
                 reference: state.reference,
                 collabs: state.collabs,

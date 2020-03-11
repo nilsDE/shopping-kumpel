@@ -84,7 +84,7 @@ const ShoppingList = () => {
             confirmButtonText: 'Save!',
             input: 'text',
             preConfirm: title => {
-                createList(title, id);
+                createList(title);
             }
         });
     };
@@ -162,7 +162,7 @@ const ShoppingList = () => {
                 <button
                     type="button"
                     className="ml-1 list-btn list-btn-fixed-width"
-                    onClick={() => deleteList(user.id, selectedList)}
+                    onClick={() => deleteList(selectedList)}
                     disabled={loading || loadingList || !lists}
                 >
                     Delete list
