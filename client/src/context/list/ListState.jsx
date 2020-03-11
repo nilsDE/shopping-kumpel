@@ -51,7 +51,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_LIST_FAIL,
-                payload: err.response.data.msg
+                payload: err.data.msg
             });
         }
     };
@@ -65,10 +65,10 @@ const ListState = props => {
                 payload: res.data
             });
         } catch (err) {
-            console.log(err.response);
+            console.log(err);
             dispatch({
                 type: GET_LISTS_FAIL,
-                payload: err.response.data.msg
+                payload: err.data.msg
             });
         }
     };
@@ -86,7 +86,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: DELETE_LIST_FAIL,
-                payload: err.response.data.msg
+                payload: err.data.msg
             });
         }
     };
@@ -104,7 +104,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: GET_COLLABS_FAIL,
-                payload: err.response.data.msg
+                payload: err.data.msg
             });
         }
     };
