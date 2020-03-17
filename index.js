@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
-const itemController = require('./controllers/itemController');
 
 // General setup
 const app = express();
@@ -33,14 +32,9 @@ io.on('connection', socket => {
     });
 });
 
+// Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/lists', require('./routes/lists'));
-
-// Routes
-app.post('/create', itemController.create);
-app.post('/complete', itemController.update);
-app.post('/delete', itemController.delete);
-app.put('/update', itemController.update);
 
 app.use(express.static(path.join(__dirname, 'client/build')));

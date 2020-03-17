@@ -19,8 +19,11 @@ import {
     DELETE_COLLAB,
     DELETE_COLLAB_FAIL,
     CREATE_ITEM,
+    CREATE_ITEM_FAIL,
     UPDATE_ITEM,
-    DELETE_ITEM
+    UPDATE_ITEM_FAIL,
+    DELETE_ITEM,
+    DELETE_ITEM_FAIL
 } from '../types';
 
 const socket = io();
@@ -40,6 +43,23 @@ const ListState = props => {
 
     const setLoading = () => dispatch({ type: SET_LOADING });
 
+    const getLists = async () => {
+        try {
+            setLoading();
+            const res = await axios.get('/api/lists');
+            dispatch({
+                type: GET_LISTS,
+                payload: res.data
+            });
+        } catch (err) {
+            console.log(err);
+            dispatch({
+                type: GET_LISTS_FAIL,
+                payload: err.data.msg
+            });
+        }
+    };
+
     const createList = async description => {
         try {
             setLoading();
@@ -53,23 +73,6 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_LIST_FAIL,
-                payload: err.data.msg
-            });
-        }
-    };
-
-    const getLists = async () => {
-        try {
-            setLoading();
-            const res = await axios.get('/api/lists');
-            dispatch({
-                type: GET_LISTS,
-                payload: res.data
-            });
-        } catch (err) {
-            console.log(err);
-            dispatch({
-                type: GET_LISTS_FAIL,
                 payload: err.data.msg
             });
         }
@@ -148,48 +151,67 @@ const ListState = props => {
         }
     };
 
-    // everything above is done
+    const createItem = async (description, lastModified, listId) => {
+        try {
+            setLoading();
+            const res = await axios.post('/api/lists/items', {
+                description,
+                completed: false,
+                lastModified,
+                listId
+            });
+            state.socket.emit('sendItem');
+            dispatch({
+                type: CREATE_ITEM,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: CREATE_ITEM_FAIL,
+                payload: err.data.msg
+            });
+        }
+    };
+
+    const updateItem = async (description, completed, id, lastModified) => {
+        try {
+            setLoading();
+            const res = await axios.put('/api/lists/items', {
+                description,
+                completed,
+                id,
+                lastModified
+            });
+            state.socket.emit('sendItem');
+            dispatch({
+                type: UPDATE_ITEM,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: UPDATE_ITEM_FAIL,
+                payload: err.data.msg
+            });
+        }
+    };
 
     const deleteItem = async item => {
-        setLoading();
-        const res = await axios.post('/delete', {
-            id: item.id
-        });
-        state.socket.emit('sendItem');
-        dispatch({
-            type: DELETE_ITEM,
-            payload: res.data
-        });
-    };
-
-    const createItem = async (description, lastModified, listId) => {
-        setLoading();
-        const res = await axios.post('/create', {
-            description,
-            completed: false,
-            lastModified,
-            listId
-        });
-        state.socket.emit('sendItem');
-        dispatch({
-            type: CREATE_ITEM,
-            payload: res.data
-        });
-    };
-
-    const updateItem = async (todo, completed, id, name) => {
-        setLoading();
-        const res = await axios.put('/update', {
-            description: todo,
-            completed,
-            id,
-            lastModified: name
-        });
-        state.socket.emit('sendItem');
-        dispatch({
-            type: UPDATE_ITEM,
-            payload: res.data
-        });
+        try {
+            setLoading();
+            const res = await axios.delete('/api/lists/items', {
+                params: { id: item.id }
+            });
+            state.socket.emit('sendItem');
+            dispatch({
+                type: DELETE_ITEM,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: DELETE_ITEM_FAIL,
+                payload: err.data.msg
+            });
+        }
     };
 
     // End Actions

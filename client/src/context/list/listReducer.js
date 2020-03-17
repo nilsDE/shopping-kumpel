@@ -7,31 +7,33 @@ import {
     DELETE_LIST,
     DELETE_LIST_FAIL,
     GET_COLLABS,
+    GET_COLLABS_FAIL,
     CREATE_COLLABS,
     CREATE_COLLABS_FAIL,
     DELETE_COLLAB,
     DELETE_COLLAB_FAIL,
     CREATE_ITEM,
+    CREATE_ITEM_FAIL,
     UPDATE_ITEM,
+    UPDATE_ITEM_FAIL,
     DELETE_ITEM,
-    GET_COLLABS_FAIL
+    DELETE_ITEM_FAIL
 } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: true
+            };
         case CREATE_ITEM:
         case UPDATE_ITEM:
         case DELETE_ITEM:
             return {
                 ...state,
                 loading: false,
-                lists: action.payload
-            };
-        case CREATE_LIST:
-            return {
-                ...state,
-                loading: false,
-                lists: [...state.lists, action.payload.createdList]
+                lists: action.payload.lists
             };
         case GET_LISTS:
             return {
@@ -40,17 +42,18 @@ export default (state, action) => {
                 lists: action.payload.lists,
                 reference: action.type
             };
+        case CREATE_LIST:
+            return {
+                ...state,
+                loading: false,
+                lists: [...state.lists, action.payload.createdList]
+            };
         case DELETE_LIST:
             return {
                 ...state,
                 loading: false,
                 lists: action.payload.allLists,
                 reference: action.type
-            };
-        case SET_LOADING:
-            return {
-                ...state,
-                loading: true
             };
         case GET_COLLABS:
             return {
@@ -59,16 +62,6 @@ export default (state, action) => {
                 collabs: action.payload.collabs,
                 users: action.payload.user,
                 reference: action.type
-            };
-        case GET_COLLABS_FAIL:
-        case GET_LISTS_FAIL:
-        case DELETE_LIST_FAIL:
-        case CREATE_LIST_FAIL:
-        case CREATE_COLLABS_FAIL:
-        case DELETE_COLLAB_FAIL:
-            return {
-                ...state,
-                loading: false
             };
         case CREATE_COLLABS:
             return {
@@ -83,6 +76,19 @@ export default (state, action) => {
                 collabs: state.collabs.filter(
                     c => c.id !== action.payload.collab.id
                 )
+            };
+        case GET_LISTS_FAIL:
+        case CREATE_LIST_FAIL:
+        case DELETE_LIST_FAIL:
+        case GET_COLLABS_FAIL:
+        case CREATE_COLLABS_FAIL:
+        case DELETE_COLLAB_FAIL:
+        case CREATE_ITEM_FAIL:
+        case UPDATE_ITEM_FAIL:
+        case DELETE_ITEM_FAIL:
+            return {
+                ...state,
+                loading: false
             };
         default:
             return state;
