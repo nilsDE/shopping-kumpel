@@ -46,6 +46,7 @@ const ShoppingList = () => {
     // DONE: keep previous list selection after api calls
     // DONE: List owner can delete all collabs, collab user can only delete themselves - FE
     // DONE: Refactor to JWT
+    // DONE: Refactor all API calls, use try / catch and remove all controllers
     // TODO: keep previous list selection after collab user has changed something
     // TODO: Check all error responses from API calls and refactor code!
     // TODO: Clean up the error handling and show feedback to the user
