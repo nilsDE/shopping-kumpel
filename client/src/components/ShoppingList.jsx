@@ -6,15 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Item from './Item';
 import '../App.css';
-import UserContext from '../context/user/userContext';
 import ListContext from '../context/list/listContext';
+import AuthContext from '../context/auth/authContext';
 import Spinner from './Spinner';
 
 const MySwal = withReactContent(Swal);
 
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
-    const userContext = useContext(UserContext);
+    const authContext = useContext(AuthContext);
+
     const {
         getLists,
         createList,
@@ -30,7 +31,7 @@ const ShoppingList = () => {
         users,
         socket
     } = listContext;
-    const { loggedIn, loading, user } = userContext;
+    const { loadUser, loading, user } = authContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
@@ -44,19 +45,23 @@ const ShoppingList = () => {
     // DONE: Prevent reloading all lists after changing items - data already comes from the reducer
     // DONE: keep previous list selection after api calls
     // DONE: List owner can delete all collabs, collab user can only delete themselves - FE
+    // DONE: Refactor to JWT
+    // DONE: Refactor all API calls, use try / catch and remove all controllers
     // TODO: keep previous list selection after collab user has changed something
+    // TODO: Check all error responses from API calls and refactor code!
+    // TODO: Clean up the error handling and show feedback to the user
     // TODO: check BE queries for authorization
     // TODO: Check why app crashes after logout and go back to login
-    // TODO: Refactor to JWT
     // TODO: Refactor protected routes in backend and frontend
     // TODO: Refactor socket.io so that it only triggers actions where the actual user is involved.
-    // TODO: Clean up the error handling and show feedback to the user
+    // TODO: Check user rights when deleting stuff
 
     // COMPONENT DID MOUNT
     useEffect(() => {
-        getLists(user.id);
+        loadUser();
+        getLists();
         socket.on('change', () => {
-            getLists(user.id);
+            getLists();
         });
         // eslint-disable-next-line
     }, []);
@@ -71,7 +76,9 @@ const ShoppingList = () => {
     }, [lists, reference]);
 
     useEffect(() => {
-        getCollabs(selectedList);
+        if (selectedList) {
+            getCollabs(selectedList);
+        }
         // eslint-disable-next-line
     }, [selectedList]);
 
@@ -82,21 +89,21 @@ const ShoppingList = () => {
             confirmButtonText: 'Save!',
             input: 'text',
             preConfirm: title => {
-                createList(title, id);
+                createList(title);
             }
         });
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        createItem(newTodo, user.name, currentList.id);
-        setNewTodo('');
     };
 
     let currentList = {};
     if (lists && lists.length > 0) {
         currentList = lists.find(l => +l.id === +selectedList);
     }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        createItem(newTodo, user.name, currentList.id);
+        setNewTodo('');
+    };
 
     let listOwner = '';
 
@@ -118,9 +125,7 @@ const ShoppingList = () => {
         return <Spinner />;
     }
 
-    return !loggedIn ? (
-        <h2 className="mt-5">You are logged out</h2>
-    ) : (
+    return (
         <div className="shopping-list">
             <div className="btn-row d-flex justify-content-between mb-3">
                 <button
@@ -134,7 +139,6 @@ const ShoppingList = () => {
                 >
                     Make a list
                 </button>
-
                 <DropdownButton
                     title="Select list"
                     className="list-btn list-btn-fixed-width"
@@ -162,7 +166,7 @@ const ShoppingList = () => {
                 <button
                     type="button"
                     className="ml-1 list-btn list-btn-fixed-width"
-                    onClick={() => deleteList(user.id, selectedList)}
+                    onClick={() => deleteList(selectedList)}
                     disabled={loading || loadingList || !lists}
                 >
                     Delete list
@@ -199,7 +203,7 @@ const ShoppingList = () => {
                         {users.map(u => (
                             <Dropdown.Item
                                 eventKey={u.id}
-                                onSelect={e => createCollab(e, selectedList)}
+                                onSelect={e => createCollab(+e, selectedList)}
                                 key={u.id}
                             >
                                 {u.email}
@@ -233,11 +237,7 @@ const ShoppingList = () => {
                                     </p>
                                     <button
                                         onClick={() =>
-                                            deleteCollab(
-                                                user.id,
-                                                c.id,
-                                                selectedList
-                                            )
+                                            deleteCollab(c.id, selectedList)
                                         }
                                         className="general-btn ml-1 delete-btn"
                                         type="button"

@@ -1,22 +1,35 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router';
-import UserContext from '../context/user/userContext';
+import AuthContext from '../context/auth/authContext';
 
-const SignUpForm = () => {
-    const userContext = useContext(UserContext);
-    const { signUp, redirect } = userContext;
+const SignUpForm = props => {
+    const authContext = useContext(AuthContext);
+    const { register, error, clearErrors, isAuthenticated } = authContext;
 
     const [form, setForm] = useState({
         email: '',
         password: '',
-        name: '',
-        redirect: false
+        name: ''
     });
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            props.history.push('/list');
+        }
+        // do something with the error
+        console.log(error);
+        clearErrors();
+        // eslint-disable-next-line
+    }, [error, isAuthenticated, props.history]);
 
     const handleSubmit = e => {
         e.preventDefault();
-        signUp(form.name, form.email, form.password);
+        const data = {
+            name: form.name,
+            email: form.email,
+            password: form.password
+        };
+        register(data);
     };
 
     const handleChange = e =>
@@ -24,10 +37,6 @@ const SignUpForm = () => {
             ...form,
             [e.target.name]: e.target.value
         });
-
-    if (redirect) {
-        return <Redirect to="/list" />;
-    }
 
     return (
         <>
