@@ -8,7 +8,9 @@ import {
     DELETE_LIST_FAIL,
     GET_COLLABS,
     CREATE_COLLABS,
+    CREATE_COLLABS_FAIL,
     DELETE_COLLAB,
+    DELETE_COLLAB_FAIL,
     CREATE_ITEM,
     UPDATE_ITEM,
     DELETE_ITEM,
@@ -62,6 +64,8 @@ export default (state, action) => {
         case GET_LISTS_FAIL:
         case DELETE_LIST_FAIL:
         case CREATE_LIST_FAIL:
+        case CREATE_COLLABS_FAIL:
+        case DELETE_COLLAB_FAIL:
             return {
                 ...state,
                 loading: false
@@ -70,13 +74,15 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                collabs: [...action.payload]
+                collabs: action.payload.collabs
             };
         case DELETE_COLLAB:
             return {
                 ...state,
                 loading: false,
-                collabs: state.collabs.filter(c => c.id !== action.payload.id)
+                collabs: state.collabs.filter(
+                    c => c.id !== action.payload.collab.id
+                )
             };
         default:
             return state;

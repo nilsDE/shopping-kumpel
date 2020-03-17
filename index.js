@@ -3,7 +3,6 @@ const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
 const itemController = require('./controllers/itemController');
-const collabController = require('./controllers/collabController');
 
 // General setup
 const app = express();
@@ -43,8 +42,5 @@ app.post('/create', itemController.create);
 app.post('/complete', itemController.update);
 app.post('/delete', itemController.delete);
 app.put('/update', itemController.update);
-
-app.post('/collab/create', collabController.create);
-app.delete('/collab/delete', collabController.delete);
 
 app.use(express.static(path.join(__dirname, 'client/build')));

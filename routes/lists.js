@@ -113,6 +113,10 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
+// @route       GET api/lists/collabs
+// @desc        Get all collabs
+// @access      Private
+
 router.get('/collabs', auth, async (req, res) => {
     try {
         const { listId } = req.query;
@@ -126,6 +130,58 @@ router.get('/collabs', auth, async (req, res) => {
         });
         const user = await User.findAll();
         res.json({ collabs, user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// @route       POST api/collabs
+// @desc        Create a new collab
+// @access      Private
+
+router.post('/collabs', auth, async (req, res) => {
+    try {
+        console.log(req.body);
+        await Collab.create({
+            userId: req.body.collabUserId,
+            listId: req.body.listId
+        });
+        const getCollabsForList = await Collab.findAll({
+            where: { listId: req.body.listId },
+            include: [
+                {
+                    model: User
+                }
+            ]
+        });
+        res.json({ collabs: getCollabsForList });
+        callback(null, getCollabsForList);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// @route       DELETE api/collabs
+// @desc        Delete a collab
+// @access      Private
+
+router.delete('/collabs', auth, async (req, res) => {
+    try {
+        const collab = await Collab.findByPk(req.query.collabId);
+        const list = await List.findByPk(req.query.listId);
+
+        console.log(collab);
+        if (
+            req.user.id === collab.dataValues.userId ||
+            req.user.id === list.dataValues.userId
+        ) {
+            await collab.destroy();
+            res.json({ collab });
+        } else {
+            throw 401;
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');

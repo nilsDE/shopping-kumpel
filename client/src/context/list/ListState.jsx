@@ -15,7 +15,9 @@ import {
     GET_COLLABS,
     GET_COLLABS_FAIL,
     CREATE_COLLABS,
+    CREATE_COLLABS_FAIL,
     DELETE_COLLAB,
+    DELETE_COLLAB_FAIL,
     CREATE_ITEM,
     UPDATE_ITEM,
     DELETE_ITEM
@@ -92,11 +94,11 @@ const ListState = props => {
     };
 
     const getCollabs = async listId => {
-        setLoading();
-        const res = await axios.get('/api/lists/collabs', {
-            params: { listId }
-        });
         try {
+            setLoading();
+            const res = await axios.get('/api/lists/collabs', {
+                params: { listId }
+            });
             dispatch({
                 type: GET_COLLABS,
                 payload: res.data
@@ -109,30 +111,44 @@ const ListState = props => {
         }
     };
 
+    const createCollab = async (collabUserId, listId) => {
+        try {
+            setLoading();
+            const res = await axios.post('/api/lists/collabs', {
+                collabUserId,
+                listId
+            });
+            dispatch({
+                type: CREATE_COLLABS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: CREATE_COLLABS_FAIL,
+                payload: err.data.msg
+            });
+        }
+    };
+
+    const deleteCollab = async (collabId, listId) => {
+        try {
+            setLoading();
+            const res = await axios.delete('/api/lists/collabs', {
+                params: { collabId, listId }
+            });
+            dispatch({
+                type: DELETE_COLLAB,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: DELETE_COLLAB_FAIL,
+                payload: err.data.msg
+            });
+        }
+    };
+
     // everything above is done
-
-    const createCollab = async (userId, listId) => {
-        setLoading();
-        const res = await axios.post('/collab/create', {
-            userId,
-            listId
-        });
-        dispatch({
-            type: CREATE_COLLABS,
-            payload: res.data
-        });
-    };
-
-    const deleteCollab = async (userId, collabId, listId) => {
-        setLoading();
-        const res = await axios.delete('/collab/delete', {
-            params: { userId, collabId, listId }
-        });
-        dispatch({
-            type: DELETE_COLLAB,
-            payload: res.data
-        });
-    };
 
     const deleteItem = async item => {
         setLoading();

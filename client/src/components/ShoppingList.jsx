@@ -200,7 +200,7 @@ const ShoppingList = () => {
                         {users.map(u => (
                             <Dropdown.Item
                                 eventKey={u.id}
-                                onSelect={e => createCollab(e, selectedList)}
+                                onSelect={e => createCollab(+e, selectedList)}
                                 key={u.id}
                             >
                                 {u.email}
@@ -234,11 +234,7 @@ const ShoppingList = () => {
                                     </p>
                                     <button
                                         onClick={() =>
-                                            deleteCollab(
-                                                user.id,
-                                                c.id,
-                                                selectedList
-                                            )
+                                            deleteCollab(c.id, selectedList)
                                         }
                                         className="general-btn ml-1 delete-btn"
                                         type="button"
