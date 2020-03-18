@@ -55,7 +55,7 @@ const ListState = props => {
             console.log(err);
             dispatch({
                 type: GET_LISTS_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -73,7 +73,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_LIST_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -91,7 +91,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: DELETE_LIST_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -109,7 +109,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: GET_COLLABS_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -128,7 +128,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_COLLABS_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -146,7 +146,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: DELETE_COLLAB_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -168,7 +168,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_ITEM_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -190,7 +190,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: UPDATE_ITEM_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };
@@ -209,7 +209,7 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: DELETE_ITEM_FAIL,
-                payload: err.data.msg
+                payload: err.response.data
             });
         }
     };

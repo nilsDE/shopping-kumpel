@@ -236,7 +236,7 @@ router.put('/items', auth, async (req, res) => {
         const updateObject = {
             description: req.body.description,
             completed: req.body.completed,
-            id: req.body.id,
+            id: 'req.body.id',
             lastModified: req.body.lastModified
         };
         const item = await Item.findByPk(updateObject.id);
