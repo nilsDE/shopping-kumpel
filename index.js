@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
+const helmet = require('helmet');
 
 // General setup
 const app = express();
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json({ extended: false }));
 
