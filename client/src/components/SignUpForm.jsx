@@ -17,7 +17,6 @@ const SignUpForm = props => {
             props.history.push('/list');
         }
         // do something with the error
-        console.log(error);
         clearErrors();
         // eslint-disable-next-line
     }, [error, isAuthenticated, props.history]);

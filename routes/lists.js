@@ -50,14 +50,14 @@ router.get('/', auth, async (req, res) => {
         });
         let allLists;
         if (lists && lists.length > 0) {
-            res.json({ lists });
+            res.json([{ lists }]);
         } else {
             const newList = await List.create({
                 description: 'New list',
                 userId: req.user.id
             });
             allLists = [...lists, newList];
-            res.json({ allLists });
+            res.json({ lists: allLists });
         }
     } catch (err) {
         console.error(err);
@@ -236,7 +236,7 @@ router.put('/items', auth, async (req, res) => {
         const updateObject = {
             description: req.body.description,
             completed: req.body.completed,
-            id: 'req.body.id',
+            id: req.body.id,
             lastModified: req.body.lastModified
         };
         const item = await Item.findByPk(updateObject.id);
