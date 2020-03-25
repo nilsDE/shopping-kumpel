@@ -50,7 +50,7 @@ router.get('/', auth, async (req, res) => {
         });
         let allLists;
         if (lists && lists.length > 0) {
-            res.json([{ lists }]);
+            res.json({ lists });
         } else {
             const newList = await List.create({
                 description: 'New list',
