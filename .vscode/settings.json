@@ -2,6 +2,9 @@
     "eslint.workingDirectories": ["client"],
     "prettier.tabWidth": 4,
     "cSpell.words": [
-        "Swal"
+        "Swal",
+        "fontawesome",
+        "fortawesome",
+        "sweetalert"
     ]
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/Routing/PrivateRoute';
 import NavBar from './components/NavBar';
 import ShoppingList from './components/ShoppingList';
 import LandingPage from './components/LandingPage';
@@ -25,7 +26,7 @@ const App = () => {
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/signup" component={SignUpForm} />
                         <Route path="/login" component={LoginForm} />
-                        <Route path="/list" component={ShoppingList} />
+                        <PrivateRoute path="/list" component={ShoppingList} />
                     </div>
                 </div>
             </ListState>
