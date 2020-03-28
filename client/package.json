@@ -17,8 +17,7 @@
     "react-scripts": "^3.4.0",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^9.8.2",
-    "sweetalert2-react-content": "^3.0.1",
-    "uuid": "^7.0.2"
+    "sweetalert2-react-content": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
