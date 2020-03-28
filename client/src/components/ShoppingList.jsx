@@ -62,7 +62,7 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, [selectedList]);
 
-    const showModal = id => {
+    const showModal = () => {
         MySwal.fire({
             title: <p>New list:</p>,
             showCancelButton: true,

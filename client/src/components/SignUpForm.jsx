@@ -50,6 +50,7 @@ const SignUpForm = props => {
                         type="text"
                         placeholder="Name"
                         onChange={e => handleChange(e)}
+                        maxLength="20"
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
@@ -58,6 +59,7 @@ const SignUpForm = props => {
                         type="email"
                         placeholder="Enter email"
                         onChange={e => handleChange(e)}
+                        maxLength="255"
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
@@ -66,6 +68,7 @@ const SignUpForm = props => {
                         type="password"
                         placeholder="Password"
                         onChange={e => handleChange(e)}
+                        maxLength="255"
                     />
                 </Form.Group>
                 <Button variant="outline-dark" type="submit">
