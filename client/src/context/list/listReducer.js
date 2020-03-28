@@ -34,7 +34,7 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                lists: action.payload.data.lists,
+                lists: action.payload.lists,
                 msg: action.payload.msg
             };
         case GET_LISTS:
@@ -48,14 +48,16 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                lists: [...state.lists, action.payload.createdList]
+                lists: [...state.lists, action.payload.createdList],
+                msg: action.payload.msg
             };
         case DELETE_LIST:
             return {
                 ...state,
                 loading: false,
                 lists: action.payload.allLists,
-                reference: action.type
+                reference: action.type,
+                msg: action.payload.msg
             };
         case GET_COLLABS:
             return {
@@ -69,7 +71,8 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                collabs: action.payload.collabs
+                collabs: action.payload.collabs,
+                msg: action.payload.msg
             };
         case DELETE_COLLAB:
             return {
@@ -77,7 +80,8 @@ export default (state, action) => {
                 loading: false,
                 collabs: state.collabs.filter(
                     c => c.id !== action.payload.collab.id
-                )
+                ),
+                msg: action.payload.msg
             };
         case GET_LISTS_FAIL:
         case CREATE_LIST_FAIL:

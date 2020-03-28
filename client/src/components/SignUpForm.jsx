@@ -38,7 +38,7 @@ const SignUpForm = props => {
 
     return (
         <>
-            <Alert type="danger " msg={msg} />
+            <Alert type="danger" msg={msg} />
             <Form
                 className="mt-5 signup-login-form"
                 onSubmit={e => handleSubmit(e)}

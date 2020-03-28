@@ -313,15 +313,24 @@ form {
     border-radius: 4px;
     background-color: var(--secondary-color);
     color: var(--main-color-dark);
-    animation: drop 300ms, vanish 2s;
+    animation: drop 300ms, vanish 4s;
+}
+
+.alert-container.danger {
+    color: red;
+    background-color: var(--main-color);
+    border: 1px solid red;
 }
 
 @keyframes vanish {
     0% {
         opacity: 100%;
     }
-    70% {
+    40% {
         opacity: 100%;
+    }
+    50% {
+        opacity: 0%;
     }
     100% {
         opacity: 0%;

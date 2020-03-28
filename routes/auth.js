@@ -18,7 +18,7 @@ router.get('/', auth, async (req, res) => {
         res.json(user);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -35,7 +35,7 @@ router.post(
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ msg: errors.array() });
         }
 
         const { email, password } = req.body;
@@ -46,7 +46,9 @@ router.post(
             });
 
             if (!existingUser) {
-                return res.status(400).json({ msg: 'Invalid credentials' });
+                return res
+                    .status(400)
+                    .json({ msg: [{ msg: 'User does not exist!' }] });
             }
 
             const isMatch = await bcrypt.compare(
@@ -55,7 +57,9 @@ router.post(
             );
 
             if (!isMatch) {
-                return res.status(400).json({ msg: 'Invalid credentials' });
+                return res
+                    .status(400)
+                    .json({ msg: [{ msg: 'Wrong password!' }] });
             }
 
             const payload = {
@@ -77,7 +81,9 @@ router.post(
             );
         } catch (err) {
             console.error(err.message);
-            res.status(500).send('Server error');
+            res.status(500).json({
+                msg: [{ msg: 'Sorry, there was an error! 😒' }]
+            });
         }
     }
 );

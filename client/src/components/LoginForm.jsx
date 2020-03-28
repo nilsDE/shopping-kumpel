@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
+import Alert from './Alert';
 import { Form, Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
 
 const LoginForm = props => {
     const authContext = useContext(AuthContext);
-    const { login, isAuthenticated } = authContext;
+    const { login, isAuthenticated, msg } = authContext;
 
     const [form, setForm] = useState({
         email: '',
@@ -35,6 +36,7 @@ const LoginForm = props => {
 
     return (
         <>
+            <Alert type="danger" msg={msg} />
             <Form
                 className="mt-5 signup-login-form"
                 onSubmit={e => handleSubmit(e)}

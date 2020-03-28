@@ -24,7 +24,7 @@ router.post(
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ msg: errors.array() });
         }
 
         const { name, email, password } = req.body;
@@ -35,7 +35,9 @@ router.post(
             });
 
             if (exitingUser) {
-                return res.status(400).json({ msg: 'User already exists!' });
+                return res
+                    .status(400)
+                    .json({ msg: [{ msg: 'User already exists! 😒' }] });
             }
 
             const salt = await bcrypt.genSalt(10);
@@ -65,7 +67,9 @@ router.post(
             );
         } catch (err) {
             console.error(err.message);
-            res.status(500).send('Server Error');
+            res.status(500).json({
+                msg: [{ msg: 'Sorry, there was an error! 😒' }]
+            });
         }
     }
 );

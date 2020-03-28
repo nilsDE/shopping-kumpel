@@ -18,7 +18,13 @@ const Alert = ({ type, msg }) => {
     };
     if (msg) {
         return (
-            <div className="alert-container">
+            <div
+                className={
+                    type === 'danger'
+                        ? 'alert-container danger'
+                        : 'alert-container'
+                }
+            >
                 {alertType()}
                 <span className="alert-text">{msg}</span>
             </div>

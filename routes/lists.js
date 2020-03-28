@@ -15,10 +15,10 @@ router.post('/', auth, async (req, res) => {
             description: req.body.description,
             userId: req.user.id
         });
-        res.json({ createdList });
+        res.json({ createdList, msg: 'Saved!' });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -61,12 +61,12 @@ router.get('/', auth, async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
-// @route       GET api/lists
-// @desc        Get all lists incl items
+// @route       DELETE api/lists
+// @desc        Delete a list incl items
 // @access      Private
 
 router.delete('/', auth, async (req, res) => {
@@ -76,7 +76,7 @@ router.delete('/', auth, async (req, res) => {
         if (list && +list.userId === req.user.id) {
             list.destroy();
         } else {
-            res.status(401).send('Not allowed!');
+            res.status(401).json({ msg: 'You are not authorized!' });
         }
         const allLists = await List.findAll({
             where: {
@@ -99,17 +99,17 @@ router.delete('/', auth, async (req, res) => {
             ]
         });
         if (allLists && allLists.length > 0) {
-            res.json({ allLists });
+            res.json({ allLists, msg: 'Deleted!' });
         } else {
             allLists = await List.create({
                 description: 'New list',
                 userId: req.user.id
             });
-            res.json({ allLists });
+            res.json({ allLists, msg: 'Deleted!' });
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -132,7 +132,7 @@ router.get('/collabs', auth, async (req, res) => {
         res.json({ collabs, user });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -142,7 +142,6 @@ router.get('/collabs', auth, async (req, res) => {
 
 router.post('/collabs', auth, async (req, res) => {
     try {
-        console.log(req.body);
         await Collab.create({
             userId: req.body.collabUserId,
             listId: req.body.listId
@@ -155,11 +154,11 @@ router.post('/collabs', auth, async (req, res) => {
                 }
             ]
         });
-        res.json({ collabs: getCollabsForList });
+        res.json({ collabs: getCollabsForList, msg: 'Added!' });
         callback(null, getCollabsForList);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -178,13 +177,13 @@ router.delete('/collabs', auth, async (req, res) => {
             req.user.id === list.dataValues.userId
         ) {
             await collab.destroy();
-            res.json({ collab });
+            res.json({ collab, msg: 'Deleted!' });
         } else {
             throw 401;
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -220,10 +219,10 @@ router.post('/items', auth, async (req, res) => {
                 }
             ]
         });
-        res.json({ lists: allLists });
+        res.json({ lists: allLists, msg: 'Saved!' });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -266,10 +265,10 @@ router.put('/items', auth, async (req, res) => {
                 }
             ]
         });
-        res.json({ lists: allLists });
+        res.json({ lists: allLists, msg: 'Updated!' });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 
@@ -303,10 +302,10 @@ router.delete('/items', auth, async (req, res) => {
                 }
             ]
         });
-        res.json({ lists: allLists });
+        res.json({ lists: allLists, msg: 'Deleted!' });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
     }
 });
 

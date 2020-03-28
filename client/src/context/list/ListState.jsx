@@ -54,11 +54,11 @@ const ListState = props => {
                 payload: res.data
             });
         } catch (err) {
-            console.log(err);
             dispatch({
                 type: GET_LISTS_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -72,11 +72,13 @@ const ListState = props => {
                 type: CREATE_LIST,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: CREATE_LIST_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -90,11 +92,13 @@ const ListState = props => {
                 type: DELETE_LIST,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: DELETE_LIST_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -111,8 +115,9 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: GET_COLLABS_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -127,11 +132,13 @@ const ListState = props => {
                 type: CREATE_COLLABS,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: CREATE_COLLABS_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -145,11 +152,13 @@ const ListState = props => {
                 type: DELETE_COLLAB,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: DELETE_COLLAB_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -165,14 +174,15 @@ const ListState = props => {
             state.socket.emit('sendItem');
             dispatch({
                 type: CREATE_ITEM,
-                payload: { data: res.data, msg: 'Saved!' }
+                payload: res.data
             });
             setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: CREATE_ITEM_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -190,11 +200,13 @@ const ListState = props => {
                 type: UPDATE_ITEM,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: UPDATE_ITEM_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -209,11 +221,13 @@ const ListState = props => {
                 type: DELETE_ITEM,
                 payload: res.data
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: DELETE_ITEM_FAIL,
-                payload: err.response.data
+                payload: err.response.data.msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
