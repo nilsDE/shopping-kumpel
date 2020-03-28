@@ -22,7 +22,7 @@ const AuthState = props => {
         user: null,
         isAuthenticated: null,
         loading: false,
-        error: null
+        msg: null
     };
     const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -63,8 +63,9 @@ const AuthState = props => {
         } catch (err) {
             dispatch({
                 type: REGISTER_FAIL,
-                payload: err.response.data
+                payload: err.response.data.errors[0].msg
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 
@@ -109,7 +110,7 @@ const AuthState = props => {
                 isAuthenticated: state.isAuthenticated,
                 loading: state.loading,
                 user: state.user,
-                error: state.error,
+                msg: state.msg,
                 register,
                 clearErrors,
                 loadUser,

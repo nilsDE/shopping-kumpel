@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
+import Alert from './Alert';
 
 const SignUpForm = props => {
     const authContext = useContext(AuthContext);
-    const { register, error, clearErrors, isAuthenticated } = authContext;
+    const { register, msg, isAuthenticated } = authContext;
 
     const [form, setForm] = useState({
         email: '',
@@ -16,10 +17,8 @@ const SignUpForm = props => {
         if (isAuthenticated) {
             props.history.push('/list');
         }
-        // do something with the error
-        clearErrors();
         // eslint-disable-next-line
-    }, [error, isAuthenticated, props.history]);
+    }, [isAuthenticated, props.history]);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -39,6 +38,7 @@ const SignUpForm = props => {
 
     return (
         <>
+            <Alert type="danger" msg={msg} />
             <Form
                 className="mt-5 signup-login-form"
                 onSubmit={e => handleSubmit(e)}
@@ -56,7 +56,7 @@ const SignUpForm = props => {
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control
                         name="email"
-                        type="email"
+                        type="text"
                         placeholder="Enter email"
                         onChange={e => handleChange(e)}
                         maxLength="255"

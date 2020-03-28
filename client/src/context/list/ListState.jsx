@@ -23,7 +23,8 @@ import {
     UPDATE_ITEM,
     UPDATE_ITEM_FAIL,
     DELETE_ITEM,
-    DELETE_ITEM_FAIL
+    DELETE_ITEM_FAIL,
+    CLEAR_ERRORS
 } from '../types';
 
 const socket = io();
@@ -35,7 +36,8 @@ const ListState = props => {
         lists: [],
         collabs: [],
         users: [],
-        socket
+        socket,
+        msg: null
     };
     const [state, dispatch] = useReducer(listReducer, initialState);
 
@@ -163,8 +165,9 @@ const ListState = props => {
             state.socket.emit('sendItem');
             dispatch({
                 type: CREATE_ITEM,
-                payload: res.data
+                payload: { data: res.data, msg: 'Saved!' }
             });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         } catch (err) {
             dispatch({
                 type: CREATE_ITEM_FAIL,
@@ -227,6 +230,7 @@ const ListState = props => {
                 collabs: state.collabs,
                 users: state.users,
                 socket: state.socket,
+                msg: state.msg,
                 getLists,
                 createList,
                 deleteList,

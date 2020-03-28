@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
+import Alert from './Alert';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +30,8 @@ const ShoppingList = () => {
         reference,
         collabs,
         users,
-        socket
+        socket,
+        msg
     } = listContext;
     const { loadUser, loading, user } = authContext;
 
@@ -106,130 +108,137 @@ const ShoppingList = () => {
     }
 
     return (
-        <div className="shopping-list">
-            <div className="btn-row d-flex justify-content-between mb-3">
-                <button
-                    type="button"
-                    className="list-btn list-btn-fixed-width mr-1"
-                    disabled={loading || loadingList}
-                    onClick={e => {
-                        e.preventDefault();
-                        showModal(user.id);
-                    }}
-                >
-                    Make a list
-                </button>
-                <DropdownButton
-                    title="Select list"
-                    className="list-btn list-btn-fixed-width"
-                >
-                    {lists && lists.length !== 0
-                        ? lists
-                              .sort((a, b) =>
-                                  a.description.toLowerCase() >
-                                  b.description.toLowerCase()
-                                      ? 1
-                                      : -1
-                              )
-                              .map(l => (
-                                  <Dropdown.Item
-                                      eventKey={l.id}
-                                      onSelect={e => setSelectedList(e)}
-                                      key={l.id}
-                                  >
-                                      {l.description}
-                                  </Dropdown.Item>
-                              ))
-                        : null}
-                </DropdownButton>
-
-                <button
-                    type="button"
-                    className="ml-1 list-btn list-btn-fixed-width"
-                    onClick={() => deleteList(selectedList)}
-                    disabled={loading || loadingList || !lists}
-                >
-                    Delete list
-                </button>
-            </div>
-            <p className="shopping-list-title">
-                {currentList ? currentList.description : ''}
-            </p>
-            <Form onSubmit={e => handleSubmit(e)}>
-                <Form.Control
-                    className="mb-4"
-                    name="newTodo"
-                    type="text"
-                    value={newTodo}
-                    placeholder="Enter new item..."
-                    onChange={e => setNewTodo(e.target.value)}
-                ></Form.Control>
-            </Form>
-
-            {currentList && currentList.items && currentList.items.length > 0
-                ? currentList.items
-                      .sort((a, b) => (a.id > b.id ? 1 : -1))
-                      .map(item => (
-                          <Item key={item.id} item={item} socket={socket} />
-                      ))
-                : null}
-
-            {users && users.length > 0 && listOwner === user.name && (
-                <div className="d-flex justify-content-center mt-3">
-                    <DropdownButton
-                        title="Select a user to share the list!"
-                        className="list-btn"
+        <>
+            <Alert type="info" msg={msg} />
+            <div className="shopping-list">
+                <div className="btn-row d-flex justify-content-between mb-3">
+                    <button
+                        type="button"
+                        className="list-btn list-btn-fixed-width mr-1"
+                        disabled={loading || loadingList}
+                        onClick={e => {
+                            e.preventDefault();
+                            showModal(user.id);
+                        }}
                     >
-                        {users.map(u => (
-                            <Dropdown.Item
-                                eventKey={u.id}
-                                onSelect={e => createCollab(+e, selectedList)}
-                                key={u.id}
-                            >
-                                {u.email}
-                            </Dropdown.Item>
-                        ))}
+                        Make a list
+                    </button>
+                    <DropdownButton
+                        title="Select list"
+                        className="list-btn list-btn-fixed-width"
+                    >
+                        {lists && lists.length !== 0
+                            ? lists
+                                  .sort((a, b) =>
+                                      a.description.toLowerCase() >
+                                      b.description.toLowerCase()
+                                          ? 1
+                                          : -1
+                                  )
+                                  .map(l => (
+                                      <Dropdown.Item
+                                          eventKey={l.id}
+                                          onSelect={e => setSelectedList(e)}
+                                          key={l.id}
+                                      >
+                                          {l.description}
+                                      </Dropdown.Item>
+                                  ))
+                            : null}
                     </DropdownButton>
+
+                    <button
+                        type="button"
+                        className="ml-1 list-btn list-btn-fixed-width"
+                        onClick={() => deleteList(selectedList)}
+                        disabled={loading || loadingList || !lists}
+                    >
+                        Delete list
+                    </button>
                 </div>
-            )}
-            <div className="d-flex flex-column justify-content-center mt-3">
-                <p className="mb-0 small text-muted">{`List owner: ${
-                    listOwner === user.name ? 'me' : listOwner
-                }`}</p>
-                {collabs &&
-                    collabs.length > 0 &&
-                    users &&
-                    users.length > 0 &&
-                    listOwner === user.name && (
-                        <>
-                            <p className="mb-0 small text-muted">
-                                Collaborators:{' '}
-                            </p>
-                            {collabs.map(c => (
-                                <div
-                                    className="d-flex justify-content-center"
-                                    key={c.id}
+                <p className="shopping-list-title">
+                    {currentList ? currentList.description : ''}
+                </p>
+                <Form onSubmit={e => handleSubmit(e)}>
+                    <Form.Control
+                        className="mb-4"
+                        name="newTodo"
+                        type="text"
+                        value={newTodo}
+                        placeholder="Enter new item..."
+                        onChange={e => setNewTodo(e.target.value)}
+                    ></Form.Control>
+                </Form>
+
+                {currentList &&
+                currentList.items &&
+                currentList.items.length > 0
+                    ? currentList.items
+                          .sort((a, b) => (a.id > b.id ? 1 : -1))
+                          .map(item => (
+                              <Item key={item.id} item={item} socket={socket} />
+                          ))
+                    : null}
+
+                {users && users.length > 0 && listOwner === user.name && (
+                    <div className="d-flex justify-content-center mt-3">
+                        <DropdownButton
+                            title="Select a user to share the list!"
+                            className="list-btn"
+                        >
+                            {users.map(u => (
+                                <Dropdown.Item
+                                    eventKey={u.id}
+                                    onSelect={e =>
+                                        createCollab(+e, selectedList)
+                                    }
+                                    key={u.id}
                                 >
-                                    <p className="mb-0 small text-muted">
-                                        {c.User.name === user.name
-                                            ? 'me'
-                                            : c.User.name}
-                                    </p>
-                                    <button
-                                        onClick={() =>
-                                            deleteCollab(c.id, selectedList)
-                                        }
-                                        className="general-btn ml-1 delete-btn"
-                                        type="button"
-                                    >
-                                        <FontAwesomeIcon icon={faTimes} />
-                                    </button>
-                                </div>
+                                    {u.email}
+                                </Dropdown.Item>
                             ))}
-                        </>
-                    )}
+                        </DropdownButton>
+                    </div>
+                )}
+                <div className="d-flex flex-column justify-content-center mt-3">
+                    <p className="mb-0 small text-muted">{`List owner: ${
+                        listOwner === user.name ? 'me' : listOwner
+                    }`}</p>
+                    {collabs &&
+                        collabs.length > 0 &&
+                        users &&
+                        users.length > 0 &&
+                        listOwner === user.name && (
+                            <>
+                                <p className="mb-0 small text-muted">
+                                    Collaborators:{' '}
+                                </p>
+                                {collabs.map(c => (
+                                    <div
+                                        className="d-flex justify-content-center"
+                                        key={c.id}
+                                    >
+                                        <p className="mb-0 small text-muted">
+                                            {c.User.name === user.name
+                                                ? 'me'
+                                                : c.User.name}
+                                        </p>
+                                        <button
+                                            onClick={() =>
+                                                deleteCollab(c.id, selectedList)
+                                            }
+                                            className="general-btn ml-1 delete-btn"
+                                            type="button"
+                                        >
+                                            <FontAwesomeIcon icon={faTimes} />
+                                        </button>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

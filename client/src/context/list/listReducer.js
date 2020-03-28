@@ -17,7 +17,8 @@ import {
     UPDATE_ITEM,
     UPDATE_ITEM_FAIL,
     DELETE_ITEM,
-    DELETE_ITEM_FAIL
+    DELETE_ITEM_FAIL,
+    CLEAR_ERRORS
 } from '../types';
 
 export default (state, action) => {
@@ -33,7 +34,8 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                lists: action.payload.lists
+                lists: action.payload.data.lists,
+                msg: action.payload.msg
             };
         case GET_LISTS:
             return {
@@ -90,6 +92,8 @@ export default (state, action) => {
                 ...state,
                 loading: false
             };
+        case CLEAR_ERRORS:
+            return { ...state, msg: null };
         default:
             return state;
     }

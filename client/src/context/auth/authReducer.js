@@ -31,7 +31,7 @@ export default (state, action) => {
                 isAuthenticated: false,
                 loading: false,
                 user: null,
-                error: action.payload
+                msg: action.payload
             };
         case USER_LOADED:
             return {
@@ -43,7 +43,7 @@ export default (state, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                msg: null
             };
         default:
             return state;
