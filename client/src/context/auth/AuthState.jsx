@@ -99,9 +99,6 @@ const AuthState = props => {
     // Logout
     const logout = () => dispatch({ type: LOG_OUT });
 
-    // Clear Errors
-    const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
-
     const { children } = props;
 
     return (
@@ -113,7 +110,6 @@ const AuthState = props => {
                 user: state.user,
                 msg: state.msg,
                 register,
-                clearErrors,
                 loadUser,
                 login,
                 logout
