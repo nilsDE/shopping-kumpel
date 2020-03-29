@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,7 +14,12 @@ import './NavBar.css';
 
 const SiteNavbar = () => {
     const authContext = useContext(AuthContext);
-    const { isAuthenticated, logout } = authContext;
+    const { isAuthenticated, logout, loadUser } = authContext;
+
+    useEffect(() => {
+        loadUser();
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <>
