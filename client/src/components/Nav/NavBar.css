@@ -1,0 +1,43 @@
+.bg-dark {
+    background-color: var(--main-color-dark) !important;
+}
+
+.sidebar-title,
+.sidebar-link {
+    padding: 0.125rem;
+    color: var(--secondary-color);
+}
+
+.sidebar-title:hover,
+.sidebar-link:hover {
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.sidebar-title {
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+}
+
+.sidebar-link {
+    font-size: 1rem;
+    margin-left: 1rem;
+    letter-spacing: 0.05rem;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.btn-primary,
+.btn-primary:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+@media screen and (max-width: 650px) {
+    .sidebar-title,
+    .sidebar-link {
+        font-size: 0.85rem;
+    }
+}

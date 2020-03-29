@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import AuthContext from '../context/auth/authContext';
-import Alert from './Alert';
+import AuthContext from '../../context/auth/authContext';
+import Alert from '../Utils/Alert';
+
+import './Form.css';
 
 const SignUpForm = props => {
     const authContext = useContext(AuthContext);

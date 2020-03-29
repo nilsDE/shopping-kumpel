@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import bg from '../assets/unsplash1.jpg';
 import AuthContext from '../context/auth/authContext';
 import '../App.css';
+import './LandingPage.css';
 
 const LandingPage = () => {
     const authContext = useContext(AuthContext);

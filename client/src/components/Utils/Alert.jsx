@@ -5,6 +5,8 @@ import {
     faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
 
+import './Alert.css';
+
 const Alert = ({ type, msg }) => {
     const alertType = () => {
         switch (type) {

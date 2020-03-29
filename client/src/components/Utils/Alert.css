@@ -1,0 +1,55 @@
+.alert-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid black;
+    padding: 5px 8px;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    color: var(--main-color-dark);
+    animation: drop 300ms, vanish 4s;
+}
+
+.alert-container.danger {
+    color: red;
+    background-color: var(--main-color);
+    border: 1px solid red;
+}
+
+@keyframes vanish {
+    0% {
+        opacity: 100%;
+    }
+    40% {
+        opacity: 100%;
+    }
+    50% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 0%;
+    }
+}
+
+@keyframes drop {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.alert-text {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+}

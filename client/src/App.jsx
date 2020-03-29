@@ -2,11 +2,11 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
-import NavBar from './components/NavBar';
+import NavBar from './components/Nav/NavBar';
 import ShoppingList from './components/ShoppingList';
 import LandingPage from './components/LandingPage';
-import SignUpForm from './components/SignUpForm';
-import LoginForm from './components/LoginForm';
+import SignUpForm from './components/Auth/SignUpForm';
+import LoginForm from './components/Auth/LoginForm';
 import ListState from './context/list/ListState';
 import AuthState from './context/auth/AuthState';
 

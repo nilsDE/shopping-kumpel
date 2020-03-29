@@ -4,12 +4,14 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Alert from './Alert';
+import Alert from './Utils/Alert';
 import Item from './Item';
 import '../App.css';
 import ListContext from '../context/list/listContext';
 import AuthContext from '../context/auth/authContext';
-import Spinner from './Spinner';
+import Spinner from './Utils/Spinner';
+
+import './ShoppingList.css';
 
 const MySwal = withReactContent(Swal);
 
