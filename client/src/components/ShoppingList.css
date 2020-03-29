@@ -14,7 +14,7 @@ form {
     margin-top: 3rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     max-width: 500px;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .list-btn-fixed-width {
@@ -71,11 +71,17 @@ form {
 }
 
 .shopping-item-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 15fr 1fr 1fr;
+    grid-column-gap: 4px;
     flex-wrap: nowrap;
     align-items: center;
     padding: 0.5rem 0.5rem;
     position: relative;
+}
+
+.item-wrapper {
+    outline: none;
 }
 
 .shopping-item-container::after {
@@ -94,6 +100,7 @@ form {
 }
 
 .shopping-item {
+    justify-self: start;
     cursor: pointer;
     margin-bottom: 0;
 }
@@ -118,6 +125,7 @@ form {
 }
 
 .general-btn {
+    justify-self: end;
     height: 25px;
     width: 25px;
     border-radius: 50%;
@@ -134,11 +142,6 @@ form {
 .general-btn svg {
     height: 12px;
     width: 12px;
-}
-
-.edit-btn {
-    margin-left: auto;
-    margin-right: 0.4rem;
 }
 
 .btn-disabled {

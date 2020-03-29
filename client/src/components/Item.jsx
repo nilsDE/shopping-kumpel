@@ -41,7 +41,10 @@ const Item = ({ item }) => {
         <div className="shopping-item-container">
             {!editable ? (
                 <>
-                    <p
+                    <div
+                        className="text-left item-wrapper"
+                        role="button"
+                        tabIndex={0}
                         onClick={() =>
                             updateItem(
                                 item.description,
@@ -50,25 +53,36 @@ const Item = ({ item }) => {
                                 user.name
                             )
                         }
-                        className={`shopping-item ${
-                            item.completed ? 'item-completed' : ''
-                        }`}
                     >
-                        {item.description}
-                        <span
-                            className={`${
-                                item.lastModified === user.name
-                                    ? 'modified-self'
-                                    : 'modified-other'
-                            } ${item.completed ? 'item-completed' : ''}`}
+                        <p
+                            onClick={() =>
+                                updateItem(
+                                    item.description,
+                                    !item.completed,
+                                    item.id,
+                                    user.name
+                                )
+                            }
+                            className={`shopping-item ${
+                                item.completed ? 'item-completed' : ''
+                            }`}
                         >
-                            {item.lastModified === user.name
-                                ? '(me)'
-                                : item.lastModified}
-                        </span>
-                    </p>
+                            {item.description}
+                            <span
+                                className={`${
+                                    item.lastModified === user.name
+                                        ? 'modified-self'
+                                        : 'modified-other'
+                                } ${item.completed ? 'item-completed' : ''}`}
+                            >
+                                {item.lastModified === user.name
+                                    ? '(me)'
+                                    : item.lastModified}
+                            </span>
+                        </p>
+                    </div>
                     <button
-                        className={`general-btn edit-btn ${
+                        className={`general-btn ${
                             item.completed ? 'btn-disabled' : ''
                         }`}
                         onClick={() => editItem()}
@@ -94,7 +108,7 @@ const Item = ({ item }) => {
                             value={todo}
                             placeholder="Enter new item..."
                             onChange={e => handleChange(e)}
-                        ></Form.Control>
+                        />
                     </Form>
                 </>
             )}

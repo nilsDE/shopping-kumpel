@@ -41,42 +41,44 @@ const SignUpForm = props => {
     return (
         <>
             <Alert type="danger" msg={msg} />
-            <Form
-                className="mt-5 signup-login-form"
-                onSubmit={e => handleSubmit(e)}
-            >
-                <h2>SignUp</h2>
-                <Form.Group controlId="formBasicName">
-                    <Form.Control
-                        name="name"
-                        type="text"
-                        placeholder="Name"
-                        onChange={e => handleChange(e)}
-                        maxLength="20"
-                    />
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Control
-                        name="email"
-                        type="text"
-                        placeholder="Enter email"
-                        onChange={e => handleChange(e)}
-                        maxLength="255"
-                    />
-                </Form.Group>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Control
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        onChange={e => handleChange(e)}
-                        maxLength="255"
-                    />
-                </Form.Group>
-                <Button variant="outline-dark" type="submit">
-                    Submit
-                </Button>
-            </Form>
+            <div className="form-container">
+                <Form
+                    className="signup-login-form"
+                    onSubmit={e => handleSubmit(e)}
+                >
+                    <h2>Sign up</h2>
+                    <Form.Group controlId="formBasicName">
+                        <Form.Control
+                            name="name"
+                            type="text"
+                            placeholder="Name"
+                            onChange={e => handleChange(e)}
+                            maxLength="20"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Control
+                            name="email"
+                            type="text"
+                            placeholder="Enter email"
+                            onChange={e => handleChange(e)}
+                            maxLength="255"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Control
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            onChange={e => handleChange(e)}
+                            maxLength="255"
+                        />
+                    </Form.Group>
+                    <Button variant="outline-dark" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+            </div>
         </>
     );
 };

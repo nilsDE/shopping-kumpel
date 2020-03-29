@@ -169,7 +169,7 @@ const ShoppingList = () => {
                         value={newTodo}
                         placeholder="Enter new item..."
                         onChange={e => setNewTodo(e.target.value)}
-                    ></Form.Control>
+                    />
                 </Form>
 
                 {currentList &&

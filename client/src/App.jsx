@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { Route } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
@@ -9,8 +10,6 @@ import SignUpForm from './components/Auth/SignUpForm';
 import LoginForm from './components/Auth/LoginForm';
 import ListState from './context/list/ListState';
 import AuthState from './context/auth/AuthState';
-
-import './App.css';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);

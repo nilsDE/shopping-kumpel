@@ -1,5 +1,19 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .signup-login-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 0 0.75rem;
+    max-width: 80%;
+    padding: 1.5rem 4rem;
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.signup-login-form h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
 }
