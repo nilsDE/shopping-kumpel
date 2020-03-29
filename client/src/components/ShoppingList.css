@@ -11,9 +11,10 @@ form {
     margin: 0 auto;
     background-color: var(--secondary-color);
     padding: 1rem;
-    margin-top: 3rem;
+    margin-top: 5rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
+    max-width: 600px;
+    min-width: 310px;
     border-radius: 6px;
 }
 
@@ -26,7 +27,7 @@ form {
     color: var(--main-color-dark);
     border: 1px solid var(--main-color-dark);
     height: 30px;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .list-btn:focus {

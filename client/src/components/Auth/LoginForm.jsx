@@ -51,6 +51,7 @@ const LoginForm = props => {
                             type="email"
                             placeholder="Enter email"
                             onChange={e => handleChange(e)}
+                            maxLength="255"
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
@@ -59,6 +60,7 @@ const LoginForm = props => {
                             type="password"
                             placeholder="Password"
                             onChange={e => handleChange(e)}
+                            maxLength="255"
                         />
                     </Form.Group>
                     <Button variant="outline-dark" type="submit">

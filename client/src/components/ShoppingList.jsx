@@ -85,8 +85,10 @@ const ShoppingList = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        createItem(newTodo, user.name, currentList.id);
-        setNewTodo('');
+        if (newTodo && newTodo.length !== 0) {
+            createItem(newTodo, user.name, currentList.id);
+            setNewTodo('');
+        }
     };
 
     let listOwner = '';
@@ -123,7 +125,7 @@ const ShoppingList = () => {
                             showModal(user.id);
                         }}
                     >
-                        Make a list
+                        Create list
                     </button>
                     <DropdownButton
                         title="Select list"
@@ -169,6 +171,7 @@ const ShoppingList = () => {
                         value={newTodo}
                         placeholder="Enter new item..."
                         onChange={e => setNewTodo(e.target.value)}
+                        maxLength="255"
                     />
                 </Form>
 
