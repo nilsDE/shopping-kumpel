@@ -6,6 +6,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOG_OUT,
+    SET_LOADING,
     CLEAR_ERRORS
 } from '../types';
 
@@ -44,6 +45,11 @@ export default (state, action) => {
             return {
                 ...state,
                 msg: null
+            };
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: true
             };
         default:
             return state;
