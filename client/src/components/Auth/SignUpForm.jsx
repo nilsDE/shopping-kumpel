@@ -78,6 +78,7 @@ const SignUpForm = props => {
                         Submit
                     </Button>
                 </Form>
+                <div className="arrow-area" />
             </div>
         </>
     );
