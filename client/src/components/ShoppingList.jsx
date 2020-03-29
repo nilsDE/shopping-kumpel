@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
-import Alert from './Alert';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Alert from './Alert';
 import Item from './Item';
 import '../App.css';
 import ListContext from '../context/list/listContext';
