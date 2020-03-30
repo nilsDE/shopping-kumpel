@@ -3,6 +3,7 @@ const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const socket = require('./socket');
 
 // General setup
 const app = express();
@@ -16,23 +17,8 @@ const server = app.listen(PORT, () => {
     console.log(`Mixing it up on port ${PORT}`);
 });
 
-// socket.io
-const io = socketio(server);
-
-io.on('connection', socket => {
-    socket.on('item', (item, callback) => {
-        io.emit('item', { text: item });
-        callback();
-    });
-
-    socket.on('sendItem', () => {
-        socket.broadcast.emit('change');
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User has left!');
-    });
-});
+// Socket.io
+socket(server);
 
 // Routes
 app.use('/api/users', require('./routes/users'));
