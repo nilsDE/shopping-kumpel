@@ -4,12 +4,10 @@ module.exports = server => {
     const io = socketio(server);
 
     io.on('connection', socket => {
-        socket.on('item', (item, callback) => {
-            io.emit('item', { text: item });
-            callback();
-        });
+        console.log('New connection', socket.id);
 
-        socket.on('sendItem', () => {
+        socket.on('sendItem', listId => {
+            console.log(listId);
             socket.broadcast.emit('change');
         });
 

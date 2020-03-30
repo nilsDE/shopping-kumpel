@@ -180,9 +180,7 @@ const ShoppingList = () => {
                 currentList.items.length > 0
                     ? currentList.items
                           .sort((a, b) => (a.id > b.id ? 1 : -1))
-                          .map(item => (
-                              <Item key={item.id} item={item} socket={socket} />
-                          ))
+                          .map(item => <Item key={item.id} item={item} />)
                     : null}
 
                 {users && users.length > 0 && listOwner === user.name && (

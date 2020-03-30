@@ -117,8 +117,7 @@ const Item = ({ item }) => {
 };
 
 Item.propTypes = {
-    item: PropTypes.object.isRequired,
-    socket: PropTypes.any.isRequired
+    item: PropTypes.object.isRequired
 };
 
 export default Item;

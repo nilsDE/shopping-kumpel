@@ -171,7 +171,7 @@ const ListState = props => {
                 lastModified,
                 listId
             });
-            state.socket.emit('sendItem');
+            state.socket.emit('sendItem', listId);
             dispatch({
                 type: CREATE_ITEM,
                 payload: res.data
