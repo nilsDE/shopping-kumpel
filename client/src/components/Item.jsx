@@ -10,7 +10,7 @@ import AuthContext from '../context/auth/authContext';
 import ListContext from '../context/list/listContext';
 import '../App.css';
 
-const Item = ({ item }) => {
+const Item = ({ item, list }) => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
 
@@ -32,7 +32,7 @@ const Item = ({ item }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        updateItem(todo, item.completed, item.id, user.name);
+        updateItem(todo, item.completed, item.id, user.name, list);
         const changedState = !editable;
         setEditable(changedState);
     };
@@ -50,7 +50,8 @@ const Item = ({ item }) => {
                                 item.description,
                                 !item.completed,
                                 item.id,
-                                user.name
+                                user.name,
+                                list
                             )
                         }
                     >
@@ -60,7 +61,8 @@ const Item = ({ item }) => {
                                     item.description,
                                     !item.completed,
                                     item.id,
-                                    user.name
+                                    user.name,
+                                    list
                                 )
                             }
                             className={`shopping-item ${
@@ -92,7 +94,7 @@ const Item = ({ item }) => {
                         <FontAwesomeIcon icon={faPen} />
                     </button>
                     <button
-                        onClick={() => deleteItem(item)}
+                        onClick={() => deleteItem(item, list)}
                         className="general-btn delete-btn"
                         type="button"
                     >

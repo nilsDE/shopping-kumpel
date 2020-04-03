@@ -33,7 +33,8 @@ const ShoppingList = () => {
         collabs,
         users,
         socket,
-        msg
+        msg,
+        joinList
     } = listContext;
     const { loadUser, loading, user } = authContext;
 
@@ -44,7 +45,8 @@ const ShoppingList = () => {
     useEffect(() => {
         loadUser();
         getLists();
-        socket.on('change', () => {
+        socket.on('change', list => {
+            console.log('GOT CHANGE, list: ', list);
             getLists();
         });
         // eslint-disable-next-line
@@ -61,6 +63,7 @@ const ShoppingList = () => {
 
     useEffect(() => {
         if (selectedList) {
+            joinList(selectedList);
             getCollabs(selectedList);
         }
         // eslint-disable-next-line
@@ -180,7 +183,13 @@ const ShoppingList = () => {
                 currentList.items.length > 0
                     ? currentList.items
                           .sort((a, b) => (a.id > b.id ? 1 : -1))
-                          .map(item => <Item key={item.id} item={item} />)
+                          .map(item => (
+                              <Item
+                                  key={item.id}
+                                  item={item}
+                                  list={selectedList}
+                              />
+                          ))
                     : null}
 
                 {users && users.length > 0 && listOwner === user.name && (

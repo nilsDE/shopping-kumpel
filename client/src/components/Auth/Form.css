@@ -7,7 +7,7 @@
 }
 
 .signup-login-form {
-    max-width: 80%;
+    max-width: 500px;
     padding: 1.5rem 4rem;
     background-color: var(--secondary-color);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);

@@ -29,6 +29,8 @@ import {
 
 const socket = io();
 
+socket.on('Welcome', () => console.log('Es klappt!'));
+
 const ListState = props => {
     const initialState = {
         loading: false,
@@ -44,6 +46,8 @@ const ListState = props => {
     // Actions
 
     const setLoading = () => dispatch({ type: SET_LOADING });
+
+    const joinList = list => socket.emit('joinList', list);
 
     const getLists = async () => {
         try {
@@ -186,7 +190,13 @@ const ListState = props => {
         }
     };
 
-    const updateItem = async (description, completed, id, lastModified) => {
+    const updateItem = async (
+        description,
+        completed,
+        id,
+        lastModified,
+        list
+    ) => {
         try {
             setLoading();
             const res = await axios.put('/api/lists/items', {
@@ -195,7 +205,7 @@ const ListState = props => {
                 id,
                 lastModified
             });
-            state.socket.emit('sendItem');
+            state.socket.emit('sendItem', list);
             dispatch({
                 type: UPDATE_ITEM,
                 payload: res.data
@@ -210,13 +220,13 @@ const ListState = props => {
         }
     };
 
-    const deleteItem = async item => {
+    const deleteItem = async (item, list) => {
         try {
             setLoading();
             const res = await axios.delete('/api/lists/items', {
                 params: { id: item.id }
             });
-            state.socket.emit('sendItem');
+            state.socket.emit('sendItem', list);
             dispatch({
                 type: DELETE_ITEM,
                 payload: res.data
@@ -253,7 +263,8 @@ const ListState = props => {
                 deleteCollab,
                 createItem,
                 updateItem,
-                deleteItem
+                deleteItem,
+                joinList
             }}
         >
             {children}
