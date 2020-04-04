@@ -41,8 +41,7 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                lists: action.payload.lists,
-                reference: action.type
+                lists: action.payload.lists
             };
         case CREATE_LIST:
             return {
@@ -56,7 +55,6 @@ export default (state, action) => {
                 ...state,
                 loading: false,
                 lists: action.payload.allLists,
-                reference: action.type,
                 msg: action.payload.msg
             };
         case GET_COLLABS:
@@ -64,8 +62,7 @@ export default (state, action) => {
                 ...state,
                 loading: false,
                 collabs: action.payload.collabs,
-                users: action.payload.user,
-                reference: action.type
+                users: action.payload.user
             };
         case CREATE_COLLABS:
             return {

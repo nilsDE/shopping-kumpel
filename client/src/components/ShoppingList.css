@@ -23,7 +23,10 @@ form {
 }
 
 .list-btn {
-    background-color: var(--secondary-color);
+    background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all 0.2s ease-out;
     color: var(--main-color-dark);
     border: 1px solid var(--main-color-dark);
     height: 30px;
@@ -41,7 +44,7 @@ form {
 }
 
 .list-btn:hover {
-    background-color: var(--main-color-dark);
+    background-position: left bottom;
     color: var(--secondary-color);
 }
 

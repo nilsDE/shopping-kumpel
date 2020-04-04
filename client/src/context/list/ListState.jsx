@@ -34,7 +34,6 @@ socket.on('Welcome', () => console.log('Es klappt!'));
 const ListState = props => {
     const initialState = {
         loading: false,
-        reference: '',
         lists: [],
         collabs: [],
         users: [],
@@ -249,7 +248,6 @@ const ListState = props => {
             value={{
                 loading: state.loading,
                 lists: state.lists,
-                reference: state.reference,
                 collabs: state.collabs,
                 users: state.users,
                 socket: state.socket,
