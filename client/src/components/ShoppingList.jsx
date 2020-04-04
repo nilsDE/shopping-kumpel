@@ -29,7 +29,6 @@ const ShoppingList = () => {
         deleteCollab,
         createItem,
         lists,
-        reference,
         collabs,
         users,
         socket,
@@ -52,19 +51,11 @@ const ShoppingList = () => {
         // eslint-disable-next-line
     }, []);
 
-    // COMPONENT DID UPDATE
-    useEffect(() => {
-        if (reference === 'GET_LISTS' || reference === 'DELETE_LIST') {
-            if (lists && lists.length !== 0 && lists instanceof Array) {
-                setSelectedList(lists[0].id);
-            }
-        }
-    }, [lists, reference]);
-
     useEffect(() => {
         if (selectedList) {
             joinList(selectedList);
             getCollabs(selectedList);
+            getLists();
         }
         // eslint-disable-next-line
     }, [selectedList]);
@@ -158,97 +149,111 @@ const ShoppingList = () => {
                         type="button"
                         className="ml-1 list-btn list-btn-fixed-width"
                         onClick={() => deleteList(selectedList)}
-                        disabled={loading || loadingList || !lists}
+                        disabled={
+                            loading || loadingList || !lists || !selectedList
+                        }
                     >
                         Delete list
                     </button>
                 </div>
-                <p className="shopping-list-title">
-                    {currentList ? currentList.description : ''}
-                </p>
-                <Form onSubmit={e => handleSubmit(e)}>
-                    <Form.Control
-                        className="mb-4"
-                        name="newTodo"
-                        type="text"
-                        value={newTodo}
-                        placeholder="Enter new item..."
-                        onChange={e => setNewTodo(e.target.value)}
-                        maxLength="255"
-                    />
-                </Form>
 
-                {currentList &&
-                currentList.items &&
-                currentList.items.length > 0
-                    ? currentList.items
-                          .sort((a, b) => (a.id > b.id ? 1 : -1))
-                          .map(item => (
-                              <Item
-                                  key={item.id}
-                                  item={item}
-                                  list={selectedList}
-                              />
-                          ))
-                    : null}
+                {!selectedList ? (
+                    'Select a list!'
+                ) : (
+                    <>
+                        <p className="shopping-list-title">
+                            {currentList ? currentList.description : ''}
+                        </p>
+                        <Form onSubmit={e => handleSubmit(e)}>
+                            <Form.Control
+                                className="mb-4"
+                                name="newTodo"
+                                type="text"
+                                value={newTodo}
+                                placeholder="Enter new item..."
+                                onChange={e => setNewTodo(e.target.value)}
+                                maxLength="255"
+                            />
+                        </Form>
 
-                {users && users.length > 0 && listOwner === user.name && (
-                    <div className="d-flex justify-content-center mt-3">
-                        <DropdownButton
-                            title="Select a user to share the list!"
-                            className="list-btn"
-                        >
-                            {users.map(u => (
-                                <Dropdown.Item
-                                    eventKey={u.id}
-                                    onSelect={e =>
-                                        createCollab(+e, selectedList)
-                                    }
-                                    key={u.id}
+                        {currentList &&
+                        currentList.items &&
+                        currentList.items.length > 0
+                            ? currentList.items
+                                  .sort((a, b) => (a.id > b.id ? 1 : -1))
+                                  .map(item => (
+                                      <Item
+                                          key={item.id}
+                                          item={item}
+                                          list={selectedList}
+                                      />
+                                  ))
+                            : null}
+
+                        {users && users.length > 0 && listOwner === user.name && (
+                            <div className="d-flex justify-content-center mt-3">
+                                <DropdownButton
+                                    title="Select a user to share the list!"
+                                    className="list-btn"
                                 >
-                                    {u.email}
-                                </Dropdown.Item>
-                            ))}
-                        </DropdownButton>
-                    </div>
-                )}
-                <div className="d-flex flex-column justify-content-center mt-3">
-                    <p className="mb-0 small text-muted">{`List owner: ${
-                        listOwner === user.name ? 'me' : listOwner
-                    }`}</p>
-                    {collabs &&
-                        collabs.length > 0 &&
-                        users &&
-                        users.length > 0 &&
-                        listOwner === user.name && (
-                            <>
-                                <p className="mb-0 small text-muted">
-                                    Collaborators:{' '}
-                                </p>
-                                {collabs.map(c => (
-                                    <div
-                                        className="d-flex justify-content-center"
-                                        key={c.id}
-                                    >
-                                        <p className="mb-0 small text-muted">
-                                            {c.User.name === user.name
-                                                ? 'me'
-                                                : c.User.name}
-                                        </p>
-                                        <button
-                                            onClick={() =>
-                                                deleteCollab(c.id, selectedList)
+                                    {users.map(u => (
+                                        <Dropdown.Item
+                                            eventKey={u.id}
+                                            onSelect={e =>
+                                                createCollab(+e, selectedList)
                                             }
-                                            className="general-btn ml-1 delete-btn"
-                                            type="button"
+                                            key={u.id}
                                         >
-                                            <FontAwesomeIcon icon={faTimes} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </>
+                                            {u.email}
+                                        </Dropdown.Item>
+                                    ))}
+                                </DropdownButton>
+                            </div>
                         )}
-                </div>
+                        <div className="d-flex flex-column justify-content-center mt-3">
+                            <p className="mb-0 small text-muted">{`List owner: ${
+                                listOwner === user.name ? 'me' : listOwner
+                            }`}</p>
+                            {collabs &&
+                                collabs.length > 0 &&
+                                users &&
+                                users.length > 0 &&
+                                listOwner === user.name && (
+                                    <>
+                                        <p className="mb-0 small text-muted">
+                                            Collaborators:{' '}
+                                        </p>
+                                        {collabs.map(c => (
+                                            <div
+                                                className="d-flex justify-content-center"
+                                                key={c.id}
+                                            >
+                                                <p className="mb-0 small text-muted">
+                                                    {c.User.name === user.name
+                                                        ? 'me'
+                                                        : c.User.name}
+                                                </p>
+                                                <button
+                                                    onClick={() =>
+                                                        deleteCollab(
+                                                            c.id,
+                                                            selectedList
+                                                        )
+                                                    }
+                                                    className="general-btn ml-1 delete-btn"
+                                                    type="button"
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faTimes}
+                                                    />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+                        </div>
+                    </>
+                )}
             </div>
         </>
     );

@@ -49,6 +49,11 @@ const ListState = props => {
 
     const joinList = list => socket.emit('joinList', list);
 
+    const leaveList = list => {
+        console.log('LEAVE LIST');
+        socket.emit('leaveList', list);
+    };
+
     const getLists = async () => {
         try {
             setLoading();
@@ -264,7 +269,8 @@ const ListState = props => {
                 createItem,
                 updateItem,
                 deleteItem,
-                joinList
+                joinList,
+                leaveList
             }}
         >
             {children}
