@@ -1,12 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faSignInAlt,
-    faSignOutAlt,
-    faList,
-    faHandPointRight
-} from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faSignOutAlt, faList, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 
@@ -34,8 +29,7 @@ const SiteNavbar = () => {
                                 <FontAwesomeIcon icon={faSignInAlt} /> SignIn
                             </Link>
                             <Link to="/signup" className="sidebar-link">
-                                <FontAwesomeIcon icon={faHandPointRight} />{' '}
-                                SignUp
+                                <FontAwesomeIcon icon={faHandPointRight} /> SignUp
                             </Link>
                         </>
                     ) : (
@@ -43,10 +37,7 @@ const SiteNavbar = () => {
                             <Link to="/list" className="sidebar-link">
                                 <FontAwesomeIcon icon={faList} /> My Lists
                             </Link>
-                            <Button
-                                onClick={() => logout()}
-                                className="sidebar-link"
-                            >
+                            <Button onClick={() => logout()} className="sidebar-link">
                                 <FontAwesomeIcon icon={faSignOutAlt} /> SignOut
                             </Button>
                         </>

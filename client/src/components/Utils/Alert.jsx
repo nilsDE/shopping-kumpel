@@ -1,9 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faExclamationCircle,
-    faInfoCircle
-} from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Alert.css';
 
@@ -20,13 +17,7 @@ const Alert = ({ type, msg }) => {
     };
     if (msg) {
         return (
-            <div
-                className={
-                    type === 'danger'
-                        ? 'alert-container danger'
-                        : 'alert-container'
-                }
-            >
+            <div className={type === 'danger' ? 'alert-container danger' : 'alert-container'}>
                 {alertType()}
                 <span className="alert-text">{msg}</span>
             </div>

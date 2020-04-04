@@ -46,47 +46,27 @@ const Item = ({ item, list }) => {
                         role="button"
                         tabIndex={0}
                         onClick={() =>
-                            updateItem(
-                                item.description,
-                                !item.completed,
-                                item.id,
-                                user.name,
-                                list
-                            )
+                            updateItem(item.description, !item.completed, item.id, user.name, list)
                         }
                     >
                         <p
                             onClick={() =>
-                                updateItem(
-                                    item.description,
-                                    !item.completed,
-                                    item.id,
-                                    user.name,
-                                    list
-                                )
+                                updateItem(item.description, !item.completed, item.id, user.name, list)
                             }
-                            className={`shopping-item ${
-                                item.completed ? 'item-completed' : ''
-                            }`}
+                            className={`shopping-item ${item.completed ? 'item-completed' : ''}`}
                         >
                             {item.description}
                             <span
                                 className={`${
-                                    item.lastModified === user.name
-                                        ? 'modified-self'
-                                        : 'modified-other'
+                                    item.lastModified === user.name ? 'modified-self' : 'modified-other'
                                 } ${item.completed ? 'item-completed' : ''}`}
                             >
-                                {item.lastModified === user.name
-                                    ? '(me)'
-                                    : item.lastModified}
+                                {item.lastModified === user.name ? '(me)' : item.lastModified}
                             </span>
                         </p>
                     </div>
                     <button
-                        className={`general-btn ${
-                            item.completed ? 'btn-disabled' : ''
-                        }`}
+                        className={`general-btn ${item.completed ? 'btn-disabled' : ''}`}
                         onClick={() => editItem()}
                         type="button"
                         disabled={item.completed}

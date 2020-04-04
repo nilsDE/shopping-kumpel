@@ -78,9 +78,7 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                collabs: state.collabs.filter(
-                    c => c.id !== action.payload.collab.id
-                ),
+                collabs: state.collabs.filter(c => c.id !== action.payload.collab.id),
                 msg: action.payload.msg
             };
         case GET_LISTS_FAIL:

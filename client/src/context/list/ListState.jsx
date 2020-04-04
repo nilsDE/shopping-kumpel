@@ -195,13 +195,7 @@ const ListState = props => {
         }
     };
 
-    const updateItem = async (
-        description,
-        completed,
-        id,
-        lastModified,
-        list
-    ) => {
+    const updateItem = async (description, completed, id, lastModified, list) => {
         try {
             setLoading();
             const res = await axios.put('/api/lists/items', {

@@ -42,10 +42,7 @@ const SignUpForm = props => {
         <>
             <Alert type="danger" msg={msg} />
             <div className="form-container">
-                <Form
-                    className="signup-login-form"
-                    onSubmit={e => handleSubmit(e)}
-                >
+                <Form className="signup-login-form" onSubmit={e => handleSubmit(e)}>
                     <h2>Sign up</h2>
                     <Form.Group controlId="formBasicName">
                         <Form.Control

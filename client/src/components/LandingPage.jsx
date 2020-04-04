@@ -18,11 +18,7 @@ const LandingPage = () => {
             <div className="btn-container">
                 {!authContext.isAuthenticated ? (
                     <Link to="/signup">
-                        <Button
-                            variant="outline-dark"
-                            className="signup-btn mt-4"
-                            size="lg"
-                        >
+                        <Button variant="outline-dark" className="signup-btn mt-4" size="lg">
                             Sign Up!
                         </Button>
                     </Link>

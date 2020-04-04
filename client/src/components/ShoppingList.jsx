@@ -3,12 +3,7 @@ import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faPlus,
-    faTrashAlt,
-    faShare,
-    faList
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashAlt, faShare, faList } from '@fortawesome/free-solid-svg-icons';
 import Alert from './Utils/Alert';
 import Item from './Item';
 import '../App.css';
@@ -92,13 +87,7 @@ const ShoppingList = () => {
 
     let listOwner = '';
 
-    if (
-        lists &&
-        lists.length > 0 &&
-        users &&
-        users.length > 0 &&
-        selectedList
-    ) {
+    if (lists && lists.length > 0 && users && users.length > 0 && selectedList) {
         const currentListUserId = lists.find(l => +l.id === +selectedList);
 
         if (currentListUserId) {
@@ -138,10 +127,7 @@ const ShoppingList = () => {
                         {lists && lists.length !== 0
                             ? lists
                                   .sort((a, b) =>
-                                      a.description.toLowerCase() >
-                                      b.description.toLowerCase()
-                                          ? 1
-                                          : -1
+                                      a.description.toLowerCase() > b.description.toLowerCase() ? 1 : -1
                                   )
                                   .map(l => (
                                       <Dropdown.Item
@@ -159,9 +145,7 @@ const ShoppingList = () => {
                         type="button"
                         className="ml-1 list-btn list-btn-fixed-width"
                         onClick={() => deleteList(selectedList)}
-                        disabled={
-                            loading || loadingList || !lists || !selectedList
-                        }
+                        disabled={loading || loadingList || !lists || !selectedList}
                     >
                         <FontAwesomeIcon icon={faTrashAlt} /> Delete list
                     </button>
@@ -171,9 +155,7 @@ const ShoppingList = () => {
                     'Select a list!'
                 ) : (
                     <>
-                        <p className="shopping-list-title">
-                            {currentList ? currentList.description : ''}
-                        </p>
+                        <p className="shopping-list-title">{currentList ? currentList.description : ''}</p>
                         <Form onSubmit={e => handleSubmit(e)}>
                             <Form.Control
                                 className="mb-4"
@@ -186,18 +168,10 @@ const ShoppingList = () => {
                             />
                         </Form>
 
-                        {currentList &&
-                        currentList.items &&
-                        currentList.items.length > 0
+                        {currentList && currentList.items && currentList.items.length > 0
                             ? currentList.items
                                   .sort((a, b) => (a.id > b.id ? 1 : -1))
-                                  .map(item => (
-                                      <Item
-                                          key={item.id}
-                                          item={item}
-                                          list={selectedList}
-                                      />
-                                  ))
+                                  .map(item => <Item key={item.id} item={item} list={selectedList} />)
                             : null}
 
                         {users && users.length > 0 && listOwner === user.name && (
@@ -214,9 +188,7 @@ const ShoppingList = () => {
                                     {users.map(u => (
                                         <Dropdown.Item
                                             eventKey={u.id}
-                                            onSelect={e =>
-                                                createCollab(+e, selectedList)
-                                            }
+                                            onSelect={e => createCollab(+e, selectedList)}
                                             key={u.id}
                                         >
                                             {u.email}
@@ -235,32 +207,18 @@ const ShoppingList = () => {
                                 users.length > 0 &&
                                 listOwner === user.name && (
                                     <>
-                                        <p className="mb-0 small text-muted">
-                                            Collaborators:{' '}
-                                        </p>
+                                        <p className="mb-0 small text-muted">Collaborators: </p>
                                         {collabs.map(c => (
-                                            <div
-                                                className="d-flex justify-content-center"
-                                                key={c.id}
-                                            >
+                                            <div className="d-flex justify-content-center" key={c.id}>
                                                 <p className="mb-0 small text-muted">
-                                                    {c.User.name === user.name
-                                                        ? 'me'
-                                                        : c.User.name}
+                                                    {c.User.name === user.name ? 'me' : c.User.name}
                                                 </p>
                                                 <button
-                                                    onClick={() =>
-                                                        deleteCollab(
-                                                            c.id,
-                                                            selectedList
-                                                        )
-                                                    }
+                                                    onClick={() => deleteCollab(c.id, selectedList)}
                                                     className="general-btn ml-1 delete-btn"
                                                     type="button"
                                                 >
-                                                    <FontAwesomeIcon
-                                                        icon={faTrashAlt}
-                                                    />
+                                                    <FontAwesomeIcon icon={faTrashAlt} />
                                                 </button>
                                             </div>
                                         ))}
