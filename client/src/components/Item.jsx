@@ -4,7 +4,7 @@
 import React, { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import AuthContext from '../context/auth/authContext';
 import ListContext from '../context/list/listContext';
@@ -98,7 +98,7 @@ const Item = ({ item, list }) => {
                         className="general-btn delete-btn"
                         type="button"
                     >
-                        <FontAwesomeIcon icon={faTimes} />
+                        <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                 </>
             ) : (

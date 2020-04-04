@@ -3,7 +3,12 @@ import { Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+    faPlus,
+    faTrashAlt,
+    faShare,
+    faList
+} from '@fortawesome/free-solid-svg-icons';
 import Alert from './Utils/Alert';
 import Item from './Item';
 import '../App.css';
@@ -119,10 +124,15 @@ const ShoppingList = () => {
                             showModal(user.id);
                         }}
                     >
-                        Create list
+                        <FontAwesomeIcon icon={faPlus} /> New list
                     </button>
                     <DropdownButton
-                        title="Select list"
+                        title={
+                            <span>
+                                <FontAwesomeIcon icon={faList} />
+                                &nbsp;Lists
+                            </span>
+                        }
                         className="list-btn list-btn-fixed-width"
                     >
                         {lists && lists.length !== 0
@@ -153,7 +163,7 @@ const ShoppingList = () => {
                             loading || loadingList || !lists || !selectedList
                         }
                     >
-                        Delete list
+                        <FontAwesomeIcon icon={faTrashAlt} /> Delete list
                     </button>
                 </div>
 
@@ -193,8 +203,13 @@ const ShoppingList = () => {
                         {users && users.length > 0 && listOwner === user.name && (
                             <div className="d-flex justify-content-center mt-3">
                                 <DropdownButton
-                                    title="Select a user to share the list!"
-                                    className="list-btn"
+                                    title={
+                                        <span>
+                                            <FontAwesomeIcon icon={faShare} />
+                                            &nbsp;Share!
+                                        </span>
+                                    }
+                                    className="list-btn list-btn-fixed-width"
                                 >
                                     {users.map(u => (
                                         <Dropdown.Item
@@ -244,7 +259,7 @@ const ShoppingList = () => {
                                                     type="button"
                                                 >
                                                     <FontAwesomeIcon
-                                                        icon={faTimes}
+                                                        icon={faTrashAlt}
                                                     />
                                                 </button>
                                             </div>
