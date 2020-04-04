@@ -13,10 +13,13 @@ DONE: Protected components Frontend, protected routes BE
 DONE: Check all error responses from API calls and refactor code!
 DONE: Clean up the error handling and show feedback to the user
 DONE: Check why app crashes after logout and go back to login
+DONE: Reload logs you out, token still there. Probably related to the private route component
+DONE: keep previous list selection after collab user has changed something
+DONE: Refactor socket.io so that it only triggers actions where the actual user is involved.
+TODO: Msgs do not show on mobile
+TODO: Deleting a list does not refresh the lists
 TODO: Make sure all Alerts work! Maybe improve types and styles
-TODO: Reload logs you out, token still there. Probably related to the private route component
-TODO: keep previous list selection after collab user has changed something
 TODO: check BE queries for authorization
-TODO: Refactor socket.io so that it only triggers actions where the actual user is involved.
 TODO: Check user rights when deleting stuff
+TODO: In general, check what is actually being accepted by the backend!
 TODO: Use mongoDB? Use SQL queries with postgres?
