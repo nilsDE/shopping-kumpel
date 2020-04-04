@@ -99,7 +99,8 @@ const Item = ({ item, list }) => {
 };
 
 Item.propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    list: PropTypes.number.isRequired
 };
 
 export default Item;

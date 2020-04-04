@@ -20,6 +20,26 @@
     font-size: 2rem;
 }
 
+.form-control {
+    border: 0;
+    border-radius: 0;
+    color: black;
+    border-bottom: 1px solid var(--main-color-dark);
+    background-color: var(--main-color);
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: var(--main-color);
+    border-color: var(--secondary-color);
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.form-control::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
 .arrow-area {
     height: 80px;
     background-color: var(--main-color-dark);

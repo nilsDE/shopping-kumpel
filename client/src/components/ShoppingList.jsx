@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faShare, faList } from '@fortawesome/free-solid-svg-icons';
 import Alert from './Utils/Alert';
 import Item from './Item';
+import NewList from './NewList';
 import '../App.css';
 import ListContext from '../context/list/listContext';
 import AuthContext from '../context/auth/authContext';
@@ -18,12 +19,10 @@ const MySwal = withReactContent(Swal);
 const ShoppingList = () => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-
     const {
         getLists,
         createList,
         deleteList,
-        loadingList,
         getCollabs,
         createCollab,
         deleteCollab,
@@ -40,12 +39,10 @@ const ShoppingList = () => {
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();
 
-    // COMPONENT DID MOUNT
     useEffect(() => {
         loadUser();
         getLists();
-        socket.on('change', list => {
-            console.log('GOT CHANGE, list: ', list);
+        socket.on('change', () => {
             getLists();
         });
         // eslint-disable-next-line
@@ -63,12 +60,9 @@ const ShoppingList = () => {
     const showModal = () => {
         MySwal.fire({
             title: <p>New list:</p>,
-            showCancelButton: true,
-            confirmButtonText: 'Save!',
-            input: 'text',
-            preConfirm: title => {
-                createList(title);
-            }
+            showCancelButton: false,
+            showConfirmButton: false,
+            html: <NewList createList={title => createList(title)} />
         });
     };
 
@@ -95,7 +89,7 @@ const ShoppingList = () => {
         }
     }
 
-    if (lists.length === 0) {
+    if (lists.length === 0 || loading) {
         return <Spinner />;
     }
 
@@ -107,7 +101,7 @@ const ShoppingList = () => {
                     <button
                         type="button"
                         className="list-btn list-btn-fixed-width mr-1"
-                        disabled={loading || loadingList}
+                        disabled={loading}
                         onClick={e => {
                             e.preventDefault();
                             showModal(user.id);
@@ -145,7 +139,7 @@ const ShoppingList = () => {
                         type="button"
                         className="ml-1 list-btn list-btn-fixed-width"
                         onClick={() => deleteList(selectedList)}
-                        disabled={loading || loadingList || !lists || !selectedList}
+                        disabled={loading || !lists || !selectedList}
                     >
                         <FontAwesomeIcon icon={faTrashAlt} /> Delete list
                     </button>

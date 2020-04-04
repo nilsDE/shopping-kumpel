@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import Alert from '../Utils/Alert';
 import AuthContext from '../../context/auth/authContext';
@@ -71,3 +72,7 @@ const LoginForm = props => {
 };
 
 export default LoginForm;
+
+LoginForm.propTypes = {
+    history: PropTypes.object.isRequired
+};

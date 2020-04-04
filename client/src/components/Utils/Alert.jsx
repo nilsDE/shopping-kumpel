@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,3 +28,8 @@ const Alert = ({ type, msg }) => {
 };
 
 export default Alert;
+
+Alert.propTypes = {
+    type: PropTypes.string.isRequired,
+    msg: PropTypes.string.isRequired
+};
