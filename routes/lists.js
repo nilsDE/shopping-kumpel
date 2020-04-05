@@ -93,6 +93,10 @@ router.delete('/', auth, async (req, res) => {
                     as: 'collabs',
                     where: { userId: req.user.id },
                     required: false
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'id']
                 }
             ]
         });
@@ -208,6 +212,10 @@ router.post('/items', auth, async (req, res) => {
                     as: 'collabs',
                     where: { userId: req.user.id },
                     required: false
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'id']
                 }
             ]
         });
@@ -251,6 +259,10 @@ router.put('/items', auth, async (req, res) => {
                     as: 'collabs',
                     where: { userId: req.user.id },
                     required: false
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'id']
                 }
             ]
         });
@@ -285,6 +297,10 @@ router.delete('/items', auth, async (req, res) => {
                     as: 'collabs',
                     where: { userId: req.user.id },
                     required: false
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'id']
                 }
             ]
         });
