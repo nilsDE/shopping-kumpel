@@ -30,10 +30,7 @@ router.get('/', auth, async (req, res) => {
     try {
         const lists = await List.findAll({
             where: {
-                [Op.or]: [
-                    { userId: req.user.id },
-                    { '$collabs.userId$': req.user.id }
-                ]
+                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
             },
             include: [
                 {
@@ -74,16 +71,13 @@ router.delete('/', auth, async (req, res) => {
         const { listId } = req.query;
         let list = await List.findByPk(listId);
         if (list && +list.userId === req.user.id) {
-            list.destroy();
+            await list.destroy();
         } else {
             res.status(401).json({ msg: 'You are not authorized!' });
         }
         const allLists = await List.findAll({
             where: {
-                [Op.or]: [
-                    { userId: req.user.id },
-                    { '$collabs.userId$': req.user.id }
-                ]
+                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
             },
             include: [
                 {
@@ -172,10 +166,7 @@ router.delete('/collabs', auth, async (req, res) => {
         const list = await List.findByPk(req.query.listId);
 
         console.log(collab);
-        if (
-            req.user.id === collab.dataValues.userId ||
-            req.user.id === list.dataValues.userId
-        ) {
+        if (req.user.id === collab.dataValues.userId || req.user.id === list.dataValues.userId) {
             await collab.destroy();
             res.json({ collab, msg: 'Deleted!' });
         } else {
@@ -201,10 +192,7 @@ router.post('/items', auth, async (req, res) => {
         });
         const allLists = await List.findAll({
             where: {
-                [Op.or]: [
-                    { userId: req.user.id },
-                    { '$collabs.userId$': req.user.id }
-                ]
+                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
             },
             include: [
                 {
@@ -247,10 +235,7 @@ router.put('/items', auth, async (req, res) => {
         });
         const allLists = await List.findAll({
             where: {
-                [Op.or]: [
-                    { userId: req.user.id },
-                    { '$collabs.userId$': req.user.id }
-                ]
+                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
             },
             include: [
                 {
@@ -284,10 +269,7 @@ router.delete('/items', auth, async (req, res) => {
 
         const allLists = await List.findAll({
             where: {
-                [Op.or]: [
-                    { userId: req.user.id },
-                    { '$collabs.userId$': req.user.id }
-                ]
+                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
             },
             include: [
                 {

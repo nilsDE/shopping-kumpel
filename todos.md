@@ -16,8 +16,8 @@ DONE: Check why app crashes after logout and go back to login
 DONE: Reload logs you out, token still there. Probably related to the private route component
 DONE: keep previous list selection after collab user has changed something
 DONE: Refactor socket.io so that it only triggers actions where the actual user is involved.
+DONE: Deleting a list does not refresh the lists
 TODO: Msgs do not show on mobile
-TODO: Deleting a list does not refresh the lists
 TODO: Make sure all Alerts work! Maybe improve types and styles
 TODO: check BE queries for authorization
 TODO: Check user rights when deleting stuff

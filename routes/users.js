@@ -16,10 +16,7 @@ router.post(
             .not()
             .isEmpty(),
         check('email', 'Please include a valid email.').isEmail(),
-        check(
-            'password',
-            'Please enter a password with at least 6 characters'
-        ).isLength({ min: 6 })
+        check('password', 'Please enter a password with at least 6 characters').isLength({ min: 6 })
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -35,9 +32,7 @@ router.post(
             });
 
             if (exitingUser) {
-                return res
-                    .status(400)
-                    .json({ msg: [{ msg: 'User already exists! 😒' }] });
+                return res.status(400).json({ msg: [{ msg: 'User already exists! 😒' }] });
             }
 
             const salt = await bcrypt.genSalt(10);
