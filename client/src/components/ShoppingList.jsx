@@ -16,7 +16,7 @@ import './ShoppingList.css';
 
 const MySwal = withReactContent(Swal);
 
-const ShoppingList = () => {
+const ShoppingList = ({ match }) => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
     const {
@@ -35,14 +35,12 @@ const ShoppingList = () => {
         joinList,
         loading
     } = listContext;
-    const { loadUser, user } = authContext;
+    const { user } = authContext;
 
     const [newTodo, setNewTodo] = useState('');
-    const [selectedList, setSelectedList] = useState();
+    const [selectedList, setSelectedList] = useState(+match.params.id);
 
     useEffect(() => {
-        loadUser();
-        getLists();
         socket.on('change', () => {
             getLists();
         });

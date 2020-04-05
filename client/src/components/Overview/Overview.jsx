@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext, useEffect } from 'react';
 import ListContext from '../../context/list/listContext';
 import AuthContext from '../../context/auth/authContext';
@@ -5,10 +8,10 @@ import Spinner from '../Utils/Spinner';
 
 import './Overview.css';
 
-const Overview = () => {
+const Overview = props => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const { getLists, getCollabs, lists, collabs, loading } = listContext;
+    const { getLists, lists, loading } = listContext;
     const { loadUser, user } = authContext;
 
     useEffect(() => {
@@ -32,10 +35,24 @@ const Overview = () => {
             <p className="text-left">What list would you like to work on?</p>
             <div className="list-content">
                 {lists.map(list => (
-                    <div key={list.id} className="list-item">
-                        <p className="item-property">{list.description}</p>
-                        <p className="item-property">{list.items.length}</p>
-                        <p className="item-property">{list.userId}</p>
+                    <div
+                        key={list.id}
+                        className="list-item"
+                        onClick={() => props.history.push(`/list/${list.id}`)}
+                        role="button"
+                    >
+                        <div className="d-flex justify-content-start flex-column">
+                            <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
+                            <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
+                        </div>
+                        <div className="d-flex justify-content-start flex-column">
+                            <p className="text-left small text-muted mt-0 mb-0">Items</p>
+                            <p className="text-left">{list.items.length}</p>
+                        </div>
+                        <div className="d-flex justify-content-start flex-column">
+                            <p className="text-left small text-muted mt-0 mb-0">Owner</p>
+                            <p className="text-left">{user.id === list.User.id ? 'Me' : list.User.name}</p>
+                        </div>
                     </div>
                 ))}
             </div>

@@ -34,7 +34,7 @@ const SiteNavbar = () => {
                         </>
                     ) : (
                         <>
-                            <Link to="/list" className="sidebar-link">
+                            <Link to="/overview" className="sidebar-link">
                                 <FontAwesomeIcon icon={faList} /> My Lists
                             </Link>
                             <Button onClick={() => logout()} className="sidebar-link">

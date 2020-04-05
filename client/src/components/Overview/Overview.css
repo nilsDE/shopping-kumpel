@@ -55,7 +55,7 @@
     grid-template-columns: 4fr 1fr 1fr;
     justify-items: start;
     width: 90%;
-    height: 2.6rem;
+    height: 3rem;
     background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
@@ -71,9 +71,4 @@
     background-position: left bottom;
     color: var(--secondary-color);
     cursor: pointer;
-}
-
-.item-property {
-    align-self: center;
-    margin: 0 0 0 0.2rem;
 }

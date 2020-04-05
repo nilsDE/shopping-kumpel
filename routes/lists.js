@@ -42,6 +42,10 @@ router.get('/', auth, async (req, res) => {
                     as: 'collabs',
                     where: { userId: req.user.id },
                     required: false
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'id']
                 }
             ]
         });

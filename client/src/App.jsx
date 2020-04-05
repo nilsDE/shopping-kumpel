@@ -26,7 +26,7 @@ const App = () => {
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/signup" component={SignUpForm} />
                         <Route path="/login" component={LoginForm} />
-                        <PrivateRoute path="/list" component={ShoppingList} />
+                        <PrivateRoute path="/list/:id" component={ShoppingList} />
                         <PrivateRoute path="/overview" component={Overview} />
                     </div>
                 </div>
