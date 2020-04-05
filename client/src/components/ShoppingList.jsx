@@ -32,9 +32,10 @@ const ShoppingList = () => {
         users,
         socket,
         msg,
-        joinList
+        joinList,
+        loading
     } = listContext;
-    const { loadUser, loading, user } = authContext;
+    const { loadUser, user } = authContext;
 
     const [newTodo, setNewTodo] = useState('');
     const [selectedList, setSelectedList] = useState();

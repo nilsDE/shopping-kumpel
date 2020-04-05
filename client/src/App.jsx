@@ -8,6 +8,7 @@ import ShoppingList from './components/ShoppingList';
 import LandingPage from './components/LandingPage';
 import SignUpForm from './components/Auth/SignUpForm';
 import LoginForm from './components/Auth/LoginForm';
+import Overview from './components/Overview/Overview';
 import ListState from './context/list/ListState';
 import AuthState from './context/auth/AuthState';
 
@@ -26,6 +27,7 @@ const App = () => {
                         <Route path="/signup" component={SignUpForm} />
                         <Route path="/login" component={LoginForm} />
                         <PrivateRoute path="/list" component={ShoppingList} />
+                        <PrivateRoute path="/overview" component={Overview} />
                     </div>
                 </div>
             </ListState>

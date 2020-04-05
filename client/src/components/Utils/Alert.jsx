@@ -31,5 +31,9 @@ export default Alert;
 
 Alert.propTypes = {
     type: PropTypes.string.isRequired,
-    msg: PropTypes.string.isRequired
+    msg: PropTypes.string
+};
+
+Alert.defaultProps = {
+    msg: ''
 };

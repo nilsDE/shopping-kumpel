@@ -1,0 +1,79 @@
+.overview {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    margin: 5rem auto 5rem auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 90vw;
+    min-width: 310px;
+    border-radius: 6px;
+}
+
+.titles {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.title-one {
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    font-style: italic;
+}
+
+.title-two {
+    position: absolute;
+    font-style: italic;
+    height: 26px;
+    top: 31px;
+    left: 0px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    animation: leftRight 3s ease-in-out 0s infinite;
+    animation-direction: alternate;
+}
+
+@keyframes leftRight {
+    0% {
+        left: -10px;
+    }
+    100% {
+        left: 10px;
+    }
+}
+
+.list-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.list-item {
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+    justify-items: start;
+    width: 90%;
+    height: 2.6rem;
+    background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    align-self: center;
+    margin-top: 0.2rem;
+    transition: all 0.2s ease-out;
+    color: var(--main-color-dark);
+    border: 1px solid var(--main-color-dark);
+    border-radius: 6px;
+}
+
+.list-item:hover {
+    background-position: left bottom;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.item-property {
+    align-self: center;
+    margin: 0 0 0 0.2rem;
+}
