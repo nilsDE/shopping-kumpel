@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 const { List, Collab, Item, User } = require('../db/models');
+const helper = require('./helper');
 
 // @route       POST api/lists
 // @desc        Create a new list
@@ -28,32 +28,8 @@ router.post('/', auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const lists = await List.findAll({
-            where: {
-                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
-            },
-            include: [
-                {
-                    model: Item,
-                    as: 'items'
-                },
-                {
-                    model: Collab,
-                    as: 'collabs',
-                    required: false,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id']
-                        }
-                    ]
-                },
-                {
-                    model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
-        });
+        const lists = await helper.getAllLists(req);
+
         let allLists;
         if (lists && lists.length > 0) {
             res.json({ lists });
@@ -84,32 +60,8 @@ router.delete('/', auth, async (req, res) => {
         } else {
             res.status(401).json({ msg: 'You are not authorized!' });
         }
-        const allLists = await List.findAll({
-            where: {
-                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
-            },
-            include: [
-                {
-                    model: Item,
-                    as: 'items'
-                },
-                {
-                    model: Collab,
-                    as: 'collabs',
-                    required: false,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id']
-                        }
-                    ]
-                },
-                {
-                    model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
-        });
+        const allLists = await helper.getAllLists(req);
+
         if (allLists && allLists.length > 0) {
             res.json({ allLists, msg: 'Deleted!' });
         } else {
@@ -189,32 +141,8 @@ router.post('/items', auth, async (req, res) => {
             lastModified: req.body.lastModified,
             listId: req.body.listId
         });
-        const allLists = await List.findAll({
-            where: {
-                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
-            },
-            include: [
-                {
-                    model: Item,
-                    as: 'items'
-                },
-                {
-                    model: Collab,
-                    as: 'collabs',
-                    required: false,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id']
-                        }
-                    ]
-                },
-                {
-                    model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
-        });
+        const allLists = await helper.getAllLists(req);
+
         res.json({ lists: allLists, msg: 'Saved!' });
     } catch (err) {
         console.error(err);
@@ -241,32 +169,8 @@ router.put('/items', auth, async (req, res) => {
         await item.update(updateObject, {
             fields: Object.keys(updateObject)
         });
-        const allLists = await List.findAll({
-            where: {
-                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
-            },
-            include: [
-                {
-                    model: Item,
-                    as: 'items'
-                },
-                {
-                    model: Collab,
-                    as: 'collabs',
-                    required: false,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id']
-                        }
-                    ]
-                },
-                {
-                    model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
-        });
+        const allLists = await helper.getAllLists(req);
+
         res.json({ lists: allLists, msg: 'Updated!' });
     } catch (err) {
         console.error(err);
@@ -284,32 +188,8 @@ router.delete('/items', auth, async (req, res) => {
 
         await item.destroy();
 
-        const allLists = await List.findAll({
-            where: {
-                [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }]
-            },
-            include: [
-                {
-                    model: Item,
-                    as: 'items'
-                },
-                {
-                    model: Collab,
-                    as: 'collabs',
-                    required: false,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id']
-                        }
-                    ]
-                },
-                {
-                    model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
-        });
+        const allLists = await helper.getAllLists(req);
+
         res.json({ lists: allLists, msg: 'Deleted!' });
     } catch (err) {
         console.error(err);
