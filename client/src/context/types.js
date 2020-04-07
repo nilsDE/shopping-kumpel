@@ -28,8 +28,9 @@ export const UPDATE_ITEM_FAIL = 'UPDATE_ITEM_FAIL';
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const DELETE_ITEM_FAIL = 'DELETE_ITEM_FAIL';
 
-export const GET_COLLABS = 'GET_COLLABS';
-export const GET_COLLABS_FAIL = 'GET_COLLABS_FAIL';
+export const GET_USERS = 'GET_USERS';
+export const GET_USERS_FAIL = 'GET_USERS_FAIL';
+
 export const CREATE_COLLABS = 'CREATE_COLLABS';
 export const CREATE_COLLABS_FAIL = 'CREATE_COLLABS_FAIL';
 export const DELETE_COLLAB = 'DELETE_COLLAB';

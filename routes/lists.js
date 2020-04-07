@@ -40,8 +40,13 @@ router.get('/', auth, async (req, res) => {
                 {
                     model: Collab,
                     as: 'collabs',
-                    where: { userId: req.user.id },
-                    required: false
+                    required: false,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id']
+                        }
+                    ]
                 },
                 {
                     model: User,
@@ -91,8 +96,13 @@ router.delete('/', auth, async (req, res) => {
                 {
                     model: Collab,
                     as: 'collabs',
-                    where: { userId: req.user.id },
-                    required: false
+                    required: false,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id']
+                        }
+                    ]
                 },
                 {
                     model: User,
@@ -115,29 +125,6 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
-// @route       GET api/lists/collabs
-// @desc        Get all collabs
-// @access      Private
-
-router.get('/collabs', auth, async (req, res) => {
-    try {
-        const { listId } = req.query;
-        const collabs = await Collab.findAll({
-            where: { listId },
-            include: [
-                {
-                    model: User
-                }
-            ]
-        });
-        const user = await User.findAll();
-        res.json({ collabs, user });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
-    }
-});
-
 // @route       POST api/lists/collabs
 // @desc        Create a new collab
 // @access      Private
@@ -151,6 +138,10 @@ router.post('/collabs', auth, async (req, res) => {
         const getCollabsForList = await Collab.findAll({
             where: { listId: req.body.listId },
             include: [
+                {
+                    model: User,
+                    attributes: ['name', 'id']
+                },
                 {
                     model: User
                 }
@@ -210,8 +201,13 @@ router.post('/items', auth, async (req, res) => {
                 {
                     model: Collab,
                     as: 'collabs',
-                    where: { userId: req.user.id },
-                    required: false
+                    required: false,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id']
+                        }
+                    ]
                 },
                 {
                     model: User,
@@ -257,8 +253,13 @@ router.put('/items', auth, async (req, res) => {
                 {
                     model: Collab,
                     as: 'collabs',
-                    where: { userId: req.user.id },
-                    required: false
+                    required: false,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id']
+                        }
+                    ]
                 },
                 {
                     model: User,
@@ -295,8 +296,13 @@ router.delete('/items', auth, async (req, res) => {
                 {
                     model: Collab,
                     as: 'collabs',
-                    where: { userId: req.user.id },
-                    required: false
+                    required: false,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id']
+                        }
+                    ]
                 },
                 {
                     model: User,
@@ -305,6 +311,20 @@ router.delete('/items', auth, async (req, res) => {
             ]
         });
         res.json({ lists: allLists, msg: 'Deleted!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+    }
+});
+
+// @route       GET api/lists/users
+// @desc        Get all collabs
+// @access      Private
+
+router.get('/users', auth, async (req, res) => {
+    try {
+        const user = await User.findAll();
+        res.json({ user });
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Sorry, there was an error! 😒' });

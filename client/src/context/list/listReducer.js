@@ -6,8 +6,8 @@ import {
     CREATE_LIST_FAIL,
     DELETE_LIST,
     DELETE_LIST_FAIL,
-    GET_COLLABS,
-    GET_COLLABS_FAIL,
+    GET_USERS,
+    GET_USERS_FAIL,
     CREATE_COLLABS,
     CREATE_COLLABS_FAIL,
     DELETE_COLLAB,
@@ -57,11 +57,10 @@ export default (state, action) => {
                 lists: action.payload.allLists,
                 msg: action.payload.msg
             };
-        case GET_COLLABS:
+        case GET_USERS:
             return {
                 ...state,
                 loading: false,
-                collabs: action.payload.collabs,
                 users: action.payload.user
             };
         case CREATE_COLLABS:
@@ -81,7 +80,7 @@ export default (state, action) => {
         case GET_LISTS_FAIL:
         case CREATE_LIST_FAIL:
         case DELETE_LIST_FAIL:
-        case GET_COLLABS_FAIL:
+        case GET_USERS_FAIL:
         case CREATE_COLLABS_FAIL:
         case DELETE_COLLAB_FAIL:
         case CREATE_ITEM_FAIL:

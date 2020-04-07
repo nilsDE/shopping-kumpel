@@ -23,12 +23,11 @@ const ShoppingList = ({ match }) => {
         getLists,
         createList,
         deleteList,
-        getCollabs,
+        getUsers,
         createCollab,
         deleteCollab,
         createItem,
         lists,
-        collabs,
         users,
         socket,
         msg,
@@ -50,7 +49,7 @@ const ShoppingList = ({ match }) => {
     useEffect(() => {
         if (selectedList) {
             joinList(selectedList);
-            getCollabs(selectedList);
+            getUsers();
             getLists();
         }
         // eslint-disable-next-line
@@ -125,7 +124,7 @@ const ShoppingList = ({ match }) => {
                                   .map(l => (
                                       <Dropdown.Item
                                           eventKey={l.id}
-                                          onSelect={e => setSelectedList(e)}
+                                          onSelect={e => setSelectedList(+e)}
                                           key={l.id}
                                       >
                                           {l.description}
@@ -194,14 +193,14 @@ const ShoppingList = ({ match }) => {
                             <p className="mb-0 small text-muted">{`List owner: ${
                                 listOwner === user.name ? 'me' : listOwner
                             }`}</p>
-                            {collabs &&
-                                collabs.length > 0 &&
+                            {currentList.collabs &&
+                                currentList.collabs.length > 0 &&
                                 users &&
                                 users.length > 0 &&
                                 listOwner === user.name && (
                                     <>
                                         <p className="mb-0 small text-muted">Collaborators: </p>
-                                        {collabs.map(c => (
+                                        {currentList.collabs.map(c => (
                                             <div className="d-flex justify-content-center" key={c.id}>
                                                 <p className="mb-0 small text-muted">
                                                     {c.User.name === user.name ? 'me' : c.User.name}

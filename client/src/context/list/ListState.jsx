@@ -12,8 +12,8 @@ import {
     CREATE_LIST_FAIL,
     DELETE_LIST,
     DELETE_LIST_FAIL,
-    GET_COLLABS,
-    GET_COLLABS_FAIL,
+    GET_USERS,
+    GET_USERS_FAIL,
     CREATE_COLLABS,
     CREATE_COLLABS_FAIL,
     DELETE_COLLAB,
@@ -110,19 +110,17 @@ const ListState = props => {
         }
     };
 
-    const getCollabs = async listId => {
+    const getUsers = async () => {
         try {
             setLoading();
-            const res = await axios.get('/api/lists/collabs', {
-                params: { listId }
-            });
+            const res = await axios.get('/api/lists/users', {});
             dispatch({
-                type: GET_COLLABS,
+                type: GET_USERS,
                 payload: res.data
             });
         } catch (err) {
             dispatch({
-                type: GET_COLLABS_FAIL,
+                type: GET_USERS_FAIL,
                 payload: err.response.data.msg
             });
             setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
@@ -255,7 +253,7 @@ const ListState = props => {
                 getLists,
                 createList,
                 deleteList,
-                getCollabs,
+                getUsers,
                 createCollab,
                 deleteCollab,
                 createItem,
