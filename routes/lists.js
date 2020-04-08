@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const Sequelize = require('sequelize');
 const { List, Collab, Item, User } = require('../db/models');
 const helper = require('./helper');
 
@@ -93,9 +92,6 @@ router.post('/collabs', auth, async (req, res) => {
                 {
                     model: User,
                     attributes: ['name', 'id']
-                },
-                {
-                    model: User
                 }
             ]
         });
@@ -115,11 +111,18 @@ router.delete('/collabs', auth, async (req, res) => {
     try {
         const collab = await Collab.findByPk(req.query.collabId);
         const list = await List.findByPk(req.query.listId);
-
-        console.log(collab);
         if (req.user.id === collab.dataValues.userId || req.user.id === list.dataValues.userId) {
             await collab.destroy();
-            res.json({ collab, msg: 'Deleted!' });
+            const allCollabs = await Collab.findAll({
+                where: { listId: req.query.listId },
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'id']
+                    }
+                ]
+            });
+            res.json({ collabs: [...allCollabs], msg: 'Deleted!' });
         } else {
             throw 401;
         }
@@ -185,11 +188,8 @@ router.put('/items', auth, async (req, res) => {
 router.delete('/items', auth, async (req, res) => {
     try {
         const item = await Item.findByPk(req.query.id);
-
         await item.destroy();
-
         const allLists = await helper.getAllLists(req);
-
         res.json({ lists: allLists, msg: 'Deleted!' });
     } catch (err) {
         console.error(err);

@@ -63,20 +63,21 @@ export default (state, action) => {
                 loading: false,
                 users: action.payload.user
             };
-        case CREATE_COLLABS:
-            return {
-                ...state,
-                loading: false,
-                collabs: action.payload.collabs,
-                msg: action.payload.msg
-            };
         case DELETE_COLLAB:
+        case CREATE_COLLABS: {
+            const allLists = state.lists;
+            const list = state.lists.find(l => l.id === action.payload.collabs[0].listId);
+            const toDel = state.lists.findIndex(l => l.id === action.payload.collabs[0].listId);
+            list.collabs = action.payload.collabs;
+            allLists.splice(toDel, 1, list);
+
             return {
                 ...state,
                 loading: false,
-                collabs: state.collabs.filter(c => c.id !== action.payload.collab.id),
+                lists: allLists,
                 msg: action.payload.msg
             };
+        }
         case GET_LISTS_FAIL:
         case CREATE_LIST_FAIL:
         case DELETE_LIST_FAIL:

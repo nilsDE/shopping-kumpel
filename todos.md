@@ -17,7 +17,7 @@ DONE: Reload logs you out, token still there. Probably related to the private ro
 DONE: keep previous list selection after collab user has changed something
 DONE: Refactor socket.io so that it only triggers actions where the actual user is involved.
 DONE: Deleting a list does not refresh the lists
-TODO: Adding collab does not update list
+DONE: Adding collab does not update list
 TODO: Msgs do not show on mobile
 TODO: Make sure all Alerts work! Maybe improve types and styles
 TODO: check BE queries for authorization

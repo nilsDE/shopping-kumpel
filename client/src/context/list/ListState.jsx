@@ -35,7 +35,6 @@ const ListState = props => {
     const initialState = {
         loading: false,
         lists: [],
-        collabs: [],
         users: [],
         socket,
         msg: null
@@ -246,7 +245,6 @@ const ListState = props => {
             value={{
                 loading: state.loading,
                 lists: state.lists,
-                collabs: state.collabs,
                 users: state.users,
                 socket: state.socket,
                 msg: state.msg,
