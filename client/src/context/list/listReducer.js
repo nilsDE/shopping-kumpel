@@ -66,8 +66,8 @@ export default (state, action) => {
         case DELETE_COLLAB:
         case CREATE_COLLABS: {
             const allLists = state.lists;
-            const list = state.lists.find(l => l.id === action.payload.collabs[0].listId);
-            const toDel = state.lists.findIndex(l => l.id === action.payload.collabs[0].listId);
+            const list = state.lists.find(l => l.id === action.payload.listId);
+            const toDel = state.lists.findIndex(l => l.id === action.payload.listId);
             list.collabs = action.payload.collabs;
             allLists.splice(toDel, 1, list);
 

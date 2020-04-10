@@ -6,9 +6,9 @@ import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import AuthContext from '../context/auth/authContext';
-import ListContext from '../context/list/listContext';
-import '../App.css';
+import AuthContext from '../../../context/auth/authContext';
+import ListContext from '../../../context/list/listContext';
+import '../../../App.css';
 
 const Item = ({ item, list }) => {
     const listContext = useContext(ListContext);

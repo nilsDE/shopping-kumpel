@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import NavBar from './components/Nav/NavBar';
-import ShoppingList from './components/ShoppingList';
+import ShoppingList from './components/List/ShoppingList';
 import LandingPage from './components/LandingPage';
 import SignUpForm from './components/Auth/SignUpForm';
 import LoginForm from './components/Auth/LoginForm';

@@ -95,7 +95,7 @@ router.post('/collabs', auth, async (req, res) => {
                 }
             ]
         });
-        res.json({ collabs: getCollabsForList, msg: 'Added!' });
+        res.json({ collabs: getCollabsForList, listId: req.body.listId, msg: 'Added!' });
         callback(null, getCollabsForList);
     } catch (err) {
         console.error(err);
@@ -122,7 +122,7 @@ router.delete('/collabs', auth, async (req, res) => {
                     }
                 ]
             });
-            res.json({ collabs: [...allCollabs], msg: 'Deleted!' });
+            res.json({ collabs: [...allCollabs], listId: +req.query.listId, msg: 'Deleted!' });
         } else {
             throw 401;
         }
