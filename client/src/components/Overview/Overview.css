@@ -56,15 +56,16 @@
     justify-items: start;
     width: 90%;
     height: 3rem;
-    background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
+    background: linear-gradient(to right, var(--main-color-dark) 49%, var(--secondary-color) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     align-self: center;
     margin-top: 0.2rem;
     transition: all 0.2s ease-out;
     color: var(--main-color-dark);
-    border: 1px solid var(--main-color-dark);
+    box-shadow: 3px 3px 8px 1px rgba(0, 0, 0, 0.3);
     border-radius: 6px;
+    margin-bottom: 0.8rem;
 }
 
 .list-item:hover {

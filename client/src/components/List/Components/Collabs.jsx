@@ -51,7 +51,8 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
                 <p className="mb-0 small text-muted">{`List owner: ${
                     listOwner === user.name ? 'me' : listOwner
                 }`}</p>
-                {currentList.collabs &&
+                {currentList &&
+                    currentList.collabs &&
                     currentList.collabs.length > 0 &&
                     users &&
                     users.length > 0 &&
