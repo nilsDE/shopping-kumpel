@@ -3,16 +3,23 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
+import withReactContent from 'sweetalert2-react-content';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ListContext from '../../context/list/listContext';
 import AuthContext from '../../context/auth/authContext';
+import NewList from './NewList';
 import Spinner from '../Utils/Spinner';
 
 import './Overview.css';
 
+const MySwal = withReactContent(Swal);
+
 const Overview = props => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const { getLists, lists } = listContext;
+    const { getLists, createList, deleteList, lists } = listContext;
     const { loadUser, user } = authContext;
 
     const loading = listContext.loading || authContext.loading;
@@ -22,6 +29,16 @@ const Overview = props => {
         getLists();
         // eslint-disable-next-line
     }, []);
+
+    const showModal = () => {
+        MySwal.fire({
+            title: <p>New list:</p>,
+            showCancelButton: false,
+            showConfirmButton: false,
+            html: <NewList createList={title => createList(title)} />
+        });
+    };
+
     if (loading || !user) {
         return <Spinner />;
     }
@@ -35,33 +52,66 @@ const Overview = props => {
                     <h1>{`Welcome, ${user.name}!`}</h1>
                 </div>
             </div>
-            <p className="text-left">What list would you like to work on?</p>
+            <div className="d-flex justify-content-between">
+                <p className="text-left">What list would you like to work on?</p>
+                <div className="btn-row d-flex justify-content-between mb-3">
+                    <button
+                        type="button"
+                        className="list-btn list-btn-fixed-width mr-1"
+                        disabled={loading}
+                        onClick={e => {
+                            e.preventDefault();
+                            showModal(user.id);
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faPlus} /> New list
+                    </button>
+                </div>
+            </div>
             <div className="list-content">
                 {!loading && lists && lists.length > 0
                     ? lists.map(list => (
                           <div
+                              className="d-flex justify-content-center align-items-center mb-3"
                               key={list.id}
-                              className="list-item"
-                              onClick={() => props.history.push(`/list/${list.id}`)}
-                              role="button"
                           >
-                              <div className="d-flex justify-content-start flex-column">
-                                  <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
-                                  <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
+                              <div
+                                  key={list.id}
+                                  className="list-item mr-2"
+                                  onClick={() => props.history.push(`/list/${list.id}`)}
+                                  role="button"
+                              >
+                                  <div className="d-flex justify-content-start flex-column">
+                                      <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
+                                      <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
+                                  </div>
+                                  <div className="d-flex justify-content-start flex-column">
+                                      <p className="text-left small text-muted mt-0 mb-0">Items</p>
+                                      <p className="text-left">
+                                          {list.items && list.items.length > 0 ? list.items.length : '-'}
+                                      </p>
+                                  </div>
+                                  <div className="d-flex justify-content-start flex-column">
+                                      <p className="text-left small text-muted mt-0 mb-0">Owner</p>
+                                      <p className="text-left">
+                                          {user && user.id && list.User && user.id === list.User.id
+                                              ? 'Me'
+                                              : list.User.name}
+                                      </p>
+                                  </div>
                               </div>
-                              <div className="d-flex justify-content-start flex-column">
-                                  <p className="text-left small text-muted mt-0 mb-0">Items</p>
-                                  <p className="text-left">
-                                      {list.item && list.item.length > 0 ? list.items.length : '-'}
-                                  </p>
-                              </div>
-                              <div className="d-flex justify-content-start flex-column">
-                                  <p className="text-left small text-muted mt-0 mb-0">Owner</p>
-                                  <p className="text-left">
-                                      {user && user.id && list.User && user.id === list.User.id
-                                          ? 'Me'
-                                          : list.User.name}
-                                  </p>
+                              <div className="btn-row d-flex justify-content-between" key="delete">
+                                  <button
+                                      type="button"
+                                      className="list-btn mr-1"
+                                      disabled={loading}
+                                      onClick={e => {
+                                          e.preventDefault();
+                                          deleteList(list.id);
+                                      }}
+                                  >
+                                      <FontAwesomeIcon icon={faTrashAlt} />
+                                  </button>
                               </div>
                           </div>
                       ))

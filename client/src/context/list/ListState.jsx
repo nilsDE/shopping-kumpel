@@ -29,8 +29,6 @@ import {
 
 const socket = io();
 
-socket.on('Welcome', () => console.log('Es klappt!'));
-
 const ListState = props => {
     const initialState = {
         loading: false,
@@ -48,7 +46,6 @@ const ListState = props => {
     const joinList = list => socket.emit('joinList', list);
 
     const leaveList = list => {
-        console.log('LEAVE LIST');
         socket.emit('leaveList', list);
     };
 

@@ -10,11 +10,12 @@ const helper = require('./helper');
 
 router.post('/', auth, async (req, res) => {
     try {
-        const createdList = await List.create({
+        await List.create({
             description: req.body.description,
             userId: req.user.id
         });
-        res.json({ createdList, msg: 'Saved!' });
+        const allLists = await helper.getAllLists(req);
+        res.json({ allLists, msg: 'Saved!' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Sorry, there was an error! 😒' });

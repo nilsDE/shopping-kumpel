@@ -47,7 +47,7 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: false,
-                lists: [...state.lists, action.payload.createdList],
+                lists: action.payload.allLists,
                 msg: action.payload.msg
             };
         case DELETE_LIST:
