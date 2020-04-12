@@ -11,8 +11,10 @@ import './Overview.css';
 const Overview = props => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const { getLists, lists, loading } = listContext;
+    const { getLists, lists } = listContext;
     const { loadUser, user } = authContext;
+
+    const loading = listContext.loading || authContext.loading;
 
     useEffect(() => {
         loadUser();
@@ -34,27 +36,35 @@ const Overview = props => {
             </div>
             <p className="text-left">What list would you like to work on?</p>
             <div className="list-content">
-                {lists.map(list => (
-                    <div
-                        key={list.id}
-                        className="list-item"
-                        onClick={() => props.history.push(`/list/${list.id}`)}
-                        role="button"
-                    >
-                        <div className="d-flex justify-content-start flex-column">
-                            <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
-                            <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
-                        </div>
-                        <div className="d-flex justify-content-start flex-column">
-                            <p className="text-left small text-muted mt-0 mb-0">Items</p>
-                            <p className="text-left">{list.items.length}</p>
-                        </div>
-                        <div className="d-flex justify-content-start flex-column">
-                            <p className="text-left small text-muted mt-0 mb-0">Owner</p>
-                            <p className="text-left">{user.id === list.User.id ? 'Me' : list.User.name}</p>
-                        </div>
-                    </div>
-                ))}
+                {!loading && lists && lists.length > 0
+                    ? lists.map(list => (
+                          <div
+                              key={list.id}
+                              className="list-item"
+                              onClick={() => props.history.push(`/list/${list.id}`)}
+                              role="button"
+                          >
+                              <div className="d-flex justify-content-start flex-column">
+                                  <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
+                                  <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
+                              </div>
+                              <div className="d-flex justify-content-start flex-column">
+                                  <p className="text-left small text-muted mt-0 mb-0">Items</p>
+                                  <p className="text-left">
+                                      {list.item && list.item.length > 0 ? list.items.length : '-'}
+                                  </p>
+                              </div>
+                              <div className="d-flex justify-content-start flex-column">
+                                  <p className="text-left small text-muted mt-0 mb-0">Owner</p>
+                                  <p className="text-left">
+                                      {user && user.id && list.User && user.id === list.User.id
+                                          ? 'Me'
+                                          : list.User.name}
+                                  </p>
+                              </div>
+                          </div>
+                      ))
+                    : null}
             </div>
         </div>
     );

@@ -29,16 +29,15 @@ router.get('/', auth, async (req, res) => {
     try {
         const lists = await helper.getAllLists(req);
 
-        let allLists;
         if (lists && lists.length > 0) {
             res.json({ lists });
         } else {
-            const newList = await List.create({
+            await List.create({
                 description: 'New list',
                 userId: req.user.id
             });
-            allLists = [...lists, newList];
-            res.json({ lists: allLists });
+            const lists = await helper.getAllLists(req);
+            res.json({ lists });
         }
     } catch (err) {
         console.error(err);
