@@ -82,28 +82,28 @@ const Overview = props => {
                                   role="button"
                               >
                                   <div className="d-flex justify-content-start flex-column">
-                                      <p className="text-left small text-muted mt-0 mb-0 ml-1">List name</p>
-                                      <p className="text-left mt-0 mb-0 ml-1">{list.description}</p>
+                                      <p className="text-left small text-muted mb-0">List name</p>
+                                      <p className="text-left mb-0">{list.description}</p>
                                   </div>
                                   <div className="d-flex justify-content-start flex-column">
-                                      <p className="text-left small text-muted mt-0 mb-0">Items</p>
-                                      <p className="text-left">
+                                      <p className="text-left small text-muted mb-0">Items</p>
+                                      <p className="text-left mb-0">
                                           {list.items && list.items.length > 0 ? list.items.length : '-'}
                                       </p>
                                   </div>
                                   <div className="d-flex justify-content-start flex-column">
-                                      <p className="text-left small text-muted mt-0 mb-0">Owner</p>
-                                      <p className="text-left">
+                                      <p className="text-left small text-muted mb-0">Owner</p>
+                                      <p className="text-left mb-0">
                                           {user && user.id && list.User && user.id === list.User.id
                                               ? 'Me'
                                               : list.User.name}
                                       </p>
                                   </div>
                               </div>
-                              <div className="btn-row d-flex justify-content-between" key="delete">
+                              <div className="btn-row d-flex justify-content-between ml-2" key="delete">
                                   <button
                                       type="button"
-                                      className="list-btn mr-1"
+                                      className="edit-btn-overview mr-1"
                                       disabled={loading}
                                       onClick={e => {
                                           e.preventDefault();

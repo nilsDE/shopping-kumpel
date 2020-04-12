@@ -55,20 +55,30 @@
     grid-template-columns: 4fr 1fr 1fr;
     justify-items: start;
     width: 90%;
-    height: 3rem;
     background: linear-gradient(to right, var(--main-color-dark) 49%, var(--secondary-color) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     align-self: center;
-    margin-top: 0.2rem;
     transition: all 0.2s ease-out;
     color: var(--main-color-dark);
     box-shadow: 3px 3px 8px 1px rgba(0, 0, 0, 0.3);
     border-radius: 6px;
+    padding: 0.3rem;
 }
 
 .list-item:hover {
     background-position: left bottom;
     color: var(--secondary-color);
     cursor: pointer;
+}
+
+.edit-btn-overview {
+    background-color: var(--secondary-color);
+    color: var(--main-color-dark);
+    border: none;
+    transition: all 0.1s ease-out;
+}
+
+.edit-btn-overview:hover {
+    transform: scale(1.2);
 }
