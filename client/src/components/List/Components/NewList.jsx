@@ -7,6 +7,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 
 const NewList = ({ createList }) => {
     const [title, setTitle] = useState('');
+
     return (
         <div>
             <Form.Control
@@ -19,6 +20,7 @@ const NewList = ({ createList }) => {
             <div className="mt-4">
                 <button
                     type="button"
+                    disabled={title.length === 0}
                     className="list-btn list-btn-fixed-width mr-1"
                     onClick={e => {
                         e.preventDefault();
