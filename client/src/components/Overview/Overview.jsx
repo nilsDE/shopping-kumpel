@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ListContext from '../../context/list/listContext';
 import AuthContext from '../../context/auth/authContext';
 import Spinner from '../Utils/Spinner';
@@ -71,3 +72,7 @@ const Overview = props => {
 };
 
 export default Overview;
+
+Overview.propTypes = {
+    history: PropTypes.object.isRequired
+};
