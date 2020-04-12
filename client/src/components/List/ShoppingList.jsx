@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '../Utils/Alert';
 import Collabs from './Components/Collabs';
@@ -13,7 +13,7 @@ const ShoppingList = ({ match }) => {
     const listContext = useContext(ListContext);
     const { getLists, getUsers, lists, users, socket, msg, joinList, loading } = listContext;
 
-    const [selectedList, setSelectedList] = useState(+match.params.id);
+    const selectedList = +match.params.id;
 
     useEffect(() => {
         socket.on('change', () => {
