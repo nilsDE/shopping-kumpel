@@ -22,6 +22,26 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
+// @route       PUT api/lists
+// @desc        Update new list
+// @access      Private
+
+router.put('/', auth, async (req, res) => {
+    try {
+        const list = await List.findByPk(req.body.id);
+        if (!list) {
+            throw new Error('List not found.');
+        }
+        await list.update({ description: req.body.description });
+
+        const allLists = await helper.getAllLists(req);
+        res.json({ allLists, msg: 'Saved!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+    }
+});
+
 // @route       GET api/lists
 // @desc        Get all lists incl items
 // @access      Private

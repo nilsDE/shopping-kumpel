@@ -52,10 +52,10 @@
 
 .list-item {
     display: grid;
-    grid-template-columns: 4fr 1fr 1fr;
+    grid-template-columns: 8fr 2fr 2fr 1fr 1fr;
     justify-items: start;
     width: 90%;
-    background: linear-gradient(to right, var(--main-color-dark) 49%, var(--secondary-color) 50%);
+    background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     align-self: center;
@@ -72,8 +72,12 @@
     cursor: pointer;
 }
 
+.list-item:hover .edit-btn-overview {
+    color: var(--secondary-color);
+}
+
 .edit-btn-overview {
-    background-color: var(--secondary-color);
+    background-color: transparent;
     color: var(--main-color-dark);
     border: none;
     transition: all 0.1s ease-out;

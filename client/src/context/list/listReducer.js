@@ -4,6 +4,8 @@ import {
     SET_LOADING,
     CREATE_LIST,
     CREATE_LIST_FAIL,
+    UPDATE_LIST,
+    UPDATE_LIST_FAIL,
     DELETE_LIST,
     DELETE_LIST_FAIL,
     GET_USERS,
@@ -44,6 +46,7 @@ export default (state, action) => {
                 lists: action.payload.lists
             };
         case CREATE_LIST:
+        case UPDATE_LIST:
             return {
                 ...state,
                 loading: false,
@@ -80,6 +83,7 @@ export default (state, action) => {
         }
         case GET_LISTS_FAIL:
         case CREATE_LIST_FAIL:
+        case UPDATE_LIST_FAIL:
         case DELETE_LIST_FAIL:
         case GET_USERS_FAIL:
         case CREATE_COLLABS_FAIL:

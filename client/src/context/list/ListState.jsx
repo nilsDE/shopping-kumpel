@@ -10,6 +10,8 @@ import {
     GET_LISTS_FAIL,
     CREATE_LIST,
     CREATE_LIST_FAIL,
+    UPDATE_LIST,
+    UPDATE_LIST_FAIL,
     DELETE_LIST,
     DELETE_LIST_FAIL,
     GET_USERS,
@@ -80,6 +82,27 @@ const ListState = props => {
         } catch (err) {
             dispatch({
                 type: CREATE_LIST_FAIL,
+                payload: err.response.data.msg
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        }
+    };
+
+    const updateList = async (id, description) => {
+        try {
+            setLoading();
+            const res = await axios.put('/api/lists', {
+                id,
+                description
+            });
+            dispatch({
+                type: UPDATE_LIST,
+                payload: res.data
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        } catch (err) {
+            dispatch({
+                type: UPDATE_LIST_FAIL,
                 payload: err.response.data.msg
             });
             setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
@@ -247,6 +270,7 @@ const ListState = props => {
                 msg: state.msg,
                 getLists,
                 createList,
+                updateList,
                 deleteList,
                 getUsers,
                 createCollab,

@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 
-const NewList = ({ createList }) => {
-    const [title, setTitle] = useState('');
+const NewList = ({ createList, updateList, list }) => {
+    const [title, setTitle] = useState(list && list.description ? list.description : '');
 
     return (
         <div>
@@ -16,6 +16,7 @@ const NewList = ({ createList }) => {
                 placeholder="List name..."
                 onChange={e => setTitle(e.target.value)}
                 maxLength="20"
+                value={title}
             />
             <div className="mt-4">
                 <button
@@ -24,7 +25,11 @@ const NewList = ({ createList }) => {
                     className="list-btn list-btn-fixed-width mr-1"
                     onClick={e => {
                         e.preventDefault();
-                        createList(title);
+                        if (list) {
+                            updateList(list.id, title);
+                        } else {
+                            createList(title);
+                        }
                         Swal.close();
                     }}
                 >
@@ -45,5 +50,7 @@ const NewList = ({ createList }) => {
 export default NewList;
 
 NewList.propTypes = {
-    createList: PropTypes.func.isRequired
+    createList: PropTypes.func.isRequired,
+    updateList: PropTypes.func.isRequired,
+    list: PropTypes.object.isRequired
 };

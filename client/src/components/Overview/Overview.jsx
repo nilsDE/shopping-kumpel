@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPlus, faEdit, faPaperPlane, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ListContext from '../../context/list/listContext';
 import AuthContext from '../../context/auth/authContext';
 import NewList from './NewList';
@@ -19,7 +19,7 @@ const MySwal = withReactContent(Swal);
 const Overview = props => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const { getLists, createList, deleteList, lists } = listContext;
+    const { getLists, createList, updateList, deleteList, lists } = listContext;
     const { loadUser, user } = authContext;
 
     const loading = listContext.loading || authContext.loading;
@@ -30,12 +30,52 @@ const Overview = props => {
         // eslint-disable-next-line
     }, []);
 
-    const showModal = () => {
+    const showModal = id => {
+        let list = null;
+        if (id) {
+            list = lists.find(l => l.id === id);
+        }
         MySwal.fire({
-            title: <p>New list:</p>,
+            title: <p>{id ? 'Change list name:' : 'New list:'}</p>,
             showCancelButton: false,
             showConfirmButton: false,
-            html: <NewList createList={title => createList(title)} />
+            html: (
+                <NewList
+                    list={list}
+                    updateList={(id, title) => updateList(id, title)}
+                    createList={title => createList(title)}
+                />
+            )
+        });
+    };
+
+    const deleteModal = id => {
+        const html = (
+            <>
+                <button
+                    type="button"
+                    className="list-btn list-btn-fixed-width mr-1"
+                    onClick={() => {
+                        deleteList(id);
+                        Swal.close();
+                    }}
+                >
+                    <FontAwesomeIcon icon={faPaperPlane} /> Delete!
+                </button>
+                <button
+                    type="button"
+                    className="list-btn list-btn-fixed-width mr-1"
+                    onClick={() => Swal.close()}
+                >
+                    <FontAwesomeIcon icon={faTimes} /> Cancel
+                </button>
+            </>
+        );
+        MySwal.fire({
+            title: <p>Are you sure?</p>,
+            showCancelButton: false,
+            showConfirmButton: false,
+            html
         });
     };
 
@@ -61,7 +101,7 @@ const Overview = props => {
                         disabled={loading}
                         onClick={e => {
                             e.preventDefault();
-                            showModal(user.id);
+                            showModal();
                         }}
                     >
                         <FontAwesomeIcon icon={faPlus} /> New list
@@ -99,15 +139,26 @@ const Overview = props => {
                                               : list.User.name}
                                       </p>
                                   </div>
-                              </div>
-                              <div className="btn-row d-flex justify-content-between ml-2" key="delete">
+                                  <button
+                                      type="button"
+                                      className="edit-btn-overview ml-1"
+                                      disabled={loading}
+                                      onClick={e => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          showModal(list.id);
+                                      }}
+                                  >
+                                      <FontAwesomeIcon icon={faEdit} />
+                                  </button>
                                   <button
                                       type="button"
                                       className="edit-btn-overview mr-1"
                                       disabled={loading}
                                       onClick={e => {
                                           e.preventDefault();
-                                          deleteList(list.id);
+                                          e.stopPropagation();
+                                          deleteModal(list.id);
                                       }}
                                   >
                                       <FontAwesomeIcon icon={faTrashAlt} />
