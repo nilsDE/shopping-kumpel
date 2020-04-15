@@ -52,5 +52,9 @@ export default NewList;
 NewList.propTypes = {
     createList: PropTypes.func.isRequired,
     updateList: PropTypes.func.isRequired,
-    list: PropTypes.object.isRequired
+    list: PropTypes.object
+};
+
+NewList.defaultProps = {
+    list: {}
 };
