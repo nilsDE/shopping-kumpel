@@ -4,7 +4,7 @@
 import React, { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import AuthContext from '../../../context/auth/authContext';
 import ListContext from '../../../context/list/listContext';
@@ -71,7 +71,7 @@ const Item = ({ item, list }) => {
                         type="button"
                         disabled={item.completed}
                     >
-                        <FontAwesomeIcon icon={faPen} />
+                        <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button
                         onClick={() => deleteItem(item, list)}

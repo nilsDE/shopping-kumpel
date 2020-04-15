@@ -132,20 +132,28 @@ form {
     justify-self: end;
     height: 25px;
     width: 25px;
-    border-radius: 50%;
-    border: 1px solid white;
-    background-color: var(--main-color-dark);
-    color: white;
+    border: none;
+    background-color: transparent;
+    color: var(--main-color-dark);
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     align-items: center;
+    transition: all 0.1s ease-out;
+}
+
+.general-btn:hover {
+    transform: scale(1.2);
+}
+
+.general-btn:focus {
+    outline: none;
 }
 
 .general-btn svg {
-    height: 12px;
-    width: 12px;
+    height: 16px;
+    width: 16px;
 }
 
 .btn-disabled {

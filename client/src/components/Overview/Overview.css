@@ -83,6 +83,10 @@
     transition: all 0.1s ease-out;
 }
 
+.edit-btn-overview:focus {
+    outline: none;
+}
+
 .edit-btn-overview:hover {
     transform: scale(1.2);
 }
