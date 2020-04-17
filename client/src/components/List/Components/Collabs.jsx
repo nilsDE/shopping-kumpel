@@ -22,9 +22,11 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
         return <Spinner />;
     }
 
+    const collabList = users.filter(u => u.email !== user.email);
+
     return (
         <div>
-            {users && users.length > 0 && listOwner === user.name && (
+            {collabList && collabList.length > 0 && listOwner === user.name && (
                 <div className="d-flex justify-content-center mt-3">
                     <DropdownButton
                         title={
@@ -35,7 +37,7 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
                         }
                         className="list-btn list-btn-fixed-width"
                     >
-                        {users.map(u => (
+                        {collabList.map(u => (
                             <Dropdown.Item
                                 eventKey={u.id}
                                 onSelect={e => createCollab(+e, selectedList)}
@@ -54,8 +56,8 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
                 {currentList &&
                     currentList.collabs &&
                     currentList.collabs.length > 0 &&
-                    users &&
-                    users.length > 0 &&
+                    collabList &&
+                    collabList.length > 0 &&
                     listOwner === user.name && (
                         <>
                             <p className="mb-0 small text-muted">Collaborators: </p>

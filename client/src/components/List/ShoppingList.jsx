@@ -42,7 +42,10 @@ const ShoppingList = ({ match }) => {
         const currentListUserId = lists.find(l => +l.id === +selectedList);
 
         if (currentListUserId) {
-            listOwner = users.find(u => u.id === currentListUserId.userId).name;
+            const owner = users.find(u => u.id === currentListUserId.userId);
+            if (owner) {
+                listOwner = owner.name;
+            }
         }
     }
 

@@ -93,6 +93,7 @@ export default (state, action) => {
         case DELETE_ITEM_FAIL:
             return {
                 ...state,
+                msg: action.payload,
                 loading: false
             };
         case CLEAR_ERRORS:

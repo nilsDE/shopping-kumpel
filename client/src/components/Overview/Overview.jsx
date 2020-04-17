@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Alert from '../Utils/Alert';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +20,7 @@ const MySwal = withReactContent(Swal);
 const Overview = props => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
-    const { getLists, createList, updateList, deleteList, lists } = listContext;
+    const { getLists, createList, updateList, deleteList, lists, msg } = listContext;
     const { loadUser, user } = authContext;
 
     const loading = listContext.loading || authContext.loading;
@@ -84,6 +85,7 @@ const Overview = props => {
     }
     return (
         <div className="overview">
+            <Alert type="info" msg={msg} />
             <div className="titles">
                 <div className="title-one">
                     <h1>{`Welcome, ${user.name}!`}</h1>

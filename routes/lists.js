@@ -4,6 +4,19 @@ const auth = require('../middleware/auth');
 const { List, Collab, Item, User } = require('../db/models');
 const helper = require('./helper');
 
+function onError(res, err) {
+    console.error(err);
+    let code = 500;
+    let msg = 'Sorry, there was an error! 😒';
+    if (err.code) {
+        code = err.code;
+    }
+    if (err.msg) {
+        msg = err.msg;
+    }
+    res.status(code).json({ msg });
+}
+
 // @route       POST api/lists
 // @desc        Create a new list
 // @access      Private
@@ -12,13 +25,12 @@ router.post('/', auth, async (req, res) => {
     try {
         await List.create({
             description: req.body.description,
-            userId: req.user.id
+            userId: req.user.id,
         });
         const allLists = await helper.getAllLists(req);
         res.json({ allLists, msg: 'Saved!' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -30,15 +42,14 @@ router.put('/', auth, async (req, res) => {
     try {
         const list = await List.findByPk(req.body.id);
         if (!list) {
-            throw new Error('List not found.');
+            throw { msg: 'List not found.', code: 500 };
         }
         await list.update({ description: req.body.description });
 
         const allLists = await helper.getAllLists(req);
         res.json({ allLists, msg: 'Saved!' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -55,14 +66,13 @@ router.get('/', auth, async (req, res) => {
         } else {
             await List.create({
                 description: 'New list',
-                userId: req.user.id
+                userId: req.user.id,
             });
             const lists = await helper.getAllLists(req);
             res.json({ lists });
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -77,7 +87,8 @@ router.delete('/', auth, async (req, res) => {
         if (list && +list.userId === req.user.id) {
             await list.destroy();
         } else {
-            res.status(401).json({ msg: 'You are not authorized!' });
+            // res.status(401).json({ msg: 'You are not authorized!' });
+            throw { msg: 'You are not authorized!', code: 401 };
         }
         const allLists = await helper.getAllLists(req);
 
@@ -86,13 +97,12 @@ router.delete('/', auth, async (req, res) => {
         } else {
             allLists = await List.create({
                 description: 'New list',
-                userId: req.user.id
+                userId: req.user.id,
             });
             res.json({ allLists, msg: 'Deleted!' });
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -104,22 +114,21 @@ router.post('/collabs', auth, async (req, res) => {
     try {
         await Collab.create({
             userId: req.body.collabUserId,
-            listId: req.body.listId
+            listId: req.body.listId,
         });
         const getCollabsForList = await Collab.findAll({
             where: { listId: req.body.listId },
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'id']
-                }
-            ]
+                    attributes: ['name', 'id'],
+                },
+            ],
         });
         res.json({ collabs: getCollabsForList, listId: req.body.listId, msg: 'Added!' });
         callback(null, getCollabsForList);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -138,17 +147,16 @@ router.delete('/collabs', auth, async (req, res) => {
                 include: [
                     {
                         model: User,
-                        attributes: ['name', 'id']
-                    }
-                ]
+                        attributes: ['name', 'id'],
+                    },
+                ],
             });
             res.json({ collabs: [...allCollabs], listId: +req.query.listId, msg: 'Deleted!' });
         } else {
-            throw 401;
+            throw { msg: 'You are not authorized!', code: 401 };
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -162,14 +170,13 @@ router.post('/items', auth, async (req, res) => {
             description: req.body.description,
             completed: req.body.completed,
             lastModified: req.body.lastModified,
-            listId: req.body.listId
+            listId: req.body.listId,
         });
         const allLists = await helper.getAllLists(req);
 
         res.json({ lists: allLists, msg: 'Saved!' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -183,21 +190,20 @@ router.put('/items', auth, async (req, res) => {
             description: req.body.description,
             completed: req.body.completed,
             id: req.body.id,
-            lastModified: req.body.lastModified
+            lastModified: req.body.lastModified,
         };
         const item = await Item.findByPk(updateObject.id);
         if (!item) {
-            throw new Error('Item not found.');
+            throw { msg: 'Item not found.', code: 500 };
         }
         await item.update(updateObject, {
-            fields: Object.keys(updateObject)
+            fields: Object.keys(updateObject),
         });
         const allLists = await helper.getAllLists(req);
 
         res.json({ lists: allLists, msg: 'Updated!' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -212,8 +218,7 @@ router.delete('/items', auth, async (req, res) => {
         const allLists = await helper.getAllLists(req);
         res.json({ lists: allLists, msg: 'Deleted!' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
@@ -226,8 +231,7 @@ router.get('/users', auth, async (req, res) => {
         const user = await User.findAll();
         res.json({ user });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Sorry, there was an error! 😒' });
+        onError(res, err);
     }
 });
 
