@@ -151,6 +151,11 @@ form {
     outline: none;
 }
 
+.general-btn:disabled {
+    background-color: transparent;
+    border: none;
+}
+
 .general-btn svg {
     height: 16px;
     width: 16px;
