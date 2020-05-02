@@ -25,6 +25,7 @@ router.post('/', auth, async (req, res) => {
     try {
         await List.create({
             description: req.body.description,
+            listType: req.body.listType,
             userId: req.user.id,
         });
         const allLists = await helper.getAllLists(req);
@@ -66,6 +67,7 @@ router.get('/', auth, async (req, res) => {
         } else {
             await List.create({
                 description: 'New list',
+                listType: 1,
                 userId: req.user.id,
             });
             const lists = await helper.getAllLists(req);
@@ -97,6 +99,7 @@ router.delete('/', auth, async (req, res) => {
         } else {
             allLists = await List.create({
                 description: 'New list',
+                listType: 1,
                 userId: req.user.id,
             });
             res.json({ allLists, msg: 'Deleted!' });

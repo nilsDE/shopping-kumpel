@@ -5,27 +5,31 @@ module.exports = (sequelize, DataTypes) => {
         {
             description: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             userId: {
                 type: DataTypes.INTEGER,
-                allowNull: false
-            }
+                allowNull: false,
+            },
+            listType: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         },
         {}
     );
-    List.associate = function(models) {
+    List.associate = function (models) {
         List.hasMany(models.Item, {
             foreignKey: 'listId',
-            as: 'items'
+            as: 'items',
         });
         List.belongsTo(models.User, {
             foreignKey: 'userId',
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
         });
         List.hasMany(models.Collab, {
             foreignKey: 'listId',
-            as: 'collabs'
+            as: 'collabs',
         });
     };
     return List;

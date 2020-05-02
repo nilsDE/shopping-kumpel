@@ -68,11 +68,12 @@ const ListState = props => {
         }
     };
 
-    const createList = async description => {
+    const createList = async (description, listType = 1) => {
         try {
             setLoading();
             const res = await axios.post('/api/lists', {
-                description
+                description,
+                listType
             });
             dispatch({
                 type: CREATE_LIST,
