@@ -5,6 +5,7 @@ form {
 .shopping-list-title {
     font-size: 1.5rem;
     font-weight: 600;
+    margin-bottom: 0;
 }
 
 .shopping-list {
@@ -165,4 +166,15 @@ form {
     background-color: grey;
     border: 1px solid rgb(216, 216, 216);
     color: rgb(216, 216, 216);
+}
+
+.title-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 1.5rem;
+}
+
+.title-back-btn {
+    justify-self: start;
+    align-items: center;
 }
