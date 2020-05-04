@@ -89,19 +89,19 @@ router.delete('/', auth, async (req, res) => {
         if (list && +list.userId === req.user.id) {
             await list.destroy();
         } else {
-            // res.status(401).json({ msg: 'You are not authorized!' });
             throw { msg: 'You are not authorized!', code: 401 };
         }
-        const allLists = await helper.getAllLists(req);
+        let allLists = await helper.getAllLists(req);
 
         if (allLists && allLists.length > 0) {
             res.json({ allLists, msg: 'Deleted!' });
         } else {
-            allLists = await List.create({
+            await List.create({
                 description: 'New list',
                 listType: 1,
                 userId: req.user.id,
             });
+            allLists = await helper.getAllLists(req);
             res.json({ allLists, msg: 'Deleted!' });
         }
     } catch (err) {
