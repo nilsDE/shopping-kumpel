@@ -12,11 +12,9 @@ const { User } = require('../db/models');
 router.post(
     '/',
     [
-        check('name', 'Name is required')
-            .not()
-            .isEmpty(),
+        check('name', 'Name is required').not().isEmpty(),
         check('email', 'Please include a valid email.').isEmail(),
-        check('password', 'Please enter a password with at least 6 characters').isLength({ min: 6 })
+        check('password', 'Please enter a password with at least 6 characters').isLength({ min: 6 }),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -28,7 +26,7 @@ router.post(
 
         try {
             const exitingUser = await User.findOne({
-                where: { email }
+                where: { email },
             });
 
             if (exitingUser) {
@@ -40,20 +38,20 @@ router.post(
             const user = await User.create({
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
             });
 
             const payload = {
                 user: {
-                    id: user.id
-                }
+                    id: user.id,
+                },
             };
 
             jwt.sign(
                 payload,
                 process.env.jwtSecret,
                 {
-                    expiresIn: 3600
+                    expiresIn: 3600,
                 },
                 (err, token) => {
                     if (err) throw err;
@@ -63,7 +61,7 @@ router.post(
         } catch (err) {
             console.error(err.message);
             res.status(500).json({
-                msg: [{ msg: 'Sorry, there was an error! 😒' }]
+                msg: [{ msg: 'Sorry, there was an error! 😒' }],
             });
         }
     }

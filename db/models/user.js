@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             name: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             email: {
                 type: DataTypes.STRING,
@@ -13,25 +13,25 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 validate: {
                     isEmail: {
-                        msg: 'Must be a valid email!'
-                    }
-                }
+                        msg: 'Must be a valid email!',
+                    },
+                },
             },
             password: {
                 type: DataTypes.STRING,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         },
         {}
     );
-    User.associate = function(models) {
+    User.associate = function (models) {
         User.hasMany(models.List, {
             foreignKey: 'userId',
-            as: 'users'
+            as: 'users',
         });
         User.hasMany(models.Collab, {
             foreignKey: 'userId',
-            as: 'collabs'
+            as: 'collabs',
         });
     };
     return User;

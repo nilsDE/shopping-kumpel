@@ -1,13 +1,13 @@
 const socketio = require('socket.io');
 
-module.exports = server => {
+module.exports = (server) => {
     const io = socketio(server);
 
-    io.on('connection', socket => {
+    io.on('connection', (socket) => {
         console.log('New connection', socket.id);
         let currentRoom = null;
 
-        socket.on('joinList', list => {
+        socket.on('joinList', (list) => {
             if (currentRoom !== null) {
                 socket.leave(currentRoom);
             }
@@ -15,11 +15,11 @@ module.exports = server => {
             currentRoom = list;
             console.log(currentRoom);
         });
-        socket.on('sendItem', list => {
+        socket.on('sendItem', (list) => {
             console.log('Incoming change on list: ', list, socket.id);
             socket.broadcast.to(list).emit('change', list);
         });
-        socket.on('leaveList', list => {
+        socket.on('leaveList', (list) => {
             socket.leave(list);
         });
         socket.on('disconnect', () => {

@@ -5,23 +5,23 @@ module.exports = (sequelize, DataTypes) => {
         {
             userId: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: false,
             },
             listId: {
                 type: DataTypes.INTEGER,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         },
         {}
     );
-    Collab.associate = function(models) {
+    Collab.associate = function (models) {
         Collab.belongsTo(models.List, {
             foreignKey: 'listId',
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
         });
         Collab.belongsTo(models.User, {
             foreignKey: 'userId',
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
         });
     };
     return Collab;

@@ -5,27 +5,27 @@ module.exports = (sequelize, DataTypes) => {
         {
             description: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             completed: {
                 type: DataTypes.BOOLEAN,
-                allowNull: false
+                allowNull: false,
             },
             lastModified: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             listId: {
                 type: DataTypes.INTEGER,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         },
         {}
     );
-    Item.associate = function(models) {
+    Item.associate = function (models) {
         Item.belongsTo(models.List, {
             foreignKey: 'listId',
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
         });
     };
     return Item;

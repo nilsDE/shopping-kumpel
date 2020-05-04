@@ -30,7 +30,7 @@ router.post(
     '/',
     [
         check('email', 'Please include a valid email.').isEmail(),
-        check('password', 'Password is required').exists()
+        check('password', 'Password is required').exists(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -42,7 +42,7 @@ router.post(
 
         try {
             const existingUser = await User.findOne({
-                where: { email }
+                where: { email },
             });
 
             if (!existingUser) {
@@ -57,15 +57,15 @@ router.post(
 
             const payload = {
                 user: {
-                    id: existingUser.id
-                }
+                    id: existingUser.id,
+                },
             };
 
             jwt.sign(
                 payload,
                 process.env.jwtSecret,
                 {
-                    expiresIn: 3600
+                    expiresIn: 3600,
                 },
                 (err, token) => {
                     if (err) throw err;
@@ -75,7 +75,7 @@ router.post(
         } catch (err) {
             console.error(err.message);
             res.status(500).json({
-                msg: [{ msg: 'Sorry, there was an error! 😒' }]
+                msg: [{ msg: 'Sorry, there was an error! 😒' }],
             });
         }
     }
