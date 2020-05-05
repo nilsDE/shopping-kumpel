@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
-const VocabularyBody = () => {
+const VocabularyBody = ({ currentList }) => {
     const [wordPair, setWordPair] = useState({
         lang1: '',
         lang2: ''
@@ -28,8 +29,18 @@ const VocabularyBody = () => {
                     />
                 </div>
             </Form>
+            {currentList.vocabularies.map(v => (
+                <div key={v.id} className="d-flex">
+                    <p>{v.lang1}</p>
+                    <p>{v.lang2}</p>
+                </div>
+            ))}
         </>
     );
 };
 
 export default VocabularyBody;
+
+VocabularyBody.propTypes = {
+    currentList: PropTypes.object.isRequired
+};

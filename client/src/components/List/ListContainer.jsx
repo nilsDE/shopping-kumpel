@@ -59,13 +59,11 @@ const ListContainer = ({ match }) => {
                 </div>
                 {currentList.listType === 1 && (
                     <>
-                        <ListBody listOwner={listOwner} currentList={currentList} />
+                        <ListBody currentList={currentList} />
                         <Collabs users={users} listOwner={listOwner} currentList={currentList} />
                     </>
                 )}
-                {currentList.listType === 2 && (
-                    <VocabularyBody listOwner={listOwner} currentList={currentList} />
-                )}
+                {currentList.listType === 2 && <VocabularyBody currentList={currentList} />}
             </div>
         </>
     );
