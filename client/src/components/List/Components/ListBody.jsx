@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
-import Item from './Item';
 import { Link } from 'react-router-dom';
+import Item from './Item';
 import ListContext from '../../../context/list/listContext';
 import AuthContext from '../../../context/auth/authContext';
 
 import '../../../App.css';
 import '../ShoppingList.css';
 
-const ListBody = ({ selectedList, currentList }) => {
+const ListBody = ({ currentList }) => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
     const { createItem } = listContext;
@@ -51,7 +51,7 @@ const ListBody = ({ selectedList, currentList }) => {
             {currentList && currentList.items && currentList.items.length > 0
                 ? currentList.items
                       .sort((a, b) => (a.id > b.id ? 1 : -1))
-                      .map(item => <Item key={item.id} item={item} list={selectedList} />)
+                      .map(item => <Item key={item.id} item={item} list={currentList.id} />)
                 : null}
         </>
     );
@@ -60,6 +60,5 @@ const ListBody = ({ selectedList, currentList }) => {
 export default ListBody;
 
 ListBody.propTypes = {
-    selectedList: PropTypes.number.isRequired,
     currentList: PropTypes.object.isRequired
 };

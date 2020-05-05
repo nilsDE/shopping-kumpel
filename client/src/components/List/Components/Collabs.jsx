@@ -11,7 +11,7 @@ import Spinner from '../../Utils/Spinner';
 import '../../../App.css';
 import '../ShoppingList.css';
 
-const Collabs = ({ selectedList, currentList, listOwner }) => {
+const Collabs = ({ currentList, listOwner }) => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
 
@@ -40,7 +40,7 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
                         {collabList.map(u => (
                             <Dropdown.Item
                                 eventKey={u.id}
-                                onSelect={e => createCollab(+e, selectedList)}
+                                onSelect={e => createCollab(+e, currentList.id)}
                                 key={u.id}
                             >
                                 {u.email}
@@ -67,7 +67,7 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
                                         {c.User.name === user.name ? 'me' : c.User.name}
                                     </p>
                                     <button
-                                        onClick={() => deleteCollab(c.id, selectedList)}
+                                        onClick={() => deleteCollab(c.id, currentList.id)}
                                         className="general-btn ml-1 delete-btn"
                                         type="button"
                                     >
@@ -85,7 +85,6 @@ const Collabs = ({ selectedList, currentList, listOwner }) => {
 export default Collabs;
 
 Collabs.propTypes = {
-    selectedList: PropTypes.number.isRequired,
     currentList: PropTypes.object.isRequired,
     listOwner: PropTypes.string.isRequired
 };

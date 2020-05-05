@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import NavBar from './components/Nav/NavBar';
-import ShoppingList from './components/List/ShoppingList';
+import ListContainer from './components/List/ListContainer';
 import LandingPage from './components/LandingPage';
 import SignUpForm from './components/Auth/SignUpForm';
 import LoginForm from './components/Auth/LoginForm';
@@ -26,7 +26,7 @@ const App = () => {
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/signup" component={SignUpForm} />
                         <Route path="/login" component={LoginForm} />
-                        <PrivateRoute path="/list/:id" component={ShoppingList} />
+                        <PrivateRoute path="/list/:id" component={ListContainer} />
                         <PrivateRoute path="/overview" component={Overview} />
                     </div>
                 </div>
