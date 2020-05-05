@@ -44,7 +44,7 @@ const Overview = props => {
                 <NewList
                     list={list}
                     updateList={(id, title) => updateList(id, title)}
-                    createList={title => createList(title)}
+                    createList={(title, type) => createList(title, type)}
                 />
             )
         });

@@ -7,6 +7,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 
 const NewList = ({ createList, updateList, list }) => {
     const [title, setTitle] = useState(list && list.description ? list.description : '');
+    const [type, setType] = useState('Checklist');
 
     return (
         <div>
@@ -18,6 +19,10 @@ const NewList = ({ createList, updateList, list }) => {
                 maxLength="20"
                 value={title}
             />
+            <Form.Control placeholder="xxx" as="select" value={type} onChange={e => setType(e.target.value)}>
+                <option>Checklist</option>
+                <option>Vocabulary List</option>
+            </Form.Control>
             <div className="mt-4">
                 <button
                     type="button"
@@ -28,7 +33,8 @@ const NewList = ({ createList, updateList, list }) => {
                         if (list) {
                             updateList(list.id, title);
                         } else {
-                            createList(title);
+                            const listType = type === 'Checklist' ? 1 : 2;
+                            createList(title, listType);
                         }
                         Swal.close();
                     }}

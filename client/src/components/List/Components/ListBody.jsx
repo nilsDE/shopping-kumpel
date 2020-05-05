@@ -1,9 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import Item from './Item';
 import ListContext from '../../../context/list/listContext';
 import AuthContext from '../../../context/auth/authContext';
@@ -29,14 +26,6 @@ const ListBody = ({ currentList }) => {
 
     return (
         <>
-            <div className="title-container">
-                <Link to="/overview" className="title-back-btn">
-                    <button type="button" className="edit-btn-overview title-back-btn" onClick={() => {}}>
-                        <FontAwesomeIcon icon={faLongArrowAltLeft} size="2x" />
-                    </button>
-                </Link>
-                <p className="shopping-list-title">{currentList ? currentList.description : ''}</p>
-            </div>
             <Form onSubmit={e => handleSubmit(e)}>
                 <Form.Control
                     className="mb-4"

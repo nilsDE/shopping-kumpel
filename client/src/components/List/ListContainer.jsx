@@ -1,8 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 import Alert from '../Utils/Alert';
 import Collabs from './Components/Collabs';
 import ListBody from './Components/ListBody';
+import VocabularyBody from './Components/VocabularyBody';
 import ListContext from '../../context/list/listContext';
 import Spinner from '../Utils/Spinner';
 
@@ -45,8 +49,23 @@ const ListContainer = ({ match }) => {
         <>
             <Alert type="info" msg={msg} />
             <div className="shopping-list">
-                <ListBody listOwner={listOwner} currentList={currentList} />
-                <Collabs users={users} listOwner={listOwner} currentList={currentList} />
+                <div className="title-container">
+                    <Link to="/overview" className="title-back-btn">
+                        <button type="button" className="edit-btn-overview title-back-btn" onClick={() => {}}>
+                            <FontAwesomeIcon icon={faLongArrowAltLeft} size="2x" />
+                        </button>
+                    </Link>
+                    <p className="shopping-list-title">{currentList ? currentList.description : ''}</p>
+                </div>
+                {currentList.listType === 1 && (
+                    <>
+                        <ListBody listOwner={listOwner} currentList={currentList} />
+                        <Collabs users={users} listOwner={listOwner} currentList={currentList} />
+                    </>
+                )}
+                {currentList.listType === 2 && (
+                    <VocabularyBody listOwner={listOwner} currentList={currentList} />
+                )}
             </div>
         </>
     );
