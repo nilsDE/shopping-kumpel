@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'listId',
             as: 'items',
         });
+        List.hasMany(models.Vocabulary, {
+            foreignKey: 'listId',
+            as: 'vocabularies',
+        });
         List.belongsTo(models.User, {
             foreignKey: 'userId',
             onDelete: 'CASCADE',

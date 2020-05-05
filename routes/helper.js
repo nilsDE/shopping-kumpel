@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { List, Collab, Item, User } = require('../db/models');
+const { List, Collab, Item, User, Vocabulary } = require('../db/models');
 
 const getAllLists = async (req) => {
     const lists = await List.findAll({
@@ -8,6 +8,11 @@ const getAllLists = async (req) => {
             [Op.or]: [{ userId: req.user.id }, { '$collabs.userId$': req.user.id }],
         },
         include: [
+            {
+                model: Vocabulary,
+                as: 'vocabularies',
+                attributes: ['id', 'lang1', 'lang2', 'listId'],
+            },
             {
                 model: Item,
                 as: 'items',
