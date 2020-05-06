@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
+import VocabularyItem from './VocabularyItem';
 
 const VocabularyBody = ({ currentList }) => {
     const [wordPair, setWordPair] = useState({
         lang1: '',
         lang2: ''
     });
+    const [coverLang1, setCoverLang1] = useState(new Array(currentList.vocabularies.length).fill(false));
+
+    const uncoverWord = index => {
+        const newList = [...coverLang1];
+        newList[index] = false;
+        setCoverLang1(newList);
+    };
+
     return (
         <>
+            <button
+                onClick={() => {
+                    const newList = coverLang1.map(() => true);
+                    setCoverLang1(newList);
+                }}
+                type="button"
+            >
+                Cover Lang 1
+            </button>
             <Form>
                 <div className="d-flex">
                     <Form.Control
@@ -29,11 +47,14 @@ const VocabularyBody = ({ currentList }) => {
                     />
                 </div>
             </Form>
-            {currentList.vocabularies.map(v => (
-                <div key={v.id} className="d-flex">
-                    <p>{v.lang1}</p>
-                    <p>{v.lang2}</p>
-                </div>
+            {currentList.vocabularies.map((v, index) => (
+                <VocabularyItem
+                    key={v.id}
+                    uncoverWord={wordIndex => uncoverWord(wordIndex)}
+                    wordIndex={index}
+                    vocabulary={v}
+                    coverLang1={coverLang1[index]}
+                />
             ))}
         </>
     );
