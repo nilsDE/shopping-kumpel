@@ -10,7 +10,6 @@ const VocabularyItem = ({ vocabulary, coverLang1, wordIndex, uncoverWord }) => {
         <div className="vocabulary-item-container">
             <p
                 onClick={() => {
-                    console.log('click', wordIndex);
                     uncoverWord(wordIndex);
                 }}
                 className={`${coverLang1 ? 'covered' : null} vocabulary-item item1`}
