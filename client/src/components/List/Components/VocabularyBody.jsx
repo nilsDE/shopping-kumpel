@@ -9,11 +9,19 @@ const VocabularyBody = ({ currentList }) => {
         lang2: ''
     });
     const [coverLang1, setCoverLang1] = useState(new Array(currentList.vocabularies.length).fill(false));
+    const [coverLang2, setCoverLang2] = useState(new Array(currentList.vocabularies.length).fill(false));
 
-    const uncoverWord = index => {
-        const newList = [...coverLang1];
-        newList[index] = false;
-        setCoverLang1(newList);
+    const uncoverWord = (index, list) => {
+        let newList;
+        if (list === 1) {
+            newList = [...coverLang1];
+            newList[index] = false;
+            setCoverLang1(newList);
+        } else {
+            newList = [...coverLang2];
+            newList[index] = false;
+            setCoverLang2(newList);
+        }
     };
 
     return (
@@ -26,6 +34,15 @@ const VocabularyBody = ({ currentList }) => {
                 type="button"
             >
                 Cover Lang 1
+            </button>
+            <button
+                onClick={() => {
+                    const newList = coverLang2.map(() => true);
+                    setCoverLang2(newList);
+                }}
+                type="button"
+            >
+                Cover Lang 2
             </button>
             <Form>
                 <div className="d-flex">
@@ -50,10 +67,11 @@ const VocabularyBody = ({ currentList }) => {
             {currentList.vocabularies.map((v, index) => (
                 <VocabularyItem
                     key={v.id}
-                    uncoverWord={wordIndex => uncoverWord(wordIndex)}
+                    uncoverWord={(wordIndex, list) => uncoverWord(wordIndex, list)}
                     wordIndex={index}
                     vocabulary={v}
                     coverLang1={coverLang1[index]}
+                    coverLang2={coverLang2[index]}
                 />
             ))}
         </>
