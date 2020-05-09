@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faRandom,
     faEyeSlash,
+    faEye,
     faSortAlphaDown,
     faSortAlphaDownAlt,
     faPaperPlane
@@ -21,6 +22,8 @@ const VocabularyBody = ({ currentList }) => {
         lang2: ''
     });
     const [coverLang1, setCoverLang1] = useState(new Array(currentList.vocabularies.length).fill(false));
+    const [isLang1Covered, setIsLang1Covered] = useState(false);
+    const [isLang2Covered, setIsLang2Covered] = useState(false);
     const [coverLang2, setCoverLang2] = useState(new Array(currentList.vocabularies.length).fill(false));
     const [vocabularies, setVocabularies] = useState(currentList.vocabularies);
 
@@ -30,10 +33,16 @@ const VocabularyBody = ({ currentList }) => {
             newList = [...coverLang1];
             newList[index] = false;
             setCoverLang1(newList);
+            if (!newList.includes(true)) {
+                setIsLang1Covered(false);
+            }
         } else {
             newList = [...coverLang2];
             newList[index] = false;
             setCoverLang2(newList);
+            if (!newList.includes(true)) {
+                setIsLang2Covered(false);
+            }
         }
     };
 
@@ -106,12 +115,13 @@ const VocabularyBody = ({ currentList }) => {
                     <button
                         className="edit-btn-overview"
                         onClick={() => {
-                            const newList = coverLang1.map(() => true);
+                            const newList = coverLang1.map(() => !isLang1Covered);
                             setCoverLang1(newList);
+                            setIsLang1Covered(!isLang1Covered);
                         }}
                         type="button"
                     >
-                        <FontAwesomeIcon icon={faEyeSlash} />
+                        <FontAwesomeIcon icon={isLang1Covered ? faEye : faEyeSlash} />
                     </button>
                     <button
                         className="edit-btn-overview"
@@ -151,12 +161,13 @@ const VocabularyBody = ({ currentList }) => {
                     <button
                         className="edit-btn-overview"
                         onClick={() => {
-                            const newList = coverLang2.map(() => true);
+                            const newList = coverLang2.map(() => !isLang2Covered);
                             setCoverLang2(newList);
+                            setIsLang2Covered(!isLang2Covered);
                         }}
                         type="button"
                     >
-                        <FontAwesomeIcon icon={faEyeSlash} />
+                        <FontAwesomeIcon icon={isLang2Covered ? faEye : faEyeSlash} />
                     </button>
                 </div>
             </div>
