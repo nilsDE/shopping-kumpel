@@ -26,6 +26,8 @@ import {
     UPDATE_ITEM_FAIL,
     DELETE_ITEM,
     DELETE_ITEM_FAIL,
+    CREATE_VOCABULARY_ITEM,
+    CREATE_VOCABULARY_ITEM_FAIL,
     CLEAR_ERRORS
 } from '../types';
 
@@ -212,6 +214,28 @@ const ListState = props => {
         }
     };
 
+    const createVocabularyItem = async (lang1, lang2, listId) => {
+        try {
+            setLoading();
+            const res = await axios.post('/api/lists/vocabularyitems', {
+                lang1,
+                lang2,
+                listId
+            });
+            dispatch({
+                type: CREATE_VOCABULARY_ITEM,
+                payload: res.data
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        } catch (err) {
+            dispatch({
+                type: CREATE_VOCABULARY_ITEM_FAIL,
+                payload: err.response.data.msg
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        }
+    };
+
     const updateItem = async (description, completed, id, lastModified, list) => {
         try {
             setLoading();
@@ -279,6 +303,7 @@ const ListState = props => {
                 createItem,
                 updateItem,
                 deleteItem,
+                createVocabularyItem,
                 joinList,
                 leaveList
             }}

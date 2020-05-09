@@ -1,3 +1,22 @@
+.enter-vocabulary-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.btn-row-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 0.3rem;
+}
+
+.btn-left {
+    justify-self: start;
+}
+
+.btn-right {
+    justify-self: end;
+}
+
 .vocabulary-item-container {
     display: grid;
     grid-template-columns: 1fr 1fr;

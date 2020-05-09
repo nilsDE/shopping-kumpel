@@ -20,6 +20,8 @@ import {
     UPDATE_ITEM_FAIL,
     DELETE_ITEM,
     DELETE_ITEM_FAIL,
+    CREATE_VOCABULARY_ITEM,
+    CREATE_VOCABULARY_ITEM_FAIL,
     CLEAR_ERRORS
 } from '../types';
 
@@ -33,6 +35,7 @@ export default (state, action) => {
         case CREATE_ITEM:
         case UPDATE_ITEM:
         case DELETE_ITEM:
+        case CREATE_VOCABULARY_ITEM:
             return {
                 ...state,
                 loading: false,
@@ -91,6 +94,7 @@ export default (state, action) => {
         case CREATE_ITEM_FAIL:
         case UPDATE_ITEM_FAIL:
         case DELETE_ITEM_FAIL:
+        case CREATE_VOCABULARY_ITEM_FAIL:
             return {
                 ...state,
                 msg: action.payload,

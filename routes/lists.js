@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { List, Collab, Item, User } = require('../db/models');
+const { List, Collab, Item, User, Vocabulary } = require('../db/models');
 const helper = require('./helper');
 
 function onError(res, err) {
@@ -173,6 +173,25 @@ router.post('/items', auth, async (req, res) => {
             description: req.body.description,
             completed: req.body.completed,
             lastModified: req.body.lastModified,
+            listId: req.body.listId,
+        });
+        const allLists = await helper.getAllLists(req);
+
+        res.json({ lists: allLists, msg: 'Saved!' });
+    } catch (err) {
+        onError(res, err);
+    }
+});
+
+// @route   POST api/lists/vocabularyitems
+// @desc    Create a new word pair
+// @access  Private
+
+router.post('/vocabularyitems', auth, async (req, res) => {
+    try {
+        await Vocabulary.create({
+            lang1: req.body.lang1,
+            lang2: req.body.lang2,
             listId: req.body.listId,
         });
         const allLists = await helper.getAllLists(req);
