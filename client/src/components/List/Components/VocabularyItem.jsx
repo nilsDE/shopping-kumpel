@@ -1,11 +1,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import ListContext from '../../../context/list/listContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import './VocabularyItem.css';
 
 const VocabularyItem = ({ vocabulary, coverLang1, coverLang2, wordIndex, uncoverWord }) => {
+    const listContext = useContext(ListContext);
+    const { deleteVocabularyItem } = listContext;
+
     return (
         <div className="vocabulary-item-container">
             <p
@@ -16,14 +22,23 @@ const VocabularyItem = ({ vocabulary, coverLang1, coverLang2, wordIndex, uncover
             >
                 {vocabulary.lang1}
             </p>
-            <p
-                onClick={() => {
-                    uncoverWord(wordIndex, 2);
-                }}
-                className={`${coverLang2 ? 'covered' : null} vocabulary-item`}
-            >
-                {vocabulary.lang2}
-            </p>
+            <div className="d-flex">
+                <p
+                    onClick={() => {
+                        uncoverWord(wordIndex, 2);
+                    }}
+                    className={`${coverLang2 ? 'covered' : null} vocabulary-item`}
+                >
+                    {vocabulary.lang2}
+                </p>
+                <button
+                    className="edit-btn-overview"
+                    onClick={() => deleteVocabularyItem(vocabulary.id)}
+                    type="button"
+                >
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+            </div>
         </div>
     );
 };

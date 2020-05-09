@@ -244,6 +244,21 @@ router.delete('/items', auth, async (req, res) => {
     }
 });
 
+// @route       DELETE api/lists/vocabularyitems
+// @desc        Delete an item
+// @access      Private
+
+router.delete('/vocabularyitems', auth, async (req, res) => {
+    try {
+        const item = await Vocabulary.findByPk(req.query.id);
+        await item.destroy();
+        const allLists = await helper.getAllLists(req);
+        res.json({ lists: allLists, msg: 'Deleted!' });
+    } catch (err) {
+        onError(res, err);
+    }
+});
+
 // @route       GET api/lists/users
 // @desc        Get all collabs
 // @access      Private

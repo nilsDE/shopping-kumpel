@@ -28,6 +28,8 @@ import {
     DELETE_ITEM_FAIL,
     CREATE_VOCABULARY_ITEM,
     CREATE_VOCABULARY_ITEM_FAIL,
+    DELETE_VOCABULARY_ITEM,
+    DELETE_VOCABULARY_ITEM_FAIL,
     CLEAR_ERRORS
 } from '../types';
 
@@ -281,6 +283,26 @@ const ListState = props => {
         }
     };
 
+    const deleteVocabularyItem = async id => {
+        try {
+            setLoading();
+            const res = await axios.delete('/api/lists/vocabularyitems', {
+                params: { id }
+            });
+            dispatch({
+                type: DELETE_VOCABULARY_ITEM,
+                payload: res.data
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        } catch (err) {
+            dispatch({
+                type: DELETE_VOCABULARY_ITEM_FAIL,
+                payload: err.response.data.msg
+            });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+        }
+    };
+
     // End Actions
 
     const { children } = props;
@@ -304,6 +326,7 @@ const ListState = props => {
                 updateItem,
                 deleteItem,
                 createVocabularyItem,
+                deleteVocabularyItem,
                 joinList,
                 leaveList
             }}
