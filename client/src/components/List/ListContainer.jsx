@@ -31,6 +31,7 @@ const ListContainer = ({ match }) => {
     useEffect(() => {
         joinList(currentList.id);
         if (!referencedUsers.current || !referencedUsers.current.length) getUsers();
+        getLists();
         socket.on('change', (list, userId) => {
             getLists();
             const changeMadeBy = referencedUsers.current.find(
