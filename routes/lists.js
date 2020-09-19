@@ -264,7 +264,9 @@ router.delete('/vocabularyitems', auth, async (req, res) => {
 
 router.get('/users', auth, async (req, res) => {
     try {
-        const user = await User.findAll();
+        const user = await User.findAll({
+            attributes: ['name', 'id', 'email'],
+        });
         res.json({ user });
     } catch (err) {
         onError(res, err);
