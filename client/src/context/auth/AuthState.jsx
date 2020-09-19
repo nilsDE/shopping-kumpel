@@ -65,7 +65,7 @@ const AuthState = props => {
                 type: REGISTER_FAIL,
                 payload: err.response.data.msg[0].msg
             });
-            // setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         }
     };
 

@@ -6,11 +6,12 @@
     margin-left: 10px;
     margin-right: 10px;
     border: 1px solid black;
+    opacity: 1;
     padding: 5px 8px;
     border-radius: 4px;
     background-color: var(--secondary-color);
     color: var(--main-color-dark);
-    animation: drop 300ms, vanish 4s;
+    animation: drop 300ms, vanish 4000ms;
 }
 
 .alert-container.danger {
@@ -21,10 +22,10 @@
 
 @keyframes vanish {
     0% {
-        opacity: 100%;
+        opacity: 1;
     }
     40% {
-        opacity: 100%;
+        opacity: 1;
     }
     50% {
         opacity: 0%;
