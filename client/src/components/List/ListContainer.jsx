@@ -15,7 +15,7 @@ import './ShoppingList.css';
 
 const ListContainer = ({ match }) => {
     const listContext = useContext(ListContext);
-    const { getLists, getUsers, lists, users, socket, msg, joinList, loading } = listContext;
+    const { getLists, getUsers, lists, users, socket, msg, joinList, leaveList, loading } = listContext;
 
     let currentList;
     if (lists && lists.length > 0 && !currentList) {
@@ -28,6 +28,9 @@ const ListContainer = ({ match }) => {
         socket.on('change', () => {
             getLists();
         });
+        return () => {
+            leaveList(currentList.id);
+        };
         // eslint-disable-next-line
     }, []);
 

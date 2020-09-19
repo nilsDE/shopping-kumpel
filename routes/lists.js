@@ -129,7 +129,6 @@ router.post('/collabs', auth, async (req, res) => {
             ],
         });
         res.json({ collabs: getCollabsForList, listId: req.body.listId, msg: 'Added!' });
-        callback(null, getCollabsForList);
     } catch (err) {
         onError(res, err);
     }
