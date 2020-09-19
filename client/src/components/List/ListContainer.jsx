@@ -8,26 +8,17 @@ import Collabs from './Components/Collabs';
 import ListBody from './Components/ListBody';
 import VocabularyBody from './Components/VocabularyBody';
 import ListContext from '../../context/list/listContext';
-import Spinner from '../Utils/Spinner';
 import { CLEAR_ERRORS, SET_ALERT_MESSAGE } from '../../context/types';
+import useLoadingSpinner from '../Utils/useLoadingSpinner';
 
 import '../../App.css';
 import './ShoppingList.css';
 
 const ListContainer = ({ match }) => {
     const listContext = useContext(ListContext);
-    const {
-        getLists,
-        getUsers,
-        lists,
-        users,
-        socket,
-        msg,
-        joinList,
-        leaveList,
-        loading,
-        dispatch
-    } = listContext;
+    const { getLists, getUsers, lists, users, socket, msg, joinList, leaveList, dispatch } = listContext;
+
+    const { isLoading: loading, loadingSpinner } = useLoadingSpinner('dark');
 
     let currentList;
     if (lists && lists.length > 0 && !currentList) {
@@ -67,8 +58,13 @@ const ListContainer = ({ match }) => {
             }
         }
     }
-    if (lists.length === 0 || loading) {
-        return <Spinner />;
+
+    if (lists.length === 0) {
+        return (
+            <div className="d-flex w-100 h-100 justify-content-center align-items-center">
+                {loadingSpinner}
+            </div>
+        );
     }
 
     return (
@@ -77,7 +73,12 @@ const ListContainer = ({ match }) => {
             <div className="shopping-list">
                 <div className="title-container">
                     <Link to="/overview" className="title-back-btn">
-                        <button type="button" className="edit-btn-overview title-back-btn" onClick={() => {}}>
+                        <button
+                            type="button"
+                            className="edit-btn-overview title-back-btn"
+                            disabled={loading}
+                            onClick={() => {}}
+                        >
                             <FontAwesomeIcon icon={faLongArrowAltLeft} size="2x" />
                         </button>
                     </Link>

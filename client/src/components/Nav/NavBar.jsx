@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 
 import './NavBar.css';
+import useLoadingSpinner from '../Utils/useLoadingSpinner';
 
 const SiteNavbar = () => {
     const authContext = useContext(AuthContext);
     const { isAuthenticated, logout, loadUser } = authContext;
+
+    const { isLoading, loadingSpinner } = useLoadingSpinner();
 
     useEffect(() => {
         loadUser();
@@ -19,9 +22,13 @@ const SiteNavbar = () => {
     return (
         <>
             <Navbar fixed="top" bg="dark" variant="dark" expand="lg">
-                <Link to="/" className="sidebar-title">
-                    Shopping Kumpel
-                </Link>
+                {isLoading ? (
+                    loadingSpinner
+                ) : (
+                    <Link to="/" className="sidebar-title">
+                        Shopping Kumpel
+                    </Link>
+                )}
                 <Nav className="ml-auto">
                     {!isAuthenticated ? (
                         <>

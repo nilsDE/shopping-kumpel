@@ -3,17 +3,17 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Alert from '../Utils/Alert';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import withReactContent from 'sweetalert2-react-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPlus, faEdit, faPaperPlane, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Alert from '../Utils/Alert';
 import ListContext from '../../context/list/listContext';
 import AuthContext from '../../context/auth/authContext';
 import NewList from './NewList';
-import Spinner from '../Utils/Spinner';
 
 import './Overview.css';
+import useLoadingSpinner from '../Utils/useLoadingSpinner';
 
 const MySwal = withReactContent(Swal);
 
@@ -23,7 +23,7 @@ const Overview = props => {
     const { getLists, createList, updateList, deleteList, lists, msg } = listContext;
     const { loadUser, user } = authContext;
 
-    const loading = listContext.loading || authContext.loading;
+    const { isLoading: loading, loadingSpinner } = useLoadingSpinner('dark');
 
     useEffect(() => {
         loadUser();
@@ -56,6 +56,7 @@ const Overview = props => {
                 <button
                     type="button"
                     className="list-btn list-btn-fixed-width mr-1"
+                    disabled={loading}
                     onClick={() => {
                         deleteList(id);
                         Swal.close();
@@ -66,6 +67,7 @@ const Overview = props => {
                 <button
                     type="button"
                     className="list-btn list-btn-fixed-width mr-1"
+                    disabled={loading}
                     onClick={() => Swal.close()}
                 >
                     <FontAwesomeIcon icon={faTimes} /> Cancel
@@ -81,7 +83,11 @@ const Overview = props => {
     };
 
     if (loading || !user) {
-        return <Spinner />;
+        return (
+            <div className="d-flex w-100 h-100 justify-content-center align-items-center">
+                {loadingSpinner}
+            </div>
+        );
     }
     return (
         <div className="overview">
@@ -120,6 +126,7 @@ const Overview = props => {
                               <div
                                   key={list.id}
                                   className="list-item mr-2"
+                                  disabled={loading}
                                   onClick={() => props.history.push(`/list/${list.id}`)}
                                   role="button"
                               >

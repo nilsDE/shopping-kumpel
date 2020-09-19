@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faShare } from '@fortawesome/free-solid-svg-icons';
 import ListContext from '../../../context/list/listContext';
 import AuthContext from '../../../context/auth/authContext';
-
-import Spinner from '../../Utils/Spinner';
+import useLoadingSpinner from '../../Utils/useLoadingSpinner';
 
 import '../../../App.css';
 import '../ShoppingList.css';
@@ -15,11 +14,17 @@ const Collabs = ({ currentList, listOwner }) => {
     const listContext = useContext(ListContext);
     const authContext = useContext(AuthContext);
 
-    const { createCollab, deleteCollab, users, loading } = listContext;
+    const { createCollab, deleteCollab, users } = listContext;
     const { user } = authContext;
 
+    const { isLoading: loading, loadingSpinner } = useLoadingSpinner('dark');
+
     if (loading) {
-        return <Spinner />;
+        return (
+            <div className="d-flex w-100 h-100 justify-content-center align-items-center mt-3">
+                {loadingSpinner}
+            </div>
+        );
     }
 
     const collabList = users.filter(u => u.email !== user.email);
@@ -70,6 +75,7 @@ const Collabs = ({ currentList, listOwner }) => {
                                         onClick={() => deleteCollab(c.id, currentList.id)}
                                         className="general-btn ml-1 delete-btn"
                                         type="button"
+                                        disabled={loading}
                                     >
                                         <FontAwesomeIcon icon={faTrashAlt} />
                                     </button>
