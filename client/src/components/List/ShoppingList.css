@@ -25,6 +25,7 @@ form {
 
 .list-btn {
     background: linear-gradient(to right, var(--main-color-dark) 50%, var(--secondary-color) 50%);
+    box-shadow: 4px 4px 6px -2px rgba(0, 0, 0, 0.25);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all 0.2s ease-out;

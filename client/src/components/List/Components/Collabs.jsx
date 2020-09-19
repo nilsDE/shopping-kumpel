@@ -62,7 +62,7 @@ const Collabs = ({ currentList, listOwner }) => {
                         <>
                             <p className="mb-0 small text-muted">Collaborators: </p>
                             {currentList.collabs.map(c => (
-                                <div className="d-flex justify-content-center" key={c.id}>
+                                <div className="d-flex justify-content-center align-items-center" key={c.id}>
                                     <p className="mb-0 small text-muted">
                                         {c.User.name === user.name ? 'me' : c.User.name}
                                     </p>
