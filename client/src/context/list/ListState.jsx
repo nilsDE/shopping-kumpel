@@ -192,7 +192,7 @@ const ListState = props => {
         }
     };
 
-    const createItem = async (description, lastModified, listId) => {
+    const createItem = async (description, lastModified, listId, userId) => {
         try {
             setLoading();
             const res = await axios.post('/api/lists/items', {
@@ -201,7 +201,7 @@ const ListState = props => {
                 lastModified,
                 listId
             });
-            state.socket.emit('sendItem', listId);
+            state.socket.emit('sendItem', listId, userId);
             dispatch({
                 type: CREATE_ITEM,
                 payload: res.data
@@ -238,7 +238,7 @@ const ListState = props => {
         }
     };
 
-    const updateItem = async (description, completed, id, lastModified, list) => {
+    const updateItem = async (description, completed, id, lastModified, list, userId) => {
         try {
             setLoading();
             const res = await axios.put('/api/lists/items', {
@@ -247,7 +247,7 @@ const ListState = props => {
                 id,
                 lastModified
             });
-            state.socket.emit('sendItem', list);
+            state.socket.emit('sendItem', list, userId);
             dispatch({
                 type: UPDATE_ITEM,
                 payload: res.data
@@ -262,13 +262,13 @@ const ListState = props => {
         }
     };
 
-    const deleteItem = async (item, list) => {
+    const deleteItem = async (item, list, userId) => {
         try {
             setLoading();
             const res = await axios.delete('/api/lists/items', {
                 params: { id: item.id }
             });
-            state.socket.emit('sendItem', list);
+            state.socket.emit('sendItem', list, userId);
             dispatch({
                 type: DELETE_ITEM,
                 payload: res.data
@@ -328,7 +328,8 @@ const ListState = props => {
                 createVocabularyItem,
                 deleteVocabularyItem,
                 joinList,
-                leaveList
+                leaveList,
+                dispatch
             }}
         >
             {children}

@@ -32,7 +32,7 @@ const Item = ({ item, list }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        updateItem(todo, item.completed, item.id, user.name, list);
+        updateItem(todo, item.completed, item.id, user.name, list, user.id);
         const changedState = !editable;
         setEditable(changedState);
     };
@@ -46,15 +46,10 @@ const Item = ({ item, list }) => {
                         role="button"
                         tabIndex={0}
                         onClick={() =>
-                            updateItem(item.description, !item.completed, item.id, user.name, list)
+                            updateItem(item.description, !item.completed, item.id, user.name, list, user.id)
                         }
                     >
-                        <p
-                            onClick={() =>
-                                updateItem(item.description, !item.completed, item.id, user.name, list)
-                            }
-                            className={`shopping-item ${item.completed ? 'item-completed' : ''}`}
-                        >
+                        <p className={`shopping-item ${item.completed ? 'item-completed' : ''}`}>
                             {item.description}
                             <span
                                 className={`${
@@ -74,7 +69,7 @@ const Item = ({ item, list }) => {
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button
-                        onClick={() => deleteItem(item, list)}
+                        onClick={() => deleteItem(item, list, user.id)}
                         className="general-btn delete-btn"
                         type="button"
                     >

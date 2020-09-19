@@ -5,7 +5,7 @@ import { faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-i
 
 import './Alert.css';
 
-const Alert = ({ type, msg }) => {
+const Alert = React.memo(({ type, msg }) => {
     const alertType = () => {
         switch (type) {
             case 'info':
@@ -25,7 +25,7 @@ const Alert = ({ type, msg }) => {
         );
     }
     return null;
-};
+});
 
 export default Alert;
 

@@ -16,9 +16,9 @@ module.exports = (server) => {
             currentRoom = list;
             console.log(currentRoom);
         });
-        socket.on('sendItem', (list) => {
-            console.log('Socket -- send item: ', list, socket.id);
-            socket.broadcast.to(list).emit('change', list);
+        socket.on('sendItem', (list, userId) => {
+            console.log('Socket -- send item: ', list, userId);
+            socket.broadcast.to(list).emit('change', list, userId);
         });
         socket.on('leaveList', (list) => {
             console.log('Socket -- leaveList: ', list);

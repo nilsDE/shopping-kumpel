@@ -19,7 +19,7 @@ const ListBody = ({ currentList }) => {
     const handleSubmit = e => {
         e.preventDefault();
         if (newTodo && newTodo.length !== 0) {
-            createItem(newTodo, user.name, currentList.id);
+            createItem(newTodo, user.name, currentList.id, user.id);
             setNewTodo('');
         }
     };

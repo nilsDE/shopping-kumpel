@@ -24,7 +24,8 @@ import {
     CREATE_VOCABULARY_ITEM_FAIL,
     DELETE_VOCABULARY_ITEM,
     DELETE_VOCABULARY_ITEM_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    SET_ALERT_MESSAGE
 } from '../types';
 
 export default (state, action) => {
@@ -99,6 +100,7 @@ export default (state, action) => {
         case DELETE_ITEM_FAIL:
         case CREATE_VOCABULARY_ITEM_FAIL:
         case DELETE_VOCABULARY_ITEM_FAIL:
+        case SET_ALERT_MESSAGE:
             return {
                 ...state,
                 msg: action.payload,

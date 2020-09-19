@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,24 +9,47 @@ import ListBody from './Components/ListBody';
 import VocabularyBody from './Components/VocabularyBody';
 import ListContext from '../../context/list/listContext';
 import Spinner from '../Utils/Spinner';
+import { CLEAR_ERRORS, SET_ALERT_MESSAGE } from '../../context/types';
 
 import '../../App.css';
 import './ShoppingList.css';
 
 const ListContainer = ({ match }) => {
     const listContext = useContext(ListContext);
-    const { getLists, getUsers, lists, users, socket, msg, joinList, leaveList, loading } = listContext;
+    const {
+        getLists,
+        getUsers,
+        lists,
+        users,
+        socket,
+        msg,
+        joinList,
+        leaveList,
+        loading,
+        dispatch
+    } = listContext;
 
     let currentList;
     if (lists && lists.length > 0 && !currentList) {
         currentList = lists.find(l => +l.id === +match.params.id);
     }
 
+    const referencedUsers = useRef();
+    referencedUsers.current = users;
+
     useEffect(() => {
         joinList(currentList.id);
-        getUsers();
-        socket.on('change', () => {
+        if (!referencedUsers.current || !referencedUsers.current.length) getUsers();
+        socket.on('change', (list, userId) => {
             getLists();
+            const changeMadeBy = referencedUsers.current.find(
+                user => parseInt(user.id, 10) === parseInt(userId, 10)
+            );
+            let alertText = 'Something got changed!';
+            if (changeMadeBy !== null && changeMadeBy !== undefined)
+                alertText = `${changeMadeBy.name} just changed something!`;
+            dispatch({ type: SET_ALERT_MESSAGE, payload: alertText });
+            setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 2000);
         });
         return () => {
             leaveList(currentList.id);
