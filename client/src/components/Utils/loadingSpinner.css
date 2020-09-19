@@ -1,0 +1,45 @@
+.loading-animation {
+    position: relative;
+    width: 60px;
+    height: 20px;
+    border: 2px solid var(--secondary-color);
+    z-index: 9999;
+}
+.loading-animation.dark-spinner {
+    border: 2px solid var(--main-color-dark);
+}
+
+.loading-animation::before {
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 12px;
+    background-color: var(--secondary-color);
+    top: 50%;
+    right: -5px;
+    transform: translate(0, -50%);
+}
+
+.loading-animation::after {
+    position: absolute;
+    content: '';
+    height: 10px;
+    background-color: var(--secondary-color);
+    left: 3px;
+    top: 3px;
+    animation: loading 1250ms infinite cubic-bezier(0, 0, 0.25, 1);
+}
+
+.dark-spinner.loading-animation::before,
+.dark-spinner.loading-animation::after {
+    background-color: var(--main-color-dark);
+}
+
+@keyframes loading {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 50px;
+    }
+}
