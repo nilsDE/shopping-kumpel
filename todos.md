@@ -18,7 +18,7 @@ DONE: keep previous list selection after collab user has changed something
 DONE: Refactor socket.io so that it only triggers actions where the actual user is involved.
 DONE: Deleting a list does not refresh the lists
 DONE: Adding collab does not update list
-TODO: Msgs do not show in production
+DONE: Msgs do not show in production
 TODO: Make sure all Alerts work! Maybe improve types and styles
 TODO: check BE queries for authorization
 TODO: Check user rights when deleting stuff
