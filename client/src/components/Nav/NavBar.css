@@ -2,6 +2,10 @@
     background-color: var(--main-color-dark) !important;
 }
 
+.sidebar-title {
+    font-weight: bold;
+}
+
 .sidebar-title,
 .sidebar-link {
     padding: 0.125rem;
@@ -25,6 +29,11 @@
     letter-spacing: 0.05rem;
 }
 
+.navbar {
+    padding: 0 1rem 0 0;
+    height: 44px;
+}
+
 .navbar-nav {
     flex-direction: row;
 }
@@ -33,6 +42,10 @@
 .btn-primary:hover {
     background-color: transparent;
     border-color: transparent;
+}
+
+.loading-spinner-navbar {
+    margin-left: 1rem;
 }
 
 @media screen and (max-width: 650px) {

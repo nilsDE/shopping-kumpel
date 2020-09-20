@@ -1,20 +1,17 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import bg from '../assets/unsplash1.jpg';
 import AuthContext from '../context/auth/authContext';
+import Logo from './Utils/Logo';
+
 import '../App.css';
 import './LandingPage.css';
 
 const LandingPage = () => {
     const authContext = useContext(AuthContext);
     return (
-        <>
-            <div className="bg-container">
-                <h2 className="bg-headline-1">Welcome to</h2>
-                <h2 className="bg-headline-2">Shopping Kumpel</h2>
-                <img src={bg} className="bg-pic" alt="" />
-            </div>
+        <div className="landing-page">
+            <Logo />
             <div className="btn-container">
                 {!authContext.isAuthenticated ? (
                     <Link to="/signup">
@@ -23,10 +20,10 @@ const LandingPage = () => {
                         </Button>
                     </Link>
                 ) : (
-                    <p>Logged in successfully!</p>
+                    <p>You are logged in!</p>
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

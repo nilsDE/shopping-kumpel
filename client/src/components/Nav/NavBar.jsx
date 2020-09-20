@@ -7,6 +7,7 @@ import AuthContext from '../../context/auth/authContext';
 
 import './NavBar.css';
 import useLoadingSpinner from '../Utils/useLoadingSpinner';
+import Logo from '../Utils/Logo';
 
 const SiteNavbar = () => {
     const authContext = useContext(AuthContext);
@@ -23,10 +24,12 @@ const SiteNavbar = () => {
         <>
             <Navbar fixed="top" bg="dark" variant="dark" expand="lg">
                 {isLoading ? (
-                    loadingSpinner
+                    <div className="loading-spinner-navbar">{loadingSpinner}</div>
                 ) : (
                     <Link to="/" className="sidebar-title">
-                        Shopping Kumpel
+                        <div className="d-flex align-items-center">
+                            <Logo size="small" pen={false} /> List buddy
+                        </div>
                     </Link>
                 )}
                 <Nav className="ml-auto">
