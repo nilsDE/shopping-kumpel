@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import AuthContext from '../../context/auth/authContext';
 import Alert from '../Utils/Alert';
 
@@ -72,9 +72,9 @@ const SignUpForm = props => {
                             maxLength="255"
                         />
                     </Form.Group>
-                    <Button variant="outline-dark" type="submit">
+                    <button className="btn-default btn-solid" type="submit">
                         Submit
-                    </Button>
+                    </button>
                 </Form>
                 <div className="arrow-area" />
             </div>

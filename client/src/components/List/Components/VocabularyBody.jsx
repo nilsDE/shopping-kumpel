@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,6 +26,10 @@ const VocabularyBody = ({ currentList }) => {
     const [isLang2Covered, setIsLang2Covered] = useState(false);
     const [coverLang2, setCoverLang2] = useState(new Array(currentList.vocabularies.length).fill(false));
     const [vocabularies, setVocabularies] = useState(currentList.vocabularies);
+
+    useEffect(() => {
+        setVocabularies(currentList.vocabularies);
+    }, [currentList]);
 
     const uncoverWord = (index, list) => {
         let newList;

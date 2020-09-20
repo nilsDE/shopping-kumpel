@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
 import Logo from './Utils/Logo';
 
@@ -15,9 +14,9 @@ const LandingPage = () => {
             <div className="btn-container">
                 {!authContext.isAuthenticated ? (
                     <Link to="/signup">
-                        <Button variant="outline-dark" className="signup-btn mt-4" size="lg">
+                        <button type="button" className="btn-default btn-outline mt-4" size="lg">
                             Sign Up!
-                        </Button>
+                        </button>
                     </Link>
                 ) : (
                     <p>You are logged in!</p>

@@ -102,7 +102,7 @@ form {
 }
 
 .shopping-item-container:hover {
-    background-color: var(--main-color);
+    /* background-color: var(--main-color); */
 }
 
 .shopping-item {
