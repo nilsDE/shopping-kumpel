@@ -1,0 +1,118 @@
+.logo-container {
+    position: relative;
+    display: inline-block;
+    min-width: 20em;
+    min-height: 20em;
+    border-radius: 50%;
+    background-color: var(--main-color-dark);
+}
+
+.logo-container.regular {
+    font-size: 16px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+.logo-container.small {
+    font-size: 2px;
+}
+
+.logo-container .board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 11em;
+    width: 9em;
+    border: 0.75em solid var(--secondary-color);
+    border-radius: 0.7em;
+    background-color: var(--background-white);
+}
+
+.logo-container .board::before {
+    position: absolute;
+    content: '';
+    width: 5.5em;
+    height: 0.75em;
+    border-radius: 0.7em;
+    background-color: rgb(200, 200, 200);
+    top: 2em;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: 0 1.5em rgb(200, 200, 200), 0 3em rgb(200, 200, 200), 0 4.5em rgb(200, 200, 200);
+}
+
+.logo-container .clip {
+    position: absolute;
+    width: 5em;
+    height: 2em;
+    background-image: linear-gradient(
+        to bottom,
+        rgb(255, 180, 50) 0,
+        rgb(255, 180, 50) 60%,
+        rgb(255, 207, 91) 60%
+    );
+    top: -1.5em;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.logo-container .clip::before {
+    content: '';
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background-color: rgb(255, 180, 50);
+    left: 50%;
+    top: -1em;
+    transform: translate(-50%, 0);
+}
+
+.logo-container .clip::after {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: var(--main-color-dark);
+    left: 50%;
+    top: -0.5em;
+    transform: translate(-50%, 0);
+}
+
+.logo-container .pen {
+    --pen-color: rgb(60, 60, 60);
+    position: absolute;
+    width: 5em;
+    height: 1.25em;
+    background-image: linear-gradient(
+        to left,
+        var(--pen-color) 0,
+        var(--pen-color) 12%,
+        transparent 12%,
+        transparent 18%,
+        var(--pen-color) 18%
+    );
+    right: 22%;
+    bottom: 35%;
+    border-radius: 0 0.3em 0.3em 0;
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 20% 100%, 0 50%);
+    transform: rotate(-30deg);
+    overflow: visible;
+    animation: pen-motion 2500ms infinite;
+}
+
+@keyframes pen-motion {
+    0% {
+        right: 22%;
+        bottom: 35%;
+    }
+    30% {
+        right: 19%;
+        bottom: 32%;
+    }
+    100% {
+        right: 12%;
+        bottom: 40%;
+    }
+}
