@@ -28,7 +28,7 @@
         "pg-hstore": "^2.3.3",
         "sequelize": "^5.22.3",
         "sequelize-cli": "^5.5.1",
-        "socket.io": "^2.3.0"
+        "socket.io": "^2.5.0"
     },
     "devDependencies": {
         "jasmine": "^3.6.1",
